@@ -1,0 +1,83 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+// Base document for the non-Starlight pages (landing, 404).
+import '../styles/landing.css';
+import { withBase } from '../lib/paths';
+import sansUrl from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
+
+interface Props {
+	title: string;
+	description: string;
+	/** Site-relative path of this page (without base), e.g. "/" or "/404.html". `null` = no canonical. */
+	path: string | null;
+	ogType?: 'website' | 'article';
+}
+
+const { title, description, path, ogType = 'website' } = Astro.props;
+const site = Astro.site ?? new URL('https://karakoram.dev');
+const canonical = path === null ? null : new URL(withBase(path), site).href;
+const ogImage = new URL(withBase('/og.png'), site).href;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		{canonical && <link rel="canonical" href={canonical} />}
+		<link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+		<link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+		<link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
+		<meta name="color-scheme" content="light dark" />
+		<meta name="theme-color" content="#f5f7f6" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#0d1216" media="(prefers-color-scheme: dark)" />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:site_name" content="Karakoram" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		{canonical && <meta property="og:url" content={canonical} />}
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content="Karakoram: self-hosted MongoDB orchestration for Zerops" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+		{/* Theme resolution shared with Starlight: localStorage['starlight-theme'] is 'light' | 'dark' | '' (auto). Inlined to avoid a flash. */}
+		<script is:inline>
+			(() => {
+				const key = 'starlight-theme';
+				const media = matchMedia('(prefers-color-scheme: light)');
+				const read = () => {
+					try {
+						return localStorage.getItem(key) || '';
+					} catch {
+						return '';
+					}
+				};
+				// In-memory preference so the toggle works even when storage is unavailable.
+				let chosen = read();
+				const apply = () => {
+					document.documentElement.dataset.theme =
+						chosen === 'light' || chosen === 'dark' ? chosen : media.matches ? 'light' : 'dark';
+				};
+				apply();
+				media.addEventListener('change', apply);
+				window.kkSetTheme = (theme) => {
+					chosen = theme;
+					try {
+						localStorage.setItem(key, theme);
+					} catch {}
+					apply();
+				};
+			})();
+		</script>
+	</head>
+	<body>
+		<a class="kk-skip" href="#main">Skip to content</a>
+		<slot />
+	</body>
+</html>

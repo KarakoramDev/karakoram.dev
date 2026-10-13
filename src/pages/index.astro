@@ -1,0 +1,681 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+import { Code } from 'astro:components';
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import RidgeField from '../components/RidgeField.astro';
+import Topology from '../components/Topology.astro';
+import importYaml from '../generated/import.yaml?raw';
+import { withBase } from '../lib/paths';
+
+const github = 'https://github.com/KarakoramDev/Karakoram';
+const docs = (path: string) => withBase(`/docs/${path}`);
+
+const features = [
+	{
+		title: 'Replica sets',
+		href: docs('user-guide/replica-sets/'),
+		text: '1, 3, 5 or 7 members, initial-sync-aware scaling and replacement, quorum-aware removal, retained-volume suspend and resume.',
+	},
+	{
+		title: 'Sharded clusters',
+		href: docs('user-guide/sharding/'),
+		text: 'Config-server and shard replica sets, mongos routers, shard addition and balancer controls.',
+	},
+	{
+		title: 'Backups, PITR, restore and clone',
+		href: docs('user-guide/backups-and-restore/'),
+		text: 'S3-compatible PBM logical and physical backups, UTC schedules with count retention, point-in-time recovery, in-place restore and clone.',
+	},
+	{
+		title: 'Resources and rolling upgrades',
+		href: docs('user-guide/scaling-and-upgrades/'),
+		text: 'CPU and RAM configuration, persistent disk growth, rolling binary upgrades and restarts, explicit FCV promotion.',
+	},
+	{
+		title: 'Users, TLS and access',
+		href: docs('user-guide/users-tls-access/'),
+		text: 'Database users and roles, independently rotatable system accounts, keyfile authentication, generated or supplied TLS certificates, opt-in public TCP access.',
+	},
+	{
+		title: 'Monitoring, auth and RBAC',
+		href: docs('user-guide/monitoring/'),
+		text: 'Per-member monitoring, authenticated Prometheus output, events and logs, local accounts, OIDC, RBAC and owner-scoped API tokens.',
+		also: { label: 'RBAC and authentication', href: docs('user-guide/rbac-and-auth/') },
+	},
+];
+
+const interfaces = [
+	{ label: 'REST API', href: docs('user-guide/api/'), text: 'Generated, strict HTTP contract; every authenticated operation carries explicit authorization metadata.' },
+	{ label: 'karactl CLI', href: docs('user-guide/cli/'), text: 'Generated client for the same API, with saved connection contexts.' },
+	{ label: 'Web UI', href: docs('user-guide/web-ui/'), text: 'Embedded React SPA served by the control plane.' },
+];
+---
+
+<Base
+	title="Karakoram: self-hosted MongoDB orchestration for Zerops"
+	description="Karakoram provisions and operates Percona Server for MongoDB and Percona Backup for MongoDB inside your own Zerops project: Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
+	path="/"
+>
+	<SiteHeader />
+
+	<main id="main">
+		<!-- Hero -->
+		<section class="kk-hero" aria-labelledby="hero-title">
+			<div class="kk-hero__art"><RidgeField /></div>
+			<div class="kk-container kk-hero__inner">
+				<p class="kk-eyebrow">Apache-2.0 · Self-hosted</p>
+				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB orchestration for Zerops.</h1>
+				<p class="kk-hero__lede">
+					Karakoram provisions and operates Percona Server for MongoDB and Percona Backup for MongoDB inside your own Zerops project:
+					a Go control plane with a REST API, the <code>karactl</code> CLI and a web UI. No Kubernetes, no hosted coordinator.
+				</p>
+				<div class="kk-hero__cta">
+					<a class="kk-btn kk-btn--primary" href={withBase('/docs/')}>Read the docs</a>
+					<a class="kk-btn kk-btn--secondary" href={docs('getting-started/install/')}>Install on Zerops</a>
+					<a class="kk-btn kk-btn--ghost" href={github} rel="noopener">View on GitHub</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- What it is / is not -->
+		<section class="kk-section" aria-labelledby="isnot-title">
+			<div class="kk-container">
+				<div class="kk-section__head">
+					<h2 id="isnot-title" class="kk-section__title">What it is, and what it is not</h2>
+				</div>
+				<div class="kk-isnot">
+					<div class="kk-isnot__col">
+						<h3>Karakoram is</h3>
+						<ul class="kk-list kk-list--yes">
+							<li>A control plane you run in your own Zerops project, with your own token.</li>
+							<li>A coordinator for Percona's PSMDB and PBM: replica sets, sharded clusters, backups, point-in-time recovery, restores.</li>
+							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. Zerops is the infrastructure backend, not the operator of your databases.</li>
+						</ul>
+					</div>
+					<div class="kk-isnot__col">
+						<h3>Karakoram is not</h3>
+						<ul class="kk-list kk-list--no">
+							<li>A managed or hosted service. Nobody runs it for you.</li>
+							<li>A Kubernetes operator. It talks to the Zerops REST API directly.</li>
+							<li>A guarantee of physical-host anti-affinity or independent failure domains. Healthy voters do not prove that.</li>
+							<li>Highly available itself: the control plane has one replica and Local Storage is single-host.</li>
+						</ul>
+					</div>
+				</div>
+				<p class="kk-isnot__more">
+					<a class="kk-more" href={docs('limitations/')}>Read the limitations before production use</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- Features -->
+		<section class="kk-section" aria-labelledby="features-title">
+			<div class="kk-container">
+				<div class="kk-section__head">
+					<h2 id="features-title" class="kk-section__title">What it operates</h2>
+					<p class="kk-section__lede">Each capability maps to a user-guide page that describes exactly what is supported.</p>
+				</div>
+				<ul class="kk-features">
+					{features.map((f) => (
+						<li class="kk-feature">
+							<h3 class="kk-feature__title"><a href={f.href}>{f.title}</a></h3>
+							<p class="kk-feature__text">{f.text}</p>
+							{f.also && (
+								<p class="kk-feature__also">
+									See also <a href={f.also.href}>{f.also.label}</a>
+								</p>
+							)}
+						</li>
+					))}
+				</ul>
+				<div class="kk-interfaces" aria-label="Interfaces">
+					{interfaces.map((i) => (
+						<a class="kk-interface" href={i.href}>
+							<span class="kk-interface__label">{i.label}</span>
+							<span class="kk-interface__text">{i.text}</span>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- How it works -->
+		<section class="kk-section" aria-labelledby="how-title">
+			<div class="kk-container">
+				<div class="kk-section__head">
+					<p class="kk-eyebrow">How it runs</p>
+					<h2 id="how-title" class="kk-section__title">Everything lives in your Zerops project</h2>
+				</div>
+				<div class="kk-how">
+					<div class="kk-how__diagram">
+						<Topology />
+					</div>
+					<div class="kk-how__text">
+						<dl class="kk-how__list">
+							<div>
+								<dt>Control plane</dt>
+								<dd>
+									One <code>karakoram</code> runtime service with a <code>karakoramdata</code> Local Storage volume for its SQLite state.
+									Browsers and <code>karactl</code> reach it over HTTPS; it provisions services through the Zerops REST API with a project-scoped token.
+								</dd>
+							</div>
+							<div>
+								<dt>Database members</dt>
+								<dd>
+									One Ubuntu runtime per <code>mongod</code>, including config servers, each with its own Local Storage volume. A node agent
+									supervises <code>mongod</code> and the PBM agent and talks to the control plane over TLS with pinned trust roots.
+								</dd>
+							</div>
+							<div>
+								<dt>Routers</dt>
+								<dd>A stateless <code>mongos</code> service per sharded cluster, with no data volume.</dd>
+							</div>
+							<div>
+								<dt>Backups</dt>
+								<dd>PBM agents write logical and physical backups and the PITR oplog to S3-compatible object storage outside the members.</dd>
+							</div>
+						</dl>
+						<p><a class="kk-more" href={docs('architecture/')}>Architecture and trust boundaries</a></p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Quick start -->
+		<section class="kk-section" aria-labelledby="quickstart-title">
+			<div class="kk-container">
+				<div class="kk-section__head">
+					<p class="kk-eyebrow">Quick start</p>
+					<h2 id="quickstart-title" class="kk-section__title">Import into an existing Zerops project</h2>
+					<p class="kk-section__lede">
+						The import below creates the control plane service and its volume. You need an existing project and a project-scoped Full access integration token.
+					</p>
+				</div>
+				<div class="kk-quick">
+					<div class="kk-quick__code">
+						<div class="kk-code">
+							<div class="kk-code__bar">
+								<span>deploy/zerops/import.yaml</span>
+								<button class="kk-copy" type="button" data-copy aria-label="Copy import YAML to clipboard">Copy</button>
+							</div>
+							<Code code={importYaml} lang="yaml" themes={{ light: 'github-light', dark: 'github-dark-dimmed' }} defaultColor={false} />
+						</div>
+					</div>
+					<ol class="kk-steps">
+						<li>
+							<strong>Import the services.</strong> In your project's dashboard choose <em>Import services</em> and paste the YAML, or
+							run <code>zcli project service-import import.yaml -P "$PROJECT_ID"</code>.
+						</li>
+						<li>
+							<strong>Set the token.</strong> On the <code>karakoram</code> service, set the secret <code>KARAKORAM_ZEROPS_TOKEN</code> to your
+							project-scoped Full access integration token. Never commit it. Keep the generated <code>KARAKORAM_MASTER_KEY</code> and
+							<code>KARAKORAM_ADMIN_PASSWORD</code>.
+						</li>
+						<li>
+							<strong>Wait for build and deploy.</strong> The Git build and deploy processes must finish; the import response alone is not enough.
+							If the token was empty at import, set it and restart or redeploy.
+						</li>
+						<li>
+							<strong>Sign in.</strong> Open the service's HTTPS subdomain, sign in as <code>admin</code> with the
+							generated <code>KARAKORAM_ADMIN_PASSWORD</code>, change the password, then sign in again.
+						</li>
+					</ol>
+				</div>
+				<p class="kk-quick__more">
+					<a class="kk-more" href={docs('getting-started/install/')}>Full installation guide</a>
+					<span class="kk-quick__note">
+						Covers prerequisites, secret handling, installing from a local checkout with <code>zcli</code>, custom domains and CLI login.
+					</span>
+				</p>
+			</div>
+		</section>
+
+		<!-- Acknowledgements and the name -->
+		<section class="kk-section kk-ack" aria-labelledby="ack-title">
+			<div class="kk-container">
+				<div class="kk-section__head">
+					<h2 id="ack-title" class="kk-section__title">Built on Percona's work, inspired by OpenEverest</h2>
+				</div>
+				<div class="kk-ack__grid">
+					<article class="kk-ack__item">
+						<h3>Percona</h3>
+						<p>
+							Thank you to Percona for <a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb" rel="noopener">Percona Server for MongoDB</a> and
+							<a href="https://docs.percona.com/percona-backup-mongodb/latest/" rel="noopener">Percona Backup for MongoDB</a>.
+							Karakoram installs both from Percona's official package repositories at <a href="https://repo.percona.com/" rel="noopener">repo.percona.com</a>.
+							The database engine, replication, backups and
+							point-in-time recovery come from their open-source work; Karakoram coordinates those capabilities rather than reinventing them.
+						</p>
+					</article>
+					<article class="kk-ack__item">
+						<h3>OpenEverest</h3>
+						<p>
+							<a href="https://openeverest.io" rel="noopener">OpenEverest</a> is the inspiration for this project. Originally Percona Everest,
+							it is an Apache-2.0 CNCF Sandbox project whose model of self-hosted, provider-based database orchestration shaped Karakoram:
+							Provider and Instance concepts, version bundles, topology schemas, backup storages, PITR and restore flows, and RBAC.
+							Karakoram brings that idea to Zerops rather than Kubernetes. It is an independent implementation; no OpenEverest code or UI is copied.
+						</p>
+					</article>
+					<article class="kk-ack__item kk-ack__item--name">
+						<h3>The name</h3>
+						<p class="kk-ack__quote">
+							Everest is the highest peak. Karakoram is the range that holds K2 and other giants.
+						</p>
+						<p>
+							The name is a nod to OpenEverest and to growing beyond a single peak, with room for more engines and backends in the future.
+							That is a direction, not a claim that they exist today: only the PSMDB provider and the Zerops backend are implemented.
+						</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- Community -->
+		<section class="kk-section" aria-labelledby="community-title">
+			<div class="kk-container">
+				<div class="kk-community">
+					<div class="kk-community__text">
+						<h2 id="community-title" class="kk-section__title">Contributions are welcome</h2>
+						<p class="kk-section__lede">
+							Open an issue first for anything beyond a small fix, keep each pull request to one logical change, and sign off every commit
+							under the Developer Certificate of Origin (<code>git commit -s</code>). A human submits every contribution.
+						</p>
+					</div>
+					<ul class="kk-community__links">
+						<li><a class="kk-more" href={docs('contributing/')}>Contributing guide</a></li>
+						<li><a class="kk-more" href={docs('code-of-conduct/')}>Code of conduct</a></li>
+						<li><a class="kk-more" href={`${github}/issues`} rel="noopener">GitHub issues</a></li>
+						<li><a class="kk-more" href={docs('security/')}>Report a vulnerability</a></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<SiteFooter />
+
+	<script is:inline>
+		for (const b of document.querySelectorAll('[data-copy]')) {
+			b.addEventListener('click', async () => {
+				const pre = b.closest('.kk-code').querySelector('pre');
+				try {
+					await navigator.clipboard.writeText(pre.textContent);
+					b.dataset.copied = '';
+					b.textContent = 'Copied';
+					setTimeout(() => {
+						delete b.dataset.copied;
+						b.textContent = 'Copy';
+					}, 1800);
+				} catch {
+					b.textContent = 'Select and copy';
+				}
+			});
+		}
+	</script>
+</Base>
+
+<style>
+	/* Hero */
+	.kk-hero {
+		position: relative;
+		overflow: hidden;
+		padding-block: clamp(3rem, 7vw, 6rem) clamp(12rem, 24vw, 20rem);
+	}
+	.kk-hero__art {
+		position: absolute;
+		inset: auto 0 0 0;
+		height: clamp(14rem, 30vw, 26rem);
+		z-index: 0;
+		pointer-events: none;
+	}
+	.kk-hero__inner {
+		position: relative;
+		z-index: 1;
+	}
+	.kk-hero__title {
+		max-width: 22ch;
+		font-size: clamp(2.5rem, 1.6rem + 4vw, 4.75rem);
+		font-weight: 620;
+		letter-spacing: -0.035em;
+		line-height: 1.02;
+	}
+	.kk-hero__lede {
+		max-width: 58ch;
+		margin-top: 1.5rem;
+		font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+		line-height: 1.5;
+		color: var(--kk-muted);
+		text-wrap: pretty;
+	}
+	.kk-hero__lede code {
+		font-size: 0.88em;
+	}
+	.kk-hero__cta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 2.25rem;
+	}
+
+	/* Is / is not */
+	.kk-isnot {
+		display: grid;
+		gap: 2.5rem 4rem;
+	}
+	@media (min-width: 760px) {
+		.kk-isnot {
+			grid-template-columns: 1fr 1fr;
+		}
+		.kk-isnot__col + .kk-isnot__col {
+			border-left: 1px solid var(--kk-border);
+			padding-left: 4rem;
+			margin-left: -2rem;
+		}
+	}
+	.kk-isnot h3 {
+		font-size: 1.1rem;
+		font-weight: 600;
+		margin-bottom: 1.1rem;
+	}
+	.kk-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 0.9rem;
+		color: var(--kk-muted);
+		text-wrap: pretty;
+	}
+	.kk-list li {
+		position: relative;
+		padding-left: 1.75rem;
+	}
+	.kk-list li::before {
+		position: absolute;
+		left: 0;
+		top: 0.1em;
+		width: 1.1rem;
+		height: 1.1rem;
+		display: grid;
+		place-items: center;
+		border-radius: 50%;
+		font-size: 0.72rem;
+		font-weight: 700;
+		line-height: 1;
+	}
+	.kk-list--yes li::before {
+		content: '✓';
+		background: var(--kk-accent-soft);
+		color: var(--kk-accent);
+	}
+	.kk-list--no li::before {
+		content: '×';
+		background: var(--kk-subtle);
+		color: var(--kk-ink);
+	}
+	.kk-isnot__more {
+		margin-top: 2.5rem;
+	}
+
+	/* Features */
+	.kk-features {
+		display: grid;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--kk-border);
+	}
+	.kk-feature {
+		padding: 1.5rem 0 1.75rem;
+		border-bottom: 1px solid var(--kk-border);
+	}
+	@media (min-width: 680px) {
+		.kk-features {
+			grid-template-columns: repeat(2, 1fr);
+			column-gap: 3rem;
+		}
+	}
+	@media (min-width: 1040px) {
+		.kk-features {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.kk-feature__title {
+		font-size: 1.15rem;
+		margin-bottom: 0.6rem;
+	}
+	.kk-feature__title a {
+		color: var(--kk-ink);
+		text-decoration: none;
+	}
+	.kk-feature__title a::after {
+		content: ' →';
+		color: var(--kk-accent);
+		font-weight: 500;
+		display: inline-block;
+		transition: transform 120ms ease;
+	}
+	.kk-feature__title a:hover {
+		text-decoration: underline;
+		text-decoration-color: var(--kk-accent);
+	}
+	.kk-feature__title a:hover::after {
+		transform: translateX(3px);
+	}
+	.kk-feature__text {
+		color: var(--kk-muted);
+		font-size: 0.98rem;
+		text-wrap: pretty;
+	}
+	.kk-feature__also {
+		margin-top: 0.6rem;
+		font-size: 0.9rem;
+		color: var(--kk-muted);
+	}
+	.kk-interfaces {
+		display: grid;
+		gap: 1px;
+		margin-top: 2.5rem;
+		background: var(--kk-border);
+		border: 1px solid var(--kk-border);
+		border-radius: 10px;
+		overflow: hidden;
+	}
+	@media (min-width: 680px) {
+		.kk-interfaces {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.kk-interface {
+		display: grid;
+		gap: 0.35rem;
+		padding: 1.1rem 1.25rem;
+		background: var(--kk-surface);
+		color: var(--kk-ink);
+		text-decoration: none;
+		transition: background-color 120ms ease;
+	}
+	.kk-interface:hover {
+		background: var(--kk-subtle);
+	}
+	.kk-interface__label {
+		font-family: var(--kk-font-mono);
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--kk-accent);
+	}
+	.kk-interface__text {
+		font-size: 0.92rem;
+		color: var(--kk-muted);
+	}
+
+	/* How it works */
+	.kk-how {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 2.5rem;
+		align-items: start;
+	}
+	@media (min-width: 960px) {
+		.kk-how {
+			grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+			gap: 4rem;
+		}
+	}
+	.kk-how__diagram {
+		min-width: 0;
+		padding: 1rem;
+		border: 1px solid var(--kk-border);
+		border-radius: 10px;
+		background: var(--kk-surface);
+	}
+	.kk-how__list {
+		margin: 0;
+		display: grid;
+		gap: 1.4rem;
+	}
+	.kk-how__list dt {
+		font-weight: 600;
+		margin-bottom: 0.3rem;
+	}
+	.kk-how__list dd {
+		margin: 0;
+		color: var(--kk-muted);
+		font-size: 0.98rem;
+		text-wrap: pretty;
+	}
+	.kk-how__text > p {
+		margin-top: 2rem;
+	}
+
+	/* Quick start */
+	.kk-quick {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 2.5rem;
+		align-items: start;
+	}
+	@media (min-width: 960px) {
+		.kk-quick {
+			grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+			gap: 4rem;
+		}
+		.kk-quick__code {
+			position: sticky;
+			top: 1.5rem;
+		}
+	}
+	.kk-steps {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		counter-reset: step;
+		display: grid;
+		gap: 1.5rem;
+	}
+	.kk-steps li {
+		position: relative;
+		padding-left: 3rem;
+		color: var(--kk-muted);
+		text-wrap: pretty;
+	}
+	.kk-steps li strong {
+		color: var(--kk-ink);
+		font-weight: 600;
+	}
+	.kk-steps li::before {
+		counter-increment: step;
+		content: counter(step);
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 2rem;
+		height: 2rem;
+		display: grid;
+		place-items: center;
+		border: 1px solid var(--kk-border-strong);
+		border-radius: 10px;
+		font-family: var(--kk-font-mono);
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--kk-accent);
+		background: var(--kk-surface);
+	}
+	.kk-quick__more {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.4rem 1rem;
+		margin-top: 2.5rem;
+	}
+	.kk-quick__note {
+		color: var(--kk-muted);
+		font-size: 0.95rem;
+	}
+
+	/* Acknowledgements */
+	.kk-ack__grid {
+		display: grid;
+		gap: 2.5rem;
+	}
+	@media (min-width: 900px) {
+		.kk-ack__grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 3rem 4rem;
+		}
+		.kk-ack__item--name {
+			grid-column: 1 / -1;
+		}
+	}
+	.kk-ack__item h3 {
+		font-size: 1.1rem;
+		margin-bottom: 0.8rem;
+	}
+	.kk-ack__item p {
+		color: var(--kk-muted);
+		text-wrap: pretty;
+	}
+	.kk-ack__item--name {
+		padding: clamp(1.5rem, 3vw, 2.5rem);
+		border: 1px solid var(--kk-border);
+		border-radius: 10px;
+		background: var(--kk-surface);
+	}
+	.kk-ack__quote {
+		font-size: clamp(1.35rem, 1.1rem + 1.2vw, 2rem);
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		line-height: 1.25;
+		color: var(--kk-ink);
+		max-width: 28ch;
+		margin-bottom: 1rem;
+	}
+
+	/* Community */
+	.kk-community {
+		display: grid;
+		gap: 2rem;
+		padding: clamp(1.75rem, 4vw, 3rem);
+		border-radius: 10px;
+		background: var(--kk-accent-soft);
+	}
+	@media (min-width: 900px) {
+		.kk-community {
+			grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+			align-items: center;
+			gap: 3rem;
+		}
+	}
+	.kk-community__text .kk-section__lede {
+		max-width: none;
+	}
+	.kk-community__links {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 0.8rem;
+	}
+</style>

@@ -1,0 +1,65 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+// Light/dark switch that writes the same localStorage key Starlight reads ('starlight-theme'),
+// so the choice carries over to the docs. Uses window.kkSetTheme from layouts/Base.astro.
+---
+
+<button class="kk-theme" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch theme">
+	<svg class="kk-theme__sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+		<circle cx="12" cy="12" r="4" />
+		<path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5" />
+	</svg>
+	<svg class="kk-theme__moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true">
+		<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+	</svg>
+</button>
+
+<script is:inline>
+	(() => {
+		const root = document.documentElement;
+		const label = (b) => {
+			const dark = root.dataset.theme === 'dark';
+			b.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+		};
+		for (const b of document.querySelectorAll('[data-theme-toggle]')) {
+			label(b);
+			b.addEventListener('click', () => {
+				const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+				if (window.kkSetTheme) window.kkSetTheme(next);
+				else root.dataset.theme = next;
+				label(b);
+			});
+		}
+	})();
+</script>
+
+<style>
+	.kk-theme {
+		display: inline-grid;
+		place-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0;
+		border: 1px solid var(--kk-border);
+		border-radius: 10px;
+		background: transparent;
+		color: var(--kk-muted);
+		cursor: pointer;
+		transition: color 120ms ease, border-color 120ms ease, background-color 120ms ease;
+	}
+	.kk-theme:hover {
+		color: var(--kk-ink);
+		border-color: var(--kk-border-strong);
+		background: var(--kk-subtle);
+	}
+	.kk-theme svg {
+		grid-area: 1 / 1;
+	}
+	.kk-theme__moon,
+	:root[data-theme='dark'] .kk-theme__sun {
+		display: none;
+	}
+	:root[data-theme='dark'] .kk-theme__moon {
+		display: block;
+	}
+</style>

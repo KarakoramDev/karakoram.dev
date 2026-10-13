@@ -1,0 +1,55 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Shared design tokens for the landing page, the 404 page and the Starlight docs theme.
+   Theme switching follows Starlight: `data-theme="light" | "dark"` on <html>.
+   Contrast (WCAG, text on --kk-bg):
+     light  ink 16.2:1 · muted 7.0:1 · accent 5.8:1 · white-on-accent 6.2:1
+     dark   ink 15.7:1 · muted 8.1:1 · accent 10.3:1 · bg-on-accent 10.3:1 */
+
+@import '@fontsource-variable/instrument-sans/wght.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+
+:root {
+	--kk-font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	--kk-font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+	/* dark (Starlight's default when no data-theme is set yet) */
+	--kk-bg: #0d1216;
+	--kk-surface: #141a20;
+	--kk-subtle: #1b232a;
+	--kk-ink: #e6ebee;
+	--kk-muted: #9fabb6;
+	--kk-faint: #6f7c88;
+	--kk-border: #273038;
+	--kk-border-strong: #3a4650;
+	--kk-accent: #5fd0d8;
+	--kk-accent-ink: #0d1216;
+	--kk-accent-soft: rgba(95, 208, 216, 0.12);
+	--kk-ridge-1: #19222a;
+	--kk-ridge-2: #151c23;
+	--kk-ridge-3: #11171d;
+	--kk-contour: rgba(159, 171, 182, 0.14);
+	--kk-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 32px -16px rgba(0, 0, 0, 0.7);
+	--kk-code-bg: #10161b;
+	color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+	--kk-bg: #f5f7f6;
+	--kk-surface: #ffffff;
+	--kk-subtle: #e9eeef;
+	--kk-ink: #141b21;
+	--kk-muted: #4a5661;
+	--kk-faint: #76838e;
+	--kk-border: #d6dcdf;
+	--kk-border-strong: #b9c3c8;
+	--kk-accent: #0b6b74;
+	--kk-accent-ink: #ffffff;
+	--kk-accent-soft: rgba(11, 107, 116, 0.09);
+	--kk-ridge-1: #e3e9e9;
+	--kk-ridge-2: #d4dddd;
+	--kk-ridge-3: #c3cfcf;
+	--kk-contour: rgba(20, 27, 33, 0.09);
+	--kk-shadow: 0 1px 2px rgba(20, 27, 33, 0.06), 0 12px 32px -16px rgba(20, 27, 33, 0.18);
+	--kk-code-bg: #ffffff;
+	color-scheme: light;
+}

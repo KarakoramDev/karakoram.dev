@@ -1,0 +1,66 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+import Wordmark from './Wordmark.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { withBase } from '../lib/paths';
+---
+
+<header class="kk-header">
+	<div class="kk-container kk-header__row">
+		<Wordmark />
+		<nav class="kk-nav" aria-label="Primary">
+			<a href={withBase('/docs/')}>Docs</a>
+			<a href={withBase('/docs/getting-started/install/')}>Install</a>
+			<a href="https://github.com/KarakoramDev/Karakoram" rel="noopener">GitHub</a>
+			<ThemeToggle />
+		</nav>
+	</div>
+</header>
+
+<style>
+	.kk-header {
+		position: relative;
+		z-index: 2;
+	}
+	.kk-header__row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem 1rem;
+		min-height: 4.5rem;
+	}
+	.kk-nav {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+	.kk-nav a {
+		padding: 0.5rem 0.75rem;
+		border-radius: 10px;
+		color: var(--kk-muted);
+		font-weight: 500;
+		font-size: 0.95rem;
+		text-decoration: none;
+		transition: color 120ms ease, background-color 120ms ease;
+	}
+	.kk-nav a:hover {
+		color: var(--kk-ink);
+		background: var(--kk-subtle);
+	}
+	.kk-nav :global(.kk-theme) {
+		margin-left: 0.5rem;
+	}
+	@media (max-width: 480px) {
+		.kk-nav a {
+			padding: 0.5rem 0.4rem;
+			font-size: 0.875rem;
+		}
+		.kk-nav :global(.kk-theme) {
+			margin-left: 0.15rem;
+		}
+		.kk-header__row :global(.kk-wordmark) {
+			font-size: 1.1rem;
+		}
+	}
+</style>

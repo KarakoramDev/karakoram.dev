@@ -1,0 +1,35 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+// Starlight `SiteTitle` override: inlines the mark (src/assets/logo.svg) so it uses
+// currentColor and follows the theme, instead of Starlight's <img> logo.
+import Mark from '../assets/logo.svg';
+
+const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+---
+
+<a href={siteTitleHref} class="site-title sl-flex">
+	<Mark class="kk-mark" aria-hidden="true" />
+	<span translate="no">{siteTitle}</span>
+</a>
+
+<style>
+	.site-title {
+		align-items: center;
+		gap: 0.6rem;
+		font-size: var(--sl-text-h4);
+		font-weight: 650;
+		letter-spacing: -0.02em;
+		color: var(--sl-color-white);
+		text-decoration: none;
+		white-space: nowrap;
+		min-width: 0;
+	}
+	span {
+		overflow: hidden;
+	}
+	.site-title :global(.kk-mark) {
+		width: 1.75rem;
+		height: 1.75rem;
+		flex: none;
+	}
+</style>

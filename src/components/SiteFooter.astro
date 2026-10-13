@@ -1,0 +1,105 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+import Wordmark from './Wordmark.astro';
+import { withBase } from '../lib/paths';
+
+interface Source {
+	repo: string;
+	ref: string;
+	commit: string;
+	commitUrl: string;
+	generatedAt: string;
+}
+// Written by scripts/ingest-docs.mjs; the glob keeps the build working if it is absent.
+const sources = import.meta.glob<{ default: Source }>('../generated/source.json', { eager: true });
+const source = Object.values(sources)[0]?.default;
+const links = [
+	['Docs', withBase('/docs/')],
+	['Install', withBase('/docs/getting-started/install/')],
+	['Limitations', withBase('/docs/limitations/')],
+	['Security', withBase('/docs/security/')],
+	['Contributing', withBase('/docs/contributing/')],
+	['GitHub', 'https://github.com/KarakoramDev/Karakoram'],
+];
+---
+
+<footer class="kk-footer">
+	<div class="kk-container">
+		<div class="kk-footer__top">
+			<Wordmark />
+			<nav aria-label="Footer">
+				<ul class="kk-footer__links">
+					{links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}
+				</ul>
+			</nav>
+		</div>
+		<div class="kk-footer__legal">
+			<p>
+				Site code licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0" rel="noopener">Apache-2.0</a>.
+				Documentation is rendered from the <a href="https://github.com/KarakoramDev/Karakoram" rel="noopener">Karakoram repository</a> under its license.{' '}
+				{source && (
+					<>
+						Docs built from <a href={source.commitUrl} rel="noopener"><code>{source.commit.slice(0, 7)}</code></a>.
+					</>
+				)}
+			</p>
+			<p>
+				Percona Server for MongoDB and Percona Backup for MongoDB are Percona products and trademarks; MongoDB, Zerops and OpenEverest
+				names and marks belong to their respective owners. Karakoram is independent and not affiliated with or endorsed by any of them.
+			</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.kk-footer {
+		border-top: 1px solid var(--kk-border);
+		padding-block: 3rem 3.5rem;
+		font-size: 0.9rem;
+		color: var(--kk-muted);
+	}
+	.kk-footer__top {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.25rem 2rem;
+		margin-bottom: 2rem;
+	}
+	.kk-footer__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.25rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.kk-footer__links a {
+		color: var(--kk-muted);
+		text-decoration: none;
+		font-weight: 500;
+	}
+	.kk-footer__links a:hover {
+		color: var(--kk-ink);
+	}
+	.kk-footer__legal {
+		max-width: 68ch;
+		display: grid;
+		gap: 0.75rem;
+	}
+	.kk-footer__legal p {
+		margin: 0;
+		line-height: 1.6;
+	}
+	.kk-footer__legal a {
+		color: inherit;
+		text-decoration-color: var(--kk-border-strong);
+	}
+	.kk-footer__legal a:hover {
+		color: var(--kk-ink);
+	}
+	.kk-footer__legal code {
+		font-family: var(--kk-font-mono);
+		font-size: 0.85em;
+	}
+</style>

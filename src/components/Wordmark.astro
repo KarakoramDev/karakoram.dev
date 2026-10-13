@@ -1,0 +1,43 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+import Mark from '../assets/logo.svg';
+import { withBase } from '../lib/paths';
+
+interface Props {
+	/** Visually larger variant (404 page). */
+	size?: 'default' | 'large';
+}
+const { size = 'default' } = Astro.props;
+---
+
+<a class:list={['kk-wordmark', { 'kk-wordmark--large': size === 'large' }]} href={withBase('/')} aria-label="Karakoram home">
+	<Mark class="kk-mark" />
+	<span translate="no">Karakoram</span>
+</a>
+
+<style>
+	.kk-wordmark {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		color: var(--kk-ink);
+		font-weight: 650;
+		font-size: 1.2rem;
+		letter-spacing: -0.02em;
+		text-decoration: none;
+		border-radius: 6px;
+	}
+	.kk-wordmark :global(.kk-mark) {
+		width: 1.75rem;
+		height: 1.75rem;
+		color: var(--kk-accent);
+		flex: none;
+	}
+	.kk-wordmark--large {
+		font-size: 1.6rem;
+	}
+	.kk-wordmark--large :global(.kk-mark) {
+		width: 2.4rem;
+		height: 2.4rem;
+	}
+</style>

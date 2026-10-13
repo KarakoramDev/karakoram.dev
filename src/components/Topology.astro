@@ -1,0 +1,209 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+// Deployment topology on Zerops, drawn from docs/architecture.md. Inline SVG so it follows
+// the theme tokens; a prose explanation sits next to it in index.astro.
+---
+
+<div class="kk-topology" role="region" aria-label="Deployment topology diagram (scrolls horizontally on small screens)" tabindex="0">
+	<svg viewBox="0 0 640 660" role="img" aria-labelledby="kk-topology-title kk-topology-desc" class="kk-topology__svg">
+		<title id="kk-topology-title">Karakoram deployment topology on Zerops</title>
+		<desc id="kk-topology-desc">
+			Inside your Zerops project: the karakoram control-plane service with its karakoramdata Local Storage volume holding SQLite state,
+			a mongos router service for sharded clusters, and database member services that each run mongod, a node agent and a PBM agent
+			on their own Local Storage volume. Browsers and karactl reach the control plane over HTTPS; the control plane calls the Zerops REST
+			API with a project-scoped token and talks to agents over TLS. PBM agents write backups to S3-compatible object storage outside
+			the members.
+		</desc>
+		<defs>
+			<marker id="kk-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+				<path d="M0 0L10 5 0 10z" class="kk-t-arrow" />
+			</marker>
+		</defs>
+
+		<!-- outside: clients -->
+		<g class="kk-t-node kk-t-node--outside">
+			<rect x="40" y="20" width="220" height="64" rx="10" />
+			<text x="150" y="46" class="kk-t-title">Browser · karactl</text>
+			<text x="150" y="68" class="kk-t-sub">web UI, REST API, CLI</text>
+		</g>
+		<!-- outside: Zerops API -->
+		<g class="kk-t-node kk-t-node--outside">
+			<rect x="380" y="20" width="220" height="64" rx="10" />
+			<text x="490" y="46" class="kk-t-title">Zerops REST API</text>
+			<text x="490" y="68" class="kk-t-sub">services, volumes, routing</text>
+		</g>
+
+		<!-- project boundary -->
+		<rect x="20" y="124" width="600" height="416" rx="16" class="kk-t-project" />
+		<text x="38" y="152" class="kk-t-label">Your Zerops project</text>
+
+		<!-- control plane -->
+		<g class="kk-t-node kk-t-node--cp">
+			<rect x="40" y="170" width="250" height="76" rx="10" />
+			<text x="165" y="200" class="kk-t-title kk-t-mono">karakoram</text>
+			<text x="165" y="224" class="kk-t-sub">control plane · web UI · API</text>
+		</g>
+		<g class="kk-t-volume">
+			<rect x="40" y="254" width="250" height="42" rx="8" />
+			<text x="165" y="280" class="kk-t-sub"><tspan class="kk-t-mono">karakoramdata</tspan> · SQLite state</text>
+		</g>
+
+		<!-- mongos router -->
+		<g class="kk-t-node">
+			<rect x="370" y="170" width="230" height="76" rx="10" />
+			<text x="485" y="200" class="kk-t-title">mongos router</text>
+			<text x="485" y="224" class="kk-t-sub">sharded clusters · no data volume</text>
+		</g>
+
+		<!-- private bus: agents <-> control plane, mongo wire -->
+		<g class="kk-t-line">
+			<path d="M165 296v48" />
+			<path d="M485 246v98" />
+			<path d="M120 344h400" />
+			<path d="M120 344v36M320 344v36M520 344v36" />
+		</g>
+		<text x="320" y="334" class="kk-t-edge">agent TLS · MongoDB wire protocol</text>
+
+		<!-- members -->
+		<g class="kk-t-node kk-t-node--member">
+			<rect x="40" y="380" width="160" height="90" rx="10" />
+			<text x="120" y="406" class="kk-t-title">member</text>
+			<text x="120" y="428" class="kk-t-sub">Ubuntu runtime · mongod</text>
+			<text x="120" y="450" class="kk-t-sub">node agent · PBM agent</text>
+		</g>
+		<g class="kk-t-volume">
+			<rect x="40" y="478" width="160" height="38" rx="8" />
+			<text x="120" y="502" class="kk-t-sub">Local Storage volume</text>
+		</g>
+		<g class="kk-t-node kk-t-node--member">
+			<rect x="240" y="380" width="160" height="90" rx="10" />
+			<text x="320" y="406" class="kk-t-title">member</text>
+			<text x="320" y="428" class="kk-t-sub">Ubuntu runtime · mongod</text>
+			<text x="320" y="450" class="kk-t-sub">node agent · PBM agent</text>
+		</g>
+		<g class="kk-t-volume">
+			<rect x="240" y="478" width="160" height="38" rx="8" />
+			<text x="320" y="502" class="kk-t-sub">Local Storage volume</text>
+		</g>
+		<g class="kk-t-node kk-t-node--member">
+			<rect x="440" y="380" width="160" height="90" rx="10" />
+			<text x="520" y="406" class="kk-t-title">member</text>
+			<text x="520" y="428" class="kk-t-sub">Ubuntu runtime · mongod</text>
+			<text x="520" y="450" class="kk-t-sub">node agent · PBM agent</text>
+		</g>
+		<g class="kk-t-volume">
+			<rect x="440" y="478" width="160" height="38" rx="8" />
+			<text x="520" y="502" class="kk-t-sub">Local Storage volume</text>
+		</g>
+
+		<!-- edges from outside -->
+		<g class="kk-t-line kk-t-line--arrow">
+			<path d="M150 84v84" />
+			<path d="M230 168v-64h260V86" />
+		</g>
+		<text x="118" y="112" class="kk-t-edge" text-anchor="end">HTTPS</text>
+		<text x="360" y="99" class="kk-t-edge">project-scoped token</text>
+
+		<!-- backups to S3 -->
+		<g class="kk-t-line kk-t-line--dash">
+			<path d="M120 516v44h400v-44" />
+			<path d="M320 516v76" marker-end="url(#kk-arrow)" />
+		</g>
+		<text x="432" y="582" class="kk-t-edge">PBM backups · PITR oplog</text>
+		<g class="kk-t-node kk-t-node--outside">
+			<rect x="160" y="594" width="320" height="56" rx="10" />
+			<text x="320" y="618" class="kk-t-title">S3-compatible object storage</text>
+			<text x="320" y="640" class="kk-t-sub">outside the members, per-cluster prefixes</text>
+		</g>
+	</svg>
+</div>
+<p class="kk-topology__hint" aria-hidden="true">Scroll sideways to see the whole diagram.</p>
+
+<style>
+	.kk-topology {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	.kk-topology__hint {
+		display: none;
+		margin: 0.5rem 0 0;
+		font-size: 0.8rem;
+		color: var(--kk-muted);
+	}
+	@media (max-width: 600px) {
+		.kk-topology__hint {
+			display: block;
+		}
+	}
+	.kk-topology__svg {
+		display: block;
+		width: 100%;
+		min-width: 540px;
+		height: auto;
+		font-family: var(--kk-font-sans);
+	}
+	.kk-t-node rect {
+		fill: var(--kk-surface);
+		stroke: var(--kk-border-strong);
+		stroke-width: 1.25;
+	}
+	.kk-t-node--cp rect {
+		stroke: var(--kk-accent);
+		stroke-width: 1.75;
+	}
+	.kk-t-node--outside rect {
+		fill: var(--kk-bg);
+	}
+	.kk-t-volume rect {
+		fill: var(--kk-subtle);
+		stroke: var(--kk-border-strong);
+		stroke-width: 1.25;
+		stroke-dasharray: 4 3;
+	}
+	.kk-t-project {
+		fill: var(--kk-accent-soft);
+		stroke: var(--kk-accent);
+		stroke-width: 1.25;
+		stroke-dasharray: 6 5;
+	}
+	.kk-t-title {
+		font-size: 16px;
+		font-weight: 600;
+		fill: var(--kk-ink);
+		text-anchor: middle;
+	}
+	.kk-t-sub {
+		font-size: 12.5px;
+		fill: var(--kk-muted);
+		text-anchor: middle;
+	}
+	.kk-t-label {
+		font-size: 13px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		fill: var(--kk-accent);
+	}
+	.kk-t-edge {
+		font-size: 12px;
+		fill: var(--kk-muted);
+		text-anchor: middle;
+	}
+	.kk-t-mono {
+		font-family: var(--kk-font-mono);
+	}
+	.kk-t-line path {
+		fill: none;
+		stroke: var(--kk-faint);
+		stroke-width: 1.5;
+	}
+	.kk-t-line--arrow path {
+		marker-end: url(#kk-arrow);
+	}
+	.kk-t-line--dash path {
+		stroke-dasharray: 5 4;
+	}
+	.kk-t-arrow {
+		fill: var(--kk-faint);
+	}
+</style>

@@ -1,0 +1,82 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Starlight theme overrides: maps the docs onto the site palette and fonts (see tokens.css). */
+
+@import './tokens.css';
+
+:root {
+	--sl-font: var(--kk-font-sans);
+	--sl-font-mono: var(--kk-font-mono);
+
+	/* dark */
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #e6ebee;
+	--sl-color-gray-2: #cbd3d9;
+	--sl-color-gray-3: #8c98a3;
+	--sl-color-gray-4: #4a5661;
+	--sl-color-gray-5: #273038;
+	--sl-color-gray-6: #141a20;
+	--sl-color-black: #0d1216;
+
+	--sl-color-accent-low: #113b40;
+	--sl-color-accent: #1a8d97;
+	--sl-color-accent-high: #5fd0d8;
+
+	--sl-color-hairline-light: #273038;
+	--sl-color-hairline: #1b232a;
+	--sl-color-backdrop-overlay: rgba(13, 18, 22, 0.72);
+}
+
+:root[data-theme='light'] {
+	--sl-color-white: #141b21;
+	--sl-color-gray-1: #1b232a;
+	--sl-color-gray-2: #2b343c;
+	--sl-color-gray-3: #4a5661;
+	--sl-color-gray-4: #76838e;
+	--sl-color-gray-5: #d6dcdf;
+	--sl-color-gray-6: #e9eeef;
+	--sl-color-gray-7: #eef2f2;
+	--sl-color-black: #f7f9f8;
+
+	--sl-color-accent-low: #d2eaec;
+	--sl-color-accent: #0b6b74;
+	--sl-color-accent-high: #073f45;
+
+	--sl-color-hairline-light: #e3e8ea;
+	--sl-color-hairline-shade: #e3e8ea;
+	--sl-color-backdrop-overlay: rgba(74, 86, 97, 0.6);
+}
+
+/* Typography: slightly tighter headings, same voice as the landing page. */
+.sl-markdown-content :is(h1, h2, h3, h4, h5) {
+	letter-spacing: -0.015em;
+	font-weight: 600;
+}
+.sl-markdown-content h1,
+h1[data-page-title] {
+	letter-spacing: -0.025em;
+	font-weight: 650;
+}
+.sl-markdown-content code {
+	font-size: 0.9em;
+}
+
+/* Header: wordmark in ink, not accent, so the mark reads calmly on both themes. */
+.site-title {
+	color: var(--sl-color-white);
+}
+.site-title .kk-mark {
+	color: var(--sl-color-text-accent);
+}
+
+/* Sidebar: quieter rows, accent only on the current page. */
+.sidebar-content a[aria-current='page'] {
+	background-color: var(--sl-color-accent-low);
+	color: var(--sl-color-text-accent);
+	font-weight: 600;
+}
+
+/* Visible focus everywhere, matching the landing page. */
+:focus-visible {
+	outline: 2px solid var(--sl-color-text-accent);
+	outline-offset: 2px;
+}
