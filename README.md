@@ -82,38 +82,16 @@ repository's `main` branch, builds the site and deploys it with GitHub Pages
 `BASE_PATH` come from `actions/configure-pages`, so the same workflow works for
 the custom domain and for `https://karakoramdev.github.io/karakoram.dev/`.
 
-It runs on pushes to `main`, daily on a schedule, on manual dispatch and on a
-`docs-updated` repository dispatch event. Pull requests run
-`.github/workflows/check.yml`, which builds the site with both base paths.
+It runs only when triggered manually; pushes and documentation changes do not
+deploy anything by themselves. Pull requests run `.github/workflows/check.yml`,
+which builds the site with both base paths without deploying.
 
-### Rebuilding after documentation changes
+### Deploying
 
-- **Automatically:** the daily scheduled build picks up changes on the code
-  repository's `main`. GitHub pauses scheduled workflows after 60 days without
-  activity in this repository; re-enable the workflow in the Actions tab if that
-  happens.
-- **Manually:** Actions → *Deploy site* → *Run workflow*, or
-  `gh workflow run deploy.yml -R KarakoramDev/karakoram.dev`.
-- **From the code repository (optional):** add a workflow there that sends a
-  repository dispatch when `docs/**`, `README.md`, `CONTRIBUTING.md` or
-  `CODE_OF_CONDUCT.md` change on `main`. It needs a secret holding a
-  fine-grained token with *Contents: read and write* on
-  `KarakoramDev/karakoram.dev` (here named `SITE_DISPATCH_TOKEN`):
-
-  ```yaml
-  name: Rebuild website
-  on:
-    push:
-      branches: [main]
-      paths: [docs/**, README.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md]
-  jobs:
-    dispatch:
-      runs-on: ubuntu-latest
-      steps:
-        - run: gh api repos/KarakoramDev/karakoram.dev/dispatches -f event_type=docs-updated
-          env:
-            GH_TOKEN: ${{ secrets.SITE_DISPATCH_TOKEN }}
-  ```
+Actions → *Deploy site* → *Run workflow*, or
+`gh workflow run deploy.yml -R KarakoramDev/karakoram.dev`. Each run builds the
+landing page from this repository's `main` and the documentation from the code
+repository's `main` at that moment.
 
 ## License
 

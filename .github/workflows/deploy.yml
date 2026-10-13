@@ -1,16 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Deploy site
 
+# Manual only: Actions → Deploy site → Run workflow, or
+# `gh workflow run deploy.yml -R KarakoramDev/karakoram.dev`.
 on:
-  push:
-    branches: [main]
-  schedule:
-    # Daily rebuild picks up documentation changes from KarakoramDev/Karakoram.
-    - cron: '17 4 * * *'
   workflow_dispatch:
-  # Lets the code repository request a rebuild when docs change (see README).
-  repository_dispatch:
-    types: [docs-updated]
 
 permissions:
   contents: read
