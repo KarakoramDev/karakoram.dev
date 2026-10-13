@@ -51,11 +51,13 @@ jobs:
       - run: npm ci
 
       - name: Build
-        run: npm run build
+        # configure-pages reports an http:// origin until the custom domain's
+        # certificate exists; canonical URLs should always use https.
+        run: SITE_URL="https://${PAGES_HOST}" npm run build
         env:
           KARAKORAM_DOCS_DIR: .karakoram-src
+          PAGES_HOST: ${{ steps.pages.outputs.host }}
           # Root for the custom domain, /<repo> for a github.io project page.
-          SITE_URL: ${{ steps.pages.outputs.origin }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
       - uses: actions/upload-pages-artifact@v5
