@@ -82,9 +82,8 @@ repository's `main` branch, builds the site and deploys it with GitHub Pages
 `BASE_PATH` come from `actions/configure-pages`, so the same workflow works for
 the custom domain and for `https://karakoramdev.github.io/karakoram.dev/`.
 
-It runs only when triggered manually; pushes and documentation changes do not
-deploy anything by themselves. Pull requests run `.github/workflows/check.yml`,
-which builds the site with both base paths without deploying.
+It runs only when triggered manually; pushes, pull requests and documentation
+changes do not build or deploy anything by themselves.
 
 ### Deploying
 

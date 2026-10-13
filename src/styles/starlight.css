@@ -64,8 +64,9 @@ h1[data-page-title] {
 .site-title {
 	color: var(--sl-color-white);
 }
+/* Mark body follows the title ink; its summit cap uses --kk-accent (logo.svg). */
 .site-title .kk-mark {
-	color: var(--sl-color-text-accent);
+	color: var(--sl-color-white);
 }
 
 /* Sidebar: quieter rows, accent only on the current page. */

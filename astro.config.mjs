@@ -41,6 +41,7 @@ export default defineConfig({
 			disable404Route: true,
 			sidebar,
 			head: [
+				{ tag: 'link', attrs: { rel: 'apple-touch-icon', href: absolute('apple-touch-icon.png') } },
 				{ tag: 'meta', attrs: { property: 'og:image', content: absolute('og.png') } },
 				{ tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
 				{ tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },

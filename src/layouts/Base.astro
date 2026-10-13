@@ -28,6 +28,7 @@ const ogImage = new URL(withBase('/og.png'), site).href;
 		<meta name="description" content={description} />
 		{canonical && <link rel="canonical" href={canonical} />}
 		<link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+		<link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
 		<link rel="sitemap" href={withBase('/sitemap-index.xml')} />
 		<link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
 		<meta name="color-scheme" content="light dark" />
