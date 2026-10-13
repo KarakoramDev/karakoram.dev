@@ -11,11 +11,29 @@ if (figures.length) {
     rendering = true;
     try {
       mermaid ||= (await import('mermaid')).default;
+      const dark = document.documentElement.dataset.theme === 'dark';
+      // Site palette (src/styles/tokens.css) so labels keep AA contrast in both themes.
+      const palette = dark
+        ? { bg: '#141a20', node: '#1b232a', ink: '#e6ebee', border: '#3a4650', line: '#9fabb6' }
+        : { bg: '#ffffff', node: '#f5f7f6', ink: '#141b21', border: '#b9c3c8', line: '#4a5661' };
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: 'strict',
-        theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default',
+        theme: 'base',
         fontFamily: 'inherit',
+        themeVariables: {
+          darkMode: dark,
+          background: palette.bg,
+          primaryColor: palette.node,
+          primaryTextColor: palette.ink,
+          primaryBorderColor: palette.border,
+          secondaryColor: palette.node,
+          tertiaryColor: palette.node,
+          lineColor: palette.line,
+          textColor: palette.ink,
+          edgeLabelBackground: palette.bg,
+          fontSize: '14px',
+        },
       });
       for (let index = 0; index < figures.length; index++) {
         const figure = figures[index];
