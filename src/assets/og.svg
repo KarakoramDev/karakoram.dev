@@ -20,13 +20,14 @@
     <path d="M12 23.1 18.9 30H12Z"/>
   </g>
   <text x="170" y="128" font-family="Instrument Sans, sans-serif" font-weight="650" font-size="56" letter-spacing="-1.5" fill="#e6ebee">Karakoram</text>
-  <text font-family="Instrument Sans, sans-serif" font-weight="620" font-size="64" letter-spacing="-2.2" fill="#ffffff">
-    <tspan x="80" y="268">Self-hosted MongoDB</tspan>
-    <tspan x="80" y="340">orchestration for Zerops.</tspan>
+  <text font-family="Instrument Sans, sans-serif" font-weight="620" font-size="56" letter-spacing="-1.9" fill="#ffffff">
+    <tspan x="80" y="250">Self-hosted MongoDB, RabbitMQ</tspan>
+    <tspan x="80" y="314">and Elasticsearch orchestration</tspan>
+    <tspan x="80" y="378">for Zerops.</tspan>
   </text>
   <text font-family="Instrument Sans, sans-serif" font-weight="450" font-size="27" fill="#9fabb6">
-    <tspan x="80" y="400">Percona Server for MongoDB and Percona Backup for MongoDB,</tspan>
-    <tspan x="80" y="436">operated from a control plane inside your own Zerops project.</tspan>
+    <tspan x="80" y="434">Percona Server for MongoDB, RabbitMQ clusters and the Elastic Stack,</tspan>
+    <tspan x="80" y="470">operated from a control plane inside your own Zerops project.</tspan>
   </text>
   <text x="80" y="560" font-family="JetBrains Mono, monospace" font-weight="500" font-size="22" letter-spacing="1" fill="#5fd0d8">karakoram.dev  ·  Apache-2.0  ·  Self-hosted</text>
 </svg>

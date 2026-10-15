@@ -1,8 +1,8 @@
 # karakoram.dev
 
 Source for [karakoram.dev](https://karakoram.dev), the website and documentation
-of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted MongoDB
-orchestration for Zerops.
+of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted MongoDB,
+RabbitMQ and Elasticsearch orchestration for Zerops.
 
 The site is a static [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) build published with GitHub Pages:
@@ -100,6 +100,7 @@ documentation content is pulled from
 under that repository's license.
 
 Percona Server for MongoDB and Percona Backup for MongoDB are Percona products
-and trademarks; OpenEverest, MongoDB and Zerops names and marks belong to their
-respective owners. Karakoram is independent and is not affiliated with or
-endorsed by any of them.
+and trademarks. RabbitMQ is a trademark of Broadcom Inc. Elasticsearch, Kibana
+and Logstash are trademarks of Elastic N.V. OpenEverest, MongoDB and Zerops names
+and marks belong to their respective owners. Karakoram is independent and is not
+affiliated with or endorsed by any of them.

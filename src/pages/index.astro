@@ -12,37 +12,56 @@ import { withBase } from '../lib/paths';
 const github = 'https://github.com/KarakoramDev/Karakoram';
 const docs = (path: string) => withBase(`/docs/${path}`);
 
+const engines = [
+	{
+		title: 'MongoDB',
+		href: docs('user-guide/replica-sets/'),
+		text: 'Percona Server for MongoDB with Percona Backup for MongoDB: replica sets of 1, 3, 5 or 7 members, sharded clusters with config servers and mongos routers, PBM logical and physical backups, point-in-time recovery, in-place restore and clone.',
+		also: { label: 'Sharded clusters', href: docs('user-guide/sharding/') },
+	},
+	{
+		title: 'RabbitMQ',
+		href: docs('user-guide/rabbitmq/'),
+		text: 'RabbitMQ 4.3 clusters of 1, 3, 5 or 7 brokers with persistent per-node storage, quorum queues by default, quorum-gated rolling changes, virtual host, user, permission and policy administration, AMQPS, optional public management UI and definitions backups (no messages or PITR).',
+	},
+	{
+		title: 'Elasticsearch',
+		href: docs('user-guide/elasticsearch/'),
+		text: 'Combined-node or dedicated-master clusters with optional same-version Kibana, Logstash and APM Server, native users, roles and API keys, CA-verified HTTPS, S3 snapshots with restore and clone, and shard-drain-aware scale-down.',
+	},
+];
+
 const features = [
 	{
-		title: 'Replica sets',
-		href: docs('user-guide/replica-sets/'),
-		text: '1, 3, 5 or 7 members, initial-sync-aware scaling and replacement, quorum-aware removal, retained-volume suspend and resume.',
-	},
-	{
-		title: 'Sharded clusters',
-		href: docs('user-guide/sharding/'),
-		text: 'Config-server and shard replica sets, mongos routers, shard addition and balancer controls.',
-	},
-	{
-		title: 'Backups, PITR, restore and clone',
-		href: docs('user-guide/backups-and-restore/'),
-		text: 'S3-compatible PBM logical and physical backups, UTC schedules with count retention, point-in-time recovery, in-place restore and clone.',
-	},
-	{
-		title: 'Resources and rolling upgrades',
+		title: 'Scaling, replacement and rolling upgrades',
 		href: docs('user-guide/scaling-and-upgrades/'),
-		text: 'CPU and RAM configuration, persistent disk growth, rolling binary upgrades and restarts, explicit FCV promotion.',
+		text: 'CPU and RAM bounds, persistent disk growth, member-aware scaling and replacement, rolling upgrades and restarts that change one node at a time and wait for quorum, explicit FCV promotion for MongoDB.',
+	},
+	{
+		title: 'Backups, restore and clone',
+		href: docs('user-guide/backups-and-restore/'),
+		text: 'S3-compatible storage, UTC schedules with count retention, in-place restore and clone: PBM backups with PITR for MongoDB, native snapshots for Elasticsearch, definitions exports for RabbitMQ.',
+	},
+	{
+		title: 'Suspend, resume and delete',
+		href: docs('user-guide/replica-sets/#delete-or-suspend'),
+		text: 'Volumes and backups are separate assets: keep volumes to suspend a cluster and resume it later, keep backups to recover from them, or delete everything the cluster owns.',
 	},
 	{
 		title: 'Users, TLS and access',
 		href: docs('user-guide/users-tls-access/'),
-		text: 'Database users and roles, independently rotatable system accounts, keyfile authentication, generated or supplied TLS certificates, opt-in public TCP access.',
+		text: 'Engine-native accounts and roles, independently rotatable system accounts, generated or supplied TLS certificates, opt-in public TCP access with CIDR allowlists.',
 	},
 	{
 		title: 'Monitoring, auth and RBAC',
 		href: docs('user-guide/monitoring/'),
 		text: 'Per-member monitoring, authenticated Prometheus output, events and logs, local accounts, OIDC, RBAC and owner-scoped API tokens.',
 		also: { label: 'RBAC and authentication', href: docs('user-guide/rbac-and-auth/') },
+	},
+	{
+		title: 'Namespaces',
+		href: docs('user-guide/namespaces/'),
+		text: 'Operate clusters across several Zerops projects from one control plane: project-scoped tokens, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
 	},
 ];
 
@@ -54,8 +73,8 @@ const interfaces = [
 ---
 
 <Base
-	title="Karakoram: self-hosted MongoDB orchestration for Zerops"
-	description="Karakoram provisions and operates Percona Server for MongoDB and Percona Backup for MongoDB inside your own Zerops project: Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
+	title="Karakoram: self-hosted MongoDB, RabbitMQ and Elasticsearch orchestration for Zerops"
+	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), RabbitMQ and Elasticsearch inside your own Zerops project: Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
 	path="/"
 >
 	<SiteHeader />
@@ -66,10 +85,11 @@ const interfaces = [
 			<div class="kk-hero__art"><RidgeField /></div>
 			<div class="kk-container kk-hero__inner">
 				<p class="kk-eyebrow">Apache-2.0 · Self-hosted</p>
-				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB orchestration for Zerops.</h1>
+				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB, RabbitMQ and Elasticsearch orchestration for Zerops.</h1>
 				<p class="kk-hero__lede">
-					Karakoram provisions and operates Percona Server for MongoDB and Percona Backup for MongoDB inside your own Zerops project:
-					a Go control plane with a REST API, the <code>karactl</code> CLI and a web UI. No Kubernetes, no hosted coordinator.
+					Karakoram provisions and operates Percona Server for MongoDB with Percona Backup for MongoDB, RabbitMQ clusters and Elasticsearch
+					with the Elastic Stack inside your own Zerops project: a Go control plane with a REST API, the <code>karactl</code> CLI and a web UI.
+					No Kubernetes, no hosted coordinator.
 				</p>
 				<div class="kk-hero__cta">
 					<a class="kk-btn kk-btn--primary" href={withBase('/docs/')}>Read the docs</a>
@@ -90,8 +110,8 @@ const interfaces = [
 						<h3>Karakoram is</h3>
 						<ul class="kk-list kk-list--yes">
 							<li>A control plane you run in your own Zerops project, with your own token.</li>
-							<li>A coordinator for Percona's PSMDB and PBM: replica sets, sharded clusters, backups, point-in-time recovery, restores.</li>
-							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. Zerops is the infrastructure backend, not the operator of your databases.</li>
+							<li>A coordinator for three engines: Percona's PSMDB and PBM (replica sets, sharded clusters, point-in-time recovery), RabbitMQ clusters (quorum queues, definitions backups) and Elasticsearch with optional Kibana, Logstash and APM Server (snapshots).</li>
+							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. Zerops is the infrastructure backend, not the operator of your databases and brokers.</li>
 						</ul>
 					</div>
 					<div class="kk-isnot__col">
@@ -115,8 +135,23 @@ const interfaces = [
 			<div class="kk-container">
 				<div class="kk-section__head">
 					<h2 id="features-title" class="kk-section__title">What it operates</h2>
-					<p class="kk-section__lede">Each capability maps to a user-guide page that describes exactly what is supported.</p>
+					<p class="kk-section__lede">Three engines behind one control plane. Each capability maps to a user-guide page that describes exactly what is supported.</p>
 				</div>
+				<p class="kk-eyebrow kk-features__group">Engines</p>
+				<ul class="kk-features">
+					{engines.map((f) => (
+						<li class="kk-feature">
+							<h3 class="kk-feature__title"><a href={f.href}>{f.title}</a></h3>
+							<p class="kk-feature__text">{f.text}</p>
+							{f.also && (
+								<p class="kk-feature__also">
+									See also <a href={f.also.href}>{f.also.label}</a>
+								</p>
+							)}
+						</li>
+					))}
+				</ul>
+				<p class="kk-eyebrow kk-features__group">Across engines</p>
 				<ul class="kk-features">
 					{features.map((f) => (
 						<li class="kk-feature">
@@ -147,6 +182,10 @@ const interfaces = [
 				<div class="kk-section__head">
 					<p class="kk-eyebrow">How it runs</p>
 					<h2 id="how-title" class="kk-section__title">Everything lives in your Zerops project</h2>
+					<p class="kk-section__lede">
+						The figure shows a sharded MongoDB cluster. RabbitMQ brokers and Elasticsearch nodes follow the same pattern: one Ubuntu runtime
+						and one Local Storage volume per node, a node agent next to the engine process, and backups written to object storage you register.
+					</p>
 				</div>
 				<div class="kk-how">
 					<div class="kk-how__diagram">
@@ -162,19 +201,26 @@ const interfaces = [
 								</dd>
 							</div>
 							<div>
-								<dt>Database members</dt>
+								<dt>Members and nodes</dt>
 								<dd>
-									One Ubuntu runtime per <code>mongod</code>, including config servers, each with its own Local Storage volume. A node agent
-									supervises <code>mongod</code> and the PBM agent and talks to the control plane over TLS with pinned trust roots.
+									One Ubuntu runtime per <code>mongod</code> (including config servers), RabbitMQ broker or Elasticsearch node, each with its own
+									Local Storage volume. A node agent supervises the engine process, and the PBM agent for MongoDB, and talks to the control plane
+									over TLS with pinned trust roots.
 								</dd>
 							</div>
 							<div>
-								<dt>Routers</dt>
-								<dd>A stateless <code>mongos</code> service per sharded cluster, with no data volume.</dd>
+								<dt>Stateless services</dt>
+								<dd>
+									A <code>mongos</code> router service per sharded cluster, and optional Kibana, Logstash and APM Server services per Elasticsearch
+									cluster, without a persistent data volume.
+								</dd>
 							</div>
 							<div>
 								<dt>Backups</dt>
-								<dd>PBM agents write logical and physical backups and the PITR oplog to S3-compatible object storage outside the members.</dd>
+								<dd>
+									PBM agents write MongoDB backups and the PITR oplog, Elasticsearch nodes write snapshots, and RabbitMQ definitions exports are
+									uploaded to S3-compatible object storage outside the members.
+								</dd>
 							</div>
 						</dl>
 						<p><a class="kk-more" href={docs('architecture/')}>Architecture and trust boundaries</a></p>
@@ -236,17 +282,27 @@ const interfaces = [
 		<section class="kk-section kk-ack" aria-labelledby="ack-title">
 			<div class="kk-container">
 				<div class="kk-section__head">
-					<h2 id="ack-title" class="kk-section__title">Built on Percona's work, inspired by OpenEverest</h2>
+					<h2 id="ack-title" class="kk-section__title">Built on Percona, RabbitMQ and Elastic, inspired by OpenEverest</h2>
 				</div>
 				<div class="kk-ack__grid">
 					<article class="kk-ack__item">
 						<h3>Percona</h3>
 						<p>
-							Thank you to Percona for <a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb" rel="noopener">Percona Server for MongoDB</a> and
-							<a href="https://docs.percona.com/percona-backup-mongodb/latest/" rel="noopener">Percona Backup for MongoDB</a>.
+							Thank you to Percona for <a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb" rel="noopener">Percona Server for MongoDB</a>
+							and <a href="https://docs.percona.com/percona-backup-mongodb/latest/" rel="noopener">Percona Backup for MongoDB</a>.
 							Karakoram installs both from Percona's official package repositories at <a href="https://repo.percona.com/" rel="noopener">repo.percona.com</a>.
-							The database engine, replication, backups and
+							The MongoDB engine, replication, backups and
 							point-in-time recovery come from their open-source work; Karakoram coordinates those capabilities rather than reinventing them.
+						</p>
+					</article>
+					<article class="kk-ack__item">
+						<h3>RabbitMQ and Elastic</h3>
+						<p>
+							Thank you to the <a href="https://www.rabbitmq.com" rel="noopener">RabbitMQ</a> team for the broker, quorum queues and the
+							Management API, and to <a href="https://www.elastic.co" rel="noopener">Elastic</a> for Elasticsearch, Kibana, Logstash and APM Server.
+							Karakoram installs both on your own runtimes at deploy time, from RabbitMQ's package repositories and Elastic's official
+							distributions, and redistributes no binaries. Elastic's default distributions carry their own license terms, described in
+							the <a href={docs('user-guide/elasticsearch/#licensing')}>Elasticsearch guide</a>.
 						</p>
 					</article>
 					<article class="kk-ack__item">
@@ -264,8 +320,8 @@ const interfaces = [
 							Everest is the highest peak. Karakoram is the range that holds K2 and other giants.
 						</p>
 						<p>
-							The name is a nod to OpenEverest and to growing beyond a single peak, with room for more engines and backends in the future.
-							That is a direction, not a claim that they exist today: only the PSMDB provider and the Zerops backend are implemented.
+							The name is a nod to OpenEverest and to growing beyond a single peak. Three engines run on one backend today: the PSMDB,
+							RabbitMQ and Elasticsearch providers on Zerops. More engines and backends are a direction, not a claim that they exist.
 						</p>
 					</article>
 				</div>
@@ -336,7 +392,7 @@ const interfaces = [
 	}
 	.kk-hero__title {
 		max-width: 22ch;
-		font-size: clamp(2.5rem, 1.6rem + 4vw, 4.75rem);
+		font-size: clamp(2.25rem, 1.3rem + 4vw, 4.75rem);
 		font-weight: 620;
 		letter-spacing: -0.035em;
 		line-height: 1.02;
@@ -430,6 +486,12 @@ const interfaces = [
 	.kk-feature {
 		padding: 1.5rem 0 1.75rem;
 		border-bottom: 1px solid var(--kk-border);
+	}
+	.kk-features__group {
+		margin-bottom: 0.75rem;
+	}
+	.kk-features + .kk-features__group {
+		margin-top: 2.5rem;
 	}
 	@media (min-width: 680px) {
 		.kk-features {
@@ -627,6 +689,12 @@ const interfaces = [
 		}
 		.kk-ack__item--name {
 			grid-column: 1 / -1;
+		}
+	}
+	@media (min-width: 1040px) {
+		.kk-ack__grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 3rem;
 		}
 	}
 	.kk-ack__item h3 {

@@ -1,18 +1,18 @@
 ---
 // SPDX-License-Identifier: Apache-2.0
-// Deployment topology on Zerops, drawn from docs/architecture.md. Inline SVG so it follows
-// the theme tokens; a prose explanation sits next to it in index.astro.
+// Deployment topology on Zerops, drawn from docs/architecture.md, using a sharded MongoDB cluster as the example.
+// Inline SVG so it follows the theme tokens; a prose explanation sits next to it in index.astro.
 ---
 
-<div class="kk-topology" role="region" aria-label="Deployment topology diagram (scrolls horizontally on small screens)" tabindex="0">
+<div class="kk-topology" role="region" aria-label="Deployment topology diagram, MongoDB example (scrolls horizontally on small screens)" tabindex="0">
 	<svg viewBox="0 0 640 660" role="img" aria-labelledby="kk-topology-title kk-topology-desc" class="kk-topology__svg">
-		<title id="kk-topology-title">Karakoram deployment topology on Zerops</title>
+		<title id="kk-topology-title">Karakoram deployment topology on Zerops, shown for a sharded MongoDB cluster</title>
 		<desc id="kk-topology-desc">
 			Inside your Zerops project: the karakoram control-plane service with its karakoramdata Local Storage volume holding SQLite state,
 			a mongos router service for sharded clusters, and database member services that each run mongod, a node agent and a PBM agent
 			on their own Local Storage volume. Browsers and karactl reach the control plane over HTTPS; the control plane calls the Zerops REST
 			API with a project-scoped token and talks to agents over TLS. PBM agents write backups to S3-compatible object storage outside
-			the members.
+			the members. RabbitMQ brokers and Elasticsearch nodes use the same layout of one runtime, one volume and one node agent per member.
 		</desc>
 		<defs>
 			<marker id="kk-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

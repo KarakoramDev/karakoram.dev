@@ -31,7 +31,7 @@ export default defineConfig({
 		starlight({
 			title: 'Karakoram',
 			description:
-				'Self-hosted MongoDB orchestration for Zerops: Percona Server for MongoDB and Percona Backup for MongoDB, run inside your own Zerops project.',
+				'Self-hosted MongoDB, RabbitMQ and Elasticsearch orchestration for Zerops: Percona Server for MongoDB with Percona Backup for MongoDB, RabbitMQ clusters and the Elastic Stack, run inside your own Zerops project.',
 			logo: { src: './src/assets/logo.svg' },
 			favicon: '/favicon.svg',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/KarakoramDev/Karakoram' }],
