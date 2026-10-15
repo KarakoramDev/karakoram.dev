@@ -87,6 +87,7 @@ function pageSlug(original) {
     'README.md': 'docs',
     'CONTRIBUTING.md': 'docs/contributing',
     'CODE_OF_CONDUCT.md': 'docs/code-of-conduct',
+    'docs/quickstart.md': 'docs/getting-started/quickstart',
     'docs/install.md': 'docs/getting-started/install',
     'docs/upgrade.md': 'docs/getting-started/upgrade',
   };
@@ -96,7 +97,7 @@ function pageSlug(original) {
 
 const labels = {
   'README.md': 'Overview', 'CONTRIBUTING.md': 'Contributing', 'CODE_OF_CONDUCT.md': 'Code of Conduct',
-  'docs/install.md': 'Install', 'docs/upgrade.md': 'Upgrade', 'docs/operations.md': 'Day-2 operations',
+  'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/upgrade.md': 'Upgrade', 'docs/operations.md': 'Day-2 operations',
   'docs/architecture.md': 'Architecture', 'docs/security.md': 'Security', 'docs/limitations.md': 'Limitations',
   'docs/verification.md': 'Verification', 'docs/adr/README.md': 'Index',
   'replica-sets': 'Replica sets', 'sharding': 'Sharding', 'backups-and-restore': 'Backups and restore',
@@ -118,7 +119,7 @@ function makeSidebar(pages) {
   const group = (label, entries, collapsed = false) => entries.length ? [{ label, collapsed, items: entries }] : [];
   const sidebar = [
     ...take('README.md'),
-    ...group('Getting started', [...take('docs/install.md'), ...take('docs/upgrade.md')]),
+    ...group('Getting started', [...take('docs/quickstart.md'), ...take('docs/install.md'), ...take('docs/upgrade.md')]),
   ];
   const users = [...remaining.values()].filter((page) => page.original.startsWith('docs/user-guide/'));
   users.sort((a, b) => {
