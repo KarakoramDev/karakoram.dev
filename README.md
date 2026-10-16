@@ -40,11 +40,15 @@ an internal link or `#anchor` does not resolve
 | Source file | Route |
 | --- | --- |
 | `README.md` | `/docs/` |
-| `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
-| `docs/user-guide/<name>.md` | `/docs/user-guide/<name>/` |
+| `docs/quickstart.md`, `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/quickstart/`, `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
+| `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane" or "Interfaces") |
+| `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine) |
 | `docs/adr/README.md`, `docs/adr/<adr>.md` | `/docs/adr/`, `/docs/adr/<adr>/` |
-| `docs/<name>.md` | `/docs/<name>/` |
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` | `/docs/contributing/`, `/docs/code-of-conduct/` |
+
+Sidebar groups, order and labels are listed in `sections` in `scripts/ingest-docs.mjs`.
+Old `/docs/user-guide/<name>/` URLs redirect to their new pages (`movedDocs` in
+`astro.config.mjs`).
 
 ## Local development
 

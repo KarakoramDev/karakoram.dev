@@ -22,10 +22,31 @@ try {
 	throw new Error('src/generated/sidebar.json is missing. Run `npm run ingest` (done automatically by `npm run dev` and `npm run build`).');
 }
 
+// Documentation pages moved by the control-plane/engine restructure; old URLs were linked publicly.
+const movedDocs = {
+	'user-guide/replica-sets': 'mongodb/replica-sets',
+	'user-guide/sharding': 'mongodb/sharding',
+	'user-guide/users-tls-access': 'mongodb/access-and-tls',
+	'user-guide/scaling-and-upgrades': 'mongodb/operations',
+	'user-guide/backups-and-restore': 'backups',
+	'user-guide/rabbitmq': 'rabbitmq',
+	'user-guide/elasticsearch': 'elasticsearch',
+	'user-guide/namespaces': 'namespaces',
+	'user-guide/monitoring': 'monitoring',
+	'user-guide/rbac-and-auth': 'access-control',
+	'user-guide/web-ui': 'web-ui',
+	'user-guide/api': 'api',
+	'user-guide/cli': 'cli',
+};
+const redirects = Object.fromEntries(
+	Object.entries(movedDocs).map(([from, to]) => [`/docs/${from}/`, `${base.replace(/\/?$/, '/')}docs/${to}/`]),
+);
+
 export default defineConfig({
 	site,
 	base,
 	trailingSlash: 'always',
+	redirects,
 	integrations: [
 		mermaidAssets(base),
 		starlight({

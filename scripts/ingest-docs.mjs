@@ -95,17 +95,36 @@ function pageSlug(original) {
   return original.replace(/\.md$/i, '').replace(/\/(?:readme|index)$/i, '').split('/').map(githubSlug).join('/');
 }
 
+// Sidebar layout: engine-neutral control-plane pages first, then one group per engine.
+// Pages missing from this list are appended to their directory's group (or "Control plane").
+const sections = [
+  ['Getting started', { 'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/upgrade.md': 'Upgrade' }],
+  ['Control plane', {
+    'docs/architecture.md': 'Architecture', 'docs/clusters.md': 'Clusters and operations', 'docs/backups.md': 'Backups and storage',
+    'docs/namespaces.md': 'Namespaces and relays', 'docs/monitoring.md': 'Monitoring and events', 'docs/access-control.md': 'Access control',
+    'docs/security.md': 'Security', 'docs/operations.md': 'Operations and troubleshooting', 'docs/limitations.md': 'Limitations',
+  }],
+  ['Interfaces', { 'docs/web-ui.md': 'Web UI', 'docs/cli.md': 'CLI (karactl)', 'docs/api.md': 'REST API and SDK' }],
+  ['MongoDB', {
+    'docs/mongodb/README.md': 'Overview', 'docs/mongodb/replica-sets.md': 'Replica sets', 'docs/mongodb/sharding.md': 'Sharding',
+    'docs/mongodb/access-and-tls.md': 'Users, roles and TLS', 'docs/mongodb/backups.md': 'Backups and PITR', 'docs/mongodb/operations.md': 'Operations',
+  }],
+  ['RabbitMQ', {
+    'docs/rabbitmq/README.md': 'Overview', 'docs/rabbitmq/access-and-tls.md': 'Access and TLS',
+    'docs/rabbitmq/backups.md': 'Definitions backups', 'docs/rabbitmq/operations.md': 'Operations',
+  }],
+  ['Elasticsearch', {
+    'docs/elasticsearch/README.md': 'Overview', 'docs/elasticsearch/stack.md': 'Kibana, Logstash and APM',
+    'docs/elasticsearch/access-and-security.md': 'Access and security', 'docs/elasticsearch/snapshots.md': 'Snapshots',
+    'docs/elasticsearch/operations.md': 'Operations',
+  }],
+];
+const engineDirectories = { mongodb: 'MongoDB', rabbitmq: 'RabbitMQ', elasticsearch: 'Elasticsearch' };
 const labels = {
   'README.md': 'Overview', 'CONTRIBUTING.md': 'Contributing', 'CODE_OF_CONDUCT.md': 'Code of Conduct',
-  'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/upgrade.md': 'Upgrade', 'docs/operations.md': 'Day-2 operations',
-  'docs/architecture.md': 'Architecture', 'docs/security.md': 'Security', 'docs/limitations.md': 'Limitations',
   'docs/verification.md': 'Verification', 'docs/adr/README.md': 'Index',
-  'replica-sets': 'Replica sets', 'sharding': 'Sharding', 'backups-and-restore': 'Backups and restore',
-  'scaling-and-upgrades': 'Scaling and upgrades', 'users-tls-access': 'Users, TLS and access',
-  'namespaces': 'Namespaces', 'monitoring': 'Monitoring', 'web-ui': 'Web UI',
-  'rbac-and-auth': 'RBAC and authentication', 'api': 'REST API', 'cli': 'CLI',
+  ...Object.assign({}, ...sections.map(([, pages]) => pages)),
 };
-const userOrder = ['replica-sets', 'sharding', 'backups-and-restore', 'scaling-and-upgrades', 'users-tls-access', 'namespaces', 'monitoring', 'web-ui', 'rbac-and-auth', 'api', 'cli'];
 
 function makeSidebar(pages) {
   const remaining = new Map(pages.map((page) => [page.original, page]));
@@ -117,26 +136,27 @@ function makeSidebar(pages) {
   };
   const take = (original) => remaining.has(original) ? [item(remaining.get(original))] : [];
   const group = (label, entries, collapsed = false) => entries.length ? [{ label, collapsed, items: entries }] : [];
-  const sidebar = [
-    ...take('README.md'),
-    ...group('Getting started', [...take('docs/quickstart.md'), ...take('docs/install.md'), ...take('docs/upgrade.md')]),
-  ];
-  const users = [...remaining.values()].filter((page) => page.original.startsWith('docs/user-guide/'));
-  users.sort((a, b) => {
-    const rank = (page) => { const index = userOrder.indexOf(path.posix.basename(page.original, '.md')); return index < 0 ? Infinity : index; };
-    return rank(a) - rank(b) || a.original.localeCompare(b.original);
-  });
-  sidebar.push(...group('User guide', users.map(item)));
-  for (const name of ['operations', 'security', 'architecture']) sidebar.push(...take(`docs/${name}.md`));
-  const adrs = [...remaining.values()].filter((page) => page.original.startsWith('docs/adr/')).sort((a, b) => a.original.localeCompare(b.original, 'en', { numeric: true }));
-  sidebar.push(...group('Architecture decisions', [...take('docs/adr/README.md'), ...adrs.filter((page) => page.original !== 'docs/adr/README.md').map(item)], true));
-  sidebar.push(...take('docs/limitations.md'), ...take('docs/verification.md'));
-  const unknown = [...remaining.values()].filter((page) => page.original.startsWith('docs/')).sort((a, b) => a.original.localeCompare(b.original));
-  for (const page of unknown.filter((page) => page.original.split('/').length === 2)) sidebar.push(item(page));
-  for (const directory of [...new Set(unknown.filter((page) => page.original.split('/').length > 2).map((page) => page.original.split('/')[1]))]) {
-    sidebar.push(...group(friendly(directory), unknown.filter((page) => page.original.startsWith(`docs/${directory}/`)).map(item)));
+  const unlisted = (filter) => [...remaining.values()].filter((page) => filter(page.original)).sort((a, b) => a.original.localeCompare(b.original));
+  const directory = (original) => original.split('/').length > 2 ? original.split('/')[1] : undefined;
+  const listedAll = new Set(['docs/verification.md', ...sections.flatMap(([, listed]) => Object.keys(listed))]);
+  const sidebar = [...take('README.md')];
+  for (const [label, listed] of sections) {
+    const extra = label === 'Control plane'
+      ? unlisted((original) => original.startsWith('docs/') && !directory(original) && !listedAll.has(original))
+      : unlisted((original) => engineDirectories[directory(original)] === label && !listedAll.has(original));
+    sidebar.push(...group(label, [...Object.keys(listed).flatMap(take), ...extra.map(item)]));
   }
-  sidebar.push(...group('Community', [...take('CONTRIBUTING.md'), ...take('CODE_OF_CONDUCT.md')]));
+  const adrs = unlisted((original) => original.startsWith('docs/adr/') && original !== 'docs/adr/README.md')
+    .sort((a, b) => a.original.localeCompare(b.original, 'en', { numeric: true }));
+  const reference = [
+    ...group('Architecture decisions', [...take('docs/adr/README.md'), ...adrs.map(item)], true),
+    ...take('docs/verification.md'),
+  ];
+  for (const name of [...new Set(unlisted((original) => original.startsWith('docs/') && directory(original)).map((page) => directory(page.original)))]) {
+    reference.push(...group(friendly(name), unlisted((original) => directory(original) === name).map(item)));
+  }
+  reference.push(...take('CONTRIBUTING.md'), ...take('CODE_OF_CONDUCT.md'));
+  sidebar.push(...group('Reference', reference));
   if (remaining.size) throw new Error(`Unassigned sidebar pages: ${[...remaining.keys()].join(', ')}`);
   return sidebar;
 }

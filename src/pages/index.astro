@@ -15,18 +15,18 @@ const docs = (path: string) => withBase(`/docs/${path}`);
 const engines = [
 	{
 		title: 'MongoDB',
-		href: docs('user-guide/replica-sets/'),
+		href: docs('mongodb/'),
 		text: 'Percona Server for MongoDB with Percona Backup for MongoDB: replica sets of 1, 3, 5 or 7 members, sharded clusters with config servers and mongos routers, PBM logical and physical backups, point-in-time recovery, in-place restore and clone.',
-		also: { label: 'Sharded clusters', href: docs('user-guide/sharding/') },
+		also: { label: 'Sharded clusters', href: docs('mongodb/sharding/') },
 	},
 	{
 		title: 'RabbitMQ',
-		href: docs('user-guide/rabbitmq/'),
+		href: docs('rabbitmq/'),
 		text: 'RabbitMQ 4.3 clusters of 1, 3, 5 or 7 brokers with persistent per-node storage, quorum queues by default, quorum-gated rolling changes, virtual host, user, permission and policy administration, AMQPS, optional public management UI and definitions backups (no messages or PITR).',
 	},
 	{
 		title: 'Elasticsearch',
-		href: docs('user-guide/elasticsearch/'),
+		href: docs('elasticsearch/'),
 		text: 'Combined-node or dedicated-master clusters with optional same-version Kibana, Logstash and APM Server, native users, roles and API keys, CA-verified HTTPS, S3 snapshots with restore and clone, and shard-drain-aware scale-down.',
 	},
 ];
@@ -34,41 +34,41 @@ const engines = [
 const features = [
 	{
 		title: 'Scaling, replacement and rolling upgrades',
-		href: docs('user-guide/scaling-and-upgrades/'),
+		href: docs('clusters/'),
 		text: 'CPU and RAM bounds, persistent disk growth, member-aware scaling and replacement, rolling upgrades and restarts that change one node at a time and wait for quorum, explicit FCV promotion for MongoDB.',
 	},
 	{
 		title: 'Backups, restore and clone',
-		href: docs('user-guide/backups-and-restore/'),
+		href: docs('backups/'),
 		text: 'S3-compatible storage, UTC schedules with count retention, in-place restore and clone: PBM backups with PITR for MongoDB, native snapshots for Elasticsearch, definitions exports for RabbitMQ.',
 	},
 	{
 		title: 'Suspend, resume and delete',
-		href: docs('user-guide/replica-sets/#delete-or-suspend'),
+		href: docs('clusters/#delete-or-suspend'),
 		text: 'Volumes and backups are separate assets: keep volumes to suspend a cluster and resume it later, keep backups to recover from them, or delete everything the cluster owns.',
 	},
 	{
 		title: 'Users, TLS and access',
-		href: docs('user-guide/users-tls-access/'),
+		href: docs('security/'),
 		text: 'Engine-native accounts and roles, independently rotatable system accounts, generated or supplied TLS certificates, opt-in public TCP access with CIDR allowlists.',
 	},
 	{
 		title: 'Monitoring, auth and RBAC',
-		href: docs('user-guide/monitoring/'),
+		href: docs('monitoring/'),
 		text: 'Per-member monitoring, authenticated Prometheus output, events and logs, local accounts, OIDC, RBAC and owner-scoped API tokens.',
-		also: { label: 'RBAC and authentication', href: docs('user-guide/rbac-and-auth/') },
+		also: { label: 'Access control', href: docs('access-control/') },
 	},
 	{
 		title: 'Namespaces',
-		href: docs('user-guide/namespaces/'),
+		href: docs('namespaces/'),
 		text: 'Operate clusters across several Zerops projects from one control plane: project-scoped tokens, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
 	},
 ];
 
 const interfaces = [
-	{ label: 'REST API', href: docs('user-guide/api/'), text: 'Generated, strict HTTP contract; every authenticated operation carries explicit authorization metadata.' },
-	{ label: 'karactl CLI', href: docs('user-guide/cli/'), text: 'Generated client for the same API, with saved connection contexts.' },
-	{ label: 'Web UI', href: docs('user-guide/web-ui/'), text: 'Embedded React SPA served by the control plane.' },
+	{ label: 'REST API', href: docs('api/'), text: 'Generated, strict HTTP contract; every authenticated operation carries explicit authorization metadata.' },
+	{ label: 'karactl CLI', href: docs('cli/'), text: 'Generated client for the same API, with saved connection contexts.' },
+	{ label: 'Web UI', href: docs('web-ui/'), text: 'Embedded React SPA served by the control plane.' },
 ];
 ---
 
@@ -135,7 +135,7 @@ const interfaces = [
 			<div class="kk-container">
 				<div class="kk-section__head">
 					<h2 id="features-title" class="kk-section__title">What it operates</h2>
-					<p class="kk-section__lede">Three engines behind one control plane. Each capability maps to a user-guide page that describes exactly what is supported.</p>
+					<p class="kk-section__lede">Three engines behind one control plane. Each capability links to the documentation page that describes exactly what is supported.</p>
 				</div>
 				<p class="kk-eyebrow kk-features__group">Engines</p>
 				<ul class="kk-features">
@@ -270,7 +270,7 @@ const interfaces = [
 					</ol>
 				</div>
 				<p class="kk-quick__more">
-					<a class="kk-more" href={docs('getting-started/quickstart/')}>10-minute quick start</a> · <a class="kk-more" href={docs('getting-started/install/')}>Full installation guide</a>
+					<a class="kk-more" href={docs('getting-started/quickstart/')}>Quick start</a> · <a class="kk-more" href={docs('getting-started/install/')}>Full installation guide</a>
 					<span class="kk-quick__note">
 						Covers prerequisites, secret handling, installing from a local checkout with <code>zcli</code>, custom domains and CLI login.
 					</span>
@@ -302,7 +302,7 @@ const interfaces = [
 							Management API, and to <a href="https://www.elastic.co" rel="noopener">Elastic</a> for Elasticsearch, Kibana, Logstash and APM Server.
 							Karakoram installs both on your own runtimes at deploy time, from RabbitMQ's package repositories and Elastic's official
 							distributions, and redistributes no binaries. Elastic's default distributions carry their own license terms, described in
-							the <a href={docs('user-guide/elasticsearch/#licensing')}>Elasticsearch guide</a>.
+							the <a href={docs('elasticsearch/#licensing')}>Elasticsearch guide</a>.
 						</p>
 					</article>
 					<article class="kk-ack__item">
@@ -343,7 +343,7 @@ const interfaces = [
 						<li><a class="kk-more" href={docs('contributing/')}>Contributing guide</a></li>
 						<li><a class="kk-more" href={docs('code-of-conduct/')}>Code of conduct</a></li>
 						<li><a class="kk-more" href={`${github}/issues`} rel="noopener">GitHub issues</a></li>
-						<li><a class="kk-more" href={docs('security/')}>Report a vulnerability</a></li>
+						<li><a class="kk-more" href={docs('security/#reporting-vulnerabilities')}>Report a vulnerability</a></li>
 					</ul>
 				</div>
 			</div>
