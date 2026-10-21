@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightLinksValidator from 'starlight-links-validator';
+import starlightLlmsTxt from 'starlight-llms-txt';
 import { mermaidAssets } from './src/plugins/mermaid.mjs';
 
 // SITE_URL / BASE_PATH let the same build serve the custom domain (root) or a
@@ -21,6 +22,13 @@ try {
 } catch {
 	throw new Error('src/generated/sidebar.json is missing. Run `npm run ingest` (done automatically by `npm run dev` and `npm run build`).');
 }
+
+// Keep the machine-readable entrypoint in sync with the generated navigation.
+const sidebarMarkdown = (items, depth = 0) => items.map((item) => {
+	const indent = '  '.repeat(depth);
+	if (item.items) return `${indent}- **${item.label}**\n${sidebarMarkdown(item.items, depth + 1)}`;
+	return `${indent}- [${item.label}](${absolute(`${item.slug}/`)})`;
+}).join('\n');
 
 // Documentation pages moved by the control-plane/engine restructure; old URLs were linked publicly.
 const movedDocs = {
@@ -58,7 +66,10 @@ export default defineConfig({
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/KarakoramDev/Karakoram' }],
 			customCss: ['./src/styles/starlight.css'],
 			// Inline the mark with currentColor so it follows the theme (design-owned).
-			components: { SiteTitle: './src/components/StarlightSiteTitle.astro' },
+			components: {
+				SiteTitle: './src/components/StarlightSiteTitle.astro',
+				Head: './src/components/StarlightHead.astro',
+			},
 			disable404Route: true,
 			sidebar,
 			head: [
@@ -68,7 +79,14 @@ export default defineConfig({
 				{ tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
 				{ tag: 'meta', attrs: { name: 'twitter:image', content: absolute('og.png') } },
 			],
-			plugins: [starlightLinksValidator({ errorOnRelativeLinks: true, errorOnInvalidHashes: true })],
+			plugins: [
+				starlightLlmsTxt({
+					projectName: 'Karakoram',
+					description: 'Karakoram is an Apache-2.0, self-hosted database orchestrator for Zerops. It runs MongoDB, RabbitMQ and Elasticsearch in your own project, with a Go control plane, a web UI, a REST API and the karactl CLI. Documentation covers installation, cluster operations, backups, access control and integrations.',
+					details: `Documentation sections and pages:\n\n${sidebarMarkdown(sidebar)}`,
+				}),
+				starlightLinksValidator({ errorOnRelativeLinks: true, errorOnInvalidHashes: true }),
+			],
 		}),
 	],
 });

@@ -53,6 +53,22 @@ Sidebar groups, order and labels are listed in `sections` in `scripts/ingest-doc
 Old `/docs/user-guide/<name>/` URLs redirect to their new pages (`movedDocs` in
 `astro.config.mjs`).
 
+## Machine-readable documentation
+
+The build uses [starlight-llms-txt](https://delucis.github.io/starlight-llms-txt/)
+to publish `/llms.txt` (a project summary and links from the generated sidebar),
+`/llms-full.txt` (complete documentation), and `/llms-small.txt` (a condensed
+version for smaller context windows). Newly ingested pages, including the MCP
+server documentation when present upstream, appear automatically.
+
+Every documentation page also has a Markdown twin: remove the trailing slash
+and append `.md`, for example `/docs/getting-started/install.md`, `/docs/api.md`,
+or `/docs.md` for the documentation overview. These static endpoints contain
+the ingested source Markdown with title frontmatter; documentation links use
+the same site routes as the HTML pages. Each documentation page advertises its
+twin with a `<link rel="alternate" type="text/markdown">` in its head. All of
+these files are generated into `dist/`, not committed.
+
 ## Local development
 
 Requires Node.js 22.12 or newer.

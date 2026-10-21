@@ -1,0 +1,8 @@
+---
+import DefaultHead from '@astrojs/starlight/components/Head.astro';
+
+const markdownURL = new URL(`${Astro.url.pathname.replace(/\/$/, '')}.md`, Astro.site);
+---
+
+<DefaultHead />
+<link rel="alternate" type="text/markdown" href={markdownURL} />
