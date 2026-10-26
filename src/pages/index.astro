@@ -100,12 +100,20 @@ const interfaces = [
 	{ label: 'REST API', href: docs('api/'), text: 'Generated, strict HTTP contract; every authenticated operation carries explicit authorization metadata.' },
 	{ label: 'karactl CLI', href: docs('cli/'), text: 'Generated client for the same API, with saved connection contexts.' },
 	{ label: 'Web UI', href: docs('web-ui/'), text: 'Embedded React SPA served by the control plane.' },
+	{ label: 'MCP server', href: docs('mcp-quickstart/'), text: 'The same API as tools for AI agents, read-only by default, over Streamable HTTP or a stdio bridge.' },
 ];
+
+const mcpConfig = `# Management MCP: a read-only token for one namespace, printed as a
+# \`claude mcp add\` command (or --client cursor, vscode, codex, json)
+karactl mcp config --client claude-code -n production
+
+# Cluster data MCP: a token for the data inside one cluster
+karactl mcp config --cluster production/appdb --client cursor`;
 ---
 
 <Base
 	title="Karakoram: self-hosted MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on your own infrastructure"
-	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest), modular Supabase, RabbitMQ and Elasticsearch on infrastructure backends you run: Zerops, Dokploy and Nomad. Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
+	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest), modular Supabase, RabbitMQ and Elasticsearch on infrastructure backends you run: Zerops, Dokploy and Nomad. Go control plane, REST API, karactl CLI, web UI and a read-only-by-default MCP server for AI agents. Apache-2.0, no Kubernetes, no hosted coordinator."
 	path="/"
 >
 	<SiteHeader />
@@ -119,8 +127,8 @@ const interfaces = [
 				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB, PostgreSQL, RabbitMQ and Elasticsearch orchestration on infrastructure you run.</h1>
 				<p class="kk-hero__lede">
 					Karakoram provisions and operates Percona Server for MongoDB, Percona PostgreSQL with Patroni and pgBackRest, modular Supabase,
-					RabbitMQ clusters and the Elastic Stack on a backend you control: a Go control plane with a REST API, the <code>karactl</code> CLI
-					and a web UI. No Kubernetes, no hosted coordinator.
+					RabbitMQ clusters and the Elastic Stack on a backend you control: a Go control plane with a REST API, the <code>karactl</code> CLI,
+					a web UI and an MCP server for AI agents. No Kubernetes, no hosted coordinator.
 				</p>
 				<div class="kk-hero__cta">
 					<a class="kk-btn kk-btn--primary" href={withBase('/docs/')}>Read the docs</a>
@@ -293,6 +301,76 @@ const interfaces = [
 						<p><a class="kk-more" href={docs('architecture/')}>Architecture and trust boundaries</a></p>
 					</div>
 				</div>
+			</div>
+		</section>
+
+		<!-- AI agents -->
+		<section class="kk-section" aria-labelledby="agents-title">
+			<div class="kk-container">
+				<div class="kk-section__head">
+					<p class="kk-eyebrow">AI agents</p>
+					<h2 id="agents-title" class="kk-section__title">Let an agent operate it. Read-only until you say otherwise.</h2>
+					<p class="kk-section__lede">
+						The control plane embeds an MCP server at <code>/mcp</code>: every REST operation is a tool, executed through the same
+						authentication, RBAC and audit path as <code>karactl</code>. Claude Code, Claude Desktop, Cursor, VS Code, Codex or any
+						other spec-compliant client connects with a restricted token or OAuth.
+					</p>
+				</div>
+				<div class="kk-agents">
+					<div class="kk-agents__code">
+						<div class="kk-code">
+							<div class="kk-code__bar">
+								<span>karactl mcp config</span>
+								<button class="kk-copy" type="button" data-copy aria-label="Copy karactl mcp config commands to clipboard">Copy</button>
+							</div>
+							<Code code={mcpConfig} lang="sh" themes={{ light: 'github-light', dark: 'github-dark-dimmed' }} defaultColor={false} />
+						</div>
+						<p class="kk-agents__note">
+							Each command creates a dedicated API token, read-only unless you pass <code>--write</code>, and prints the client
+							configuration once. The secret never exceeds its owner's permissions and expires after 90 days by default.
+						</p>
+					</div>
+					<dl class="kk-agents__list">
+						<div>
+							<dt>Read-only by default</dt>
+							<dd>
+								<code>KARAKORAM_MCP=readonly</code> is the installation default. <code>readwrite</code> is an explicit operator opt-in
+								in the service environment; <code>off</code> removes the endpoint.
+							</dd>
+						</div>
+						<div>
+							<dt>Restricted tokens</dt>
+							<dd>
+								Tokens limited to read actions, namespaces or one cluster, intersected with the owner's RBAC on every call. Opt-in
+								OAuth 2.1 with PKCE for connectors such as Claude Desktop, audience-bound to <code>/mcp</code>.
+							</dd>
+						</div>
+						<div>
+							<dt>Confirmation for destructive actions</dt>
+							<dd>
+								The server writes the summary, binds the approval to the exact arguments for five minutes and audits the answer.
+								There is no model-settable confirm flag; a client without elicitation gets an error, not a deletion.
+							</dd>
+						</div>
+						<div>
+							<dt>Per-cluster data MCP <small>experimental</small></dt>
+							<dd>
+								One endpoint per cluster for the data inside it: MongoDB and PostgreSQL/Supabase through reviewed upstream servers,
+								Elasticsearch and RabbitMQ natively, with rotated read/write database identities and four independent write switches.
+							</dd>
+						</div>
+						<div>
+							<dt><code>llms.txt</code></dt>
+							<dd>
+								This site publishes <a href={withBase('/llms.txt')}>/llms.txt</a>, <a href={withBase('/llms-full.txt')}>/llms-full.txt</a> and a
+								Markdown twin of every documentation page, so agents can read the manual as easily as the API.
+							</dd>
+						</div>
+					</dl>
+				</div>
+				<p class="kk-agents__more">
+					<a class="kk-more" href={docs('mcp-quickstart/')}>MCP quick start</a> <a class="kk-more" href={docs('mcp/')}>MCP server reference</a> <a class="kk-more" href={docs('data-mcp/')}>Cluster data MCP</a>
+				</p>
 			</div>
 		</section>
 
@@ -690,7 +768,12 @@ const interfaces = [
 	}
 	@media (min-width: 680px) {
 		.kk-interfaces {
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	@media (min-width: 1040px) {
+		.kk-interfaces {
+			grid-template-columns: repeat(4, 1fr);
 		}
 	}
 	.kk-interface {
@@ -753,6 +836,68 @@ const interfaces = [
 	}
 	.kk-how__text > p {
 		margin-top: 2rem;
+	}
+
+	/* AI agents */
+	.kk-agents {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 2.5rem;
+		align-items: start;
+	}
+	@media (min-width: 960px) {
+		.kk-agents {
+			grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+			gap: 4rem;
+		}
+		.kk-agents__code {
+			position: sticky;
+			top: 1.5rem;
+		}
+	}
+	.kk-agents__code {
+		min-width: 0;
+	}
+	.kk-agents__note {
+		margin-top: 1rem;
+		font-size: 0.92rem;
+		color: var(--kk-muted);
+		text-wrap: pretty;
+	}
+	.kk-agents__list {
+		margin: 0;
+		display: grid;
+		gap: 1.4rem;
+	}
+	.kk-agents__list dt {
+		font-weight: 600;
+		margin-bottom: 0.3rem;
+	}
+	.kk-agents__list dt small {
+		margin-left: 0.4rem;
+		font-family: var(--kk-font-mono);
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--kk-accent);
+		vertical-align: middle;
+	}
+	.kk-agents__list dd {
+		margin: 0;
+		color: var(--kk-muted);
+		font-size: 0.98rem;
+		text-wrap: pretty;
+	}
+	.kk-agents__list dd code,
+	.kk-agents__note code {
+		font-size: 0.88em;
+	}
+	.kk-agents__more {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.75rem;
+		margin-top: 2.5rem;
 	}
 
 	/* Backends */

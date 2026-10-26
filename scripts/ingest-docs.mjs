@@ -95,7 +95,7 @@ function pageSlug(original) {
   return original.replace(/\.md$/i, '').replace(/\/(?:readme|index)$/i, '').split('/').map(githubSlug).join('/');
 }
 
-// Sidebar layout: getting started, backend-neutral control-plane pages, backends, interfaces, then one group per engine.
+// Sidebar layout: getting started, backend-neutral control-plane pages, backends, interfaces, AI agents, then one group per engine.
 // Pages missing from this list are appended to their directory's group (or "Control plane"); pages absent from the checkout are skipped.
 const sections = [
   ['Getting started', {
@@ -109,6 +109,7 @@ const sections = [
   }],
   ['Backends', { 'docs/zerops.md': 'Zerops', 'docs/dokploy.md': 'Dokploy', 'docs/nomad.md': 'Nomad' }],
   ['Interfaces', { 'docs/web-ui.md': 'Web UI', 'docs/cli.md': 'CLI (karactl)', 'docs/api.md': 'REST API and SDK' }],
+  ['AI agents', { 'docs/mcp-quickstart.md': 'MCP quick start', 'docs/mcp.md': 'MCP server', 'docs/data-mcp.md': 'Cluster data MCP' }],
   ['MongoDB', {
     'docs/mongodb/README.md': 'Overview', 'docs/mongodb/replica-sets.md': 'Replica sets', 'docs/mongodb/sharding.md': 'Sharding',
     'docs/mongodb/access-and-tls.md': 'Users, roles and TLS', 'docs/mongodb/backups.md': 'Backups and PITR', 'docs/mongodb/operations.md': 'Operations',

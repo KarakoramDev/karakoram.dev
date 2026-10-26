@@ -44,7 +44,7 @@ an internal link or `#anchor` does not resolve
 | `docs/quickstart.md`, `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/quickstart/`, `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
 | `docs/backends.md`, `docs/pricing.md` | `/docs/backends/`, `/docs/pricing/` (sidebar group "Getting started") |
 | `docs/zerops.md`, `docs/dokploy.md`, `docs/nomad.md` | `/docs/zerops/`, `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Backends", in that order) |
-| `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces" or "Reference") |
+| `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces", "AI agents" or "Reference") |
 | `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine: MongoDB, PostgreSQL, Supabase, RabbitMQ, Elasticsearch) |
 | `docs/adr/README.md`, `docs/adr/<adr>.md` | `/docs/adr/`, `/docs/adr/<adr>/` |
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` | `/docs/contributing/`, `/docs/code-of-conduct/` |
@@ -58,16 +58,19 @@ Old `/docs/user-guide/<name>/` URLs redirect to their new pages (`movedDocs` in
 The build uses [starlight-llms-txt](https://delucis.github.io/starlight-llms-txt/)
 to publish `/llms.txt` (a project summary and links from the generated sidebar),
 `/llms-full.txt` (complete documentation), and `/llms-small.txt` (a condensed
-version for smaller context windows). Newly ingested pages, including the MCP
-server documentation when present upstream, appear automatically.
+version for smaller context windows). Newly ingested pages appear automatically;
+the AI agents group (`/docs/mcp-quickstart/`, `/docs/mcp/`, `/docs/data-mcp/`)
+is listed like every other sidebar entry. The project summary at the top of
+`llms.txt` is the `description` passed to the plugin in `astro.config.mjs`.
 
 Every documentation page also has a Markdown twin: remove the trailing slash
 and append `.md`, for example `/docs/getting-started/install.md`, `/docs/api.md`,
-or `/docs.md` for the documentation overview. These static endpoints contain
-the ingested source Markdown with title frontmatter; documentation links use
-the same site routes as the HTML pages. Each documentation page advertises its
-twin with a `<link rel="alternate" type="text/markdown">` in its head. All of
-these files are generated into `dist/`, not committed.
+`/docs/mcp-quickstart.md`, or `/docs.md` for the documentation overview. These
+static endpoints (`src/pages/[...page].md.ts`) contain the ingested source
+Markdown with title frontmatter; documentation links use the same site routes as
+the HTML pages. Each documentation page advertises its twin with a
+`<link rel="alternate" type="text/markdown">` in its head. All of these files
+are generated into `dist/`, not committed.
 
 ## Local development
 

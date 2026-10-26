@@ -82,7 +82,7 @@ export default defineConfig({
 			plugins: [
 				starlightLlmsTxt({
 					projectName: 'Karakoram',
-					description: 'Karakoram is an Apache-2.0, self-hosted database orchestrator for Zerops. It runs MongoDB, RabbitMQ and Elasticsearch in your own project, with a Go control plane, a web UI, a REST API and the karactl CLI. Documentation covers installation, cluster operations, backups, access control and integrations.',
+					description: 'Karakoram is an Apache-2.0, self-hosted control plane for MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch on infrastructure you run: Zerops (the reference backend), Dokploy or Nomad. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, cluster operations, backups, access control, security and MCP client setup.',
 					details: `Documentation sections and pages:\n\n${sidebarMarkdown(sidebar)}`,
 				}),
 				starlightLinksValidator({ errorOnRelativeLinks: true, errorOnInvalidHashes: true }),
