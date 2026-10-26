@@ -43,7 +43,7 @@ an internal link or `#anchor` does not resolve
 | `README.md` | `/docs/` |
 | `docs/quickstart.md`, `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/quickstart/`, `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
 | `docs/backends.md`, `docs/pricing.md` | `/docs/backends/`, `/docs/pricing/` (sidebar group "Getting started") |
-| `docs/dokploy.md`, `docs/nomad.md` | `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Backends") |
+| `docs/zerops.md`, `docs/dokploy.md`, `docs/nomad.md` | `/docs/zerops/`, `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Backends", in that order) |
 | `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces" or "Reference") |
 | `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine: MongoDB, PostgreSQL, Supabase, RabbitMQ, Elasticsearch) |
 | `docs/adr/README.md`, `docs/adr/<adr>.md` | `/docs/adr/`, `/docs/adr/<adr>/` |

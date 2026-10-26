@@ -107,7 +107,7 @@ const sections = [
     'docs/namespaces.md': 'Namespaces and relays', 'docs/monitoring.md': 'Monitoring and events', 'docs/access-control.md': 'Access control',
     'docs/security.md': 'Security', 'docs/operations.md': 'Operations and troubleshooting', 'docs/limitations.md': 'Limitations',
   }],
-  ['Backends', { 'docs/dokploy.md': 'Dokploy', 'docs/nomad.md': 'Nomad' }],
+  ['Backends', { 'docs/zerops.md': 'Zerops', 'docs/dokploy.md': 'Dokploy', 'docs/nomad.md': 'Nomad' }],
   ['Interfaces', { 'docs/web-ui.md': 'Web UI', 'docs/cli.md': 'CLI (karactl)', 'docs/api.md': 'REST API and SDK' }],
   ['MongoDB', {
     'docs/mongodb/README.md': 'Overview', 'docs/mongodb/replica-sets.md': 'Replica sets', 'docs/mongodb/sharding.md': 'Sharding',
