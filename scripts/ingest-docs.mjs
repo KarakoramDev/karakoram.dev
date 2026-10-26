@@ -95,19 +95,30 @@ function pageSlug(original) {
   return original.replace(/\.md$/i, '').replace(/\/(?:readme|index)$/i, '').split('/').map(githubSlug).join('/');
 }
 
-// Sidebar layout: engine-neutral control-plane pages first, then one group per engine.
-// Pages missing from this list are appended to their directory's group (or "Control plane").
+// Sidebar layout: getting started, backend-neutral control-plane pages, backends, interfaces, then one group per engine.
+// Pages missing from this list are appended to their directory's group (or "Control plane"); pages absent from the checkout are skipped.
 const sections = [
-  ['Getting started', { 'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/upgrade.md': 'Upgrade' }],
+  ['Getting started', {
+    'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/backends.md': 'Backends', 'docs/pricing.md': 'Pricing',
+    'docs/upgrade.md': 'Upgrade',
+  }],
   ['Control plane', {
     'docs/architecture.md': 'Architecture', 'docs/clusters.md': 'Clusters and operations', 'docs/backups.md': 'Backups and storage',
     'docs/namespaces.md': 'Namespaces and relays', 'docs/monitoring.md': 'Monitoring and events', 'docs/access-control.md': 'Access control',
     'docs/security.md': 'Security', 'docs/operations.md': 'Operations and troubleshooting', 'docs/limitations.md': 'Limitations',
   }],
+  ['Backends', { 'docs/dokploy.md': 'Dokploy (experimental)', 'docs/nomad.md': 'Nomad (experimental)' }],
   ['Interfaces', { 'docs/web-ui.md': 'Web UI', 'docs/cli.md': 'CLI (karactl)', 'docs/api.md': 'REST API and SDK' }],
   ['MongoDB', {
     'docs/mongodb/README.md': 'Overview', 'docs/mongodb/replica-sets.md': 'Replica sets', 'docs/mongodb/sharding.md': 'Sharding',
     'docs/mongodb/access-and-tls.md': 'Users, roles and TLS', 'docs/mongodb/backups.md': 'Backups and PITR', 'docs/mongodb/operations.md': 'Operations',
+  }],
+  ['PostgreSQL', {
+    'docs/postgres/README.md': 'Overview', 'docs/postgres/access-and-tls.md': 'Access and TLS',
+    'docs/postgres/backups.md': 'Backups and PITR', 'docs/postgres/operations.md': 'Operations',
+  }],
+  ['Supabase', {
+    'docs/supabase/README.md': 'Overview', 'docs/supabase/components.md': 'Components and availability', 'docs/supabase/operations.md': 'Operations',
   }],
   ['RabbitMQ', {
     'docs/rabbitmq/README.md': 'Overview', 'docs/rabbitmq/access-and-tls.md': 'Access and TLS',
@@ -119,10 +130,10 @@ const sections = [
     'docs/elasticsearch/operations.md': 'Operations',
   }],
 ];
-const engineDirectories = { mongodb: 'MongoDB', rabbitmq: 'RabbitMQ', elasticsearch: 'Elasticsearch' };
+const engineDirectories = { mongodb: 'MongoDB', postgres: 'PostgreSQL', supabase: 'Supabase', rabbitmq: 'RabbitMQ', elasticsearch: 'Elasticsearch' };
 const labels = {
   'README.md': 'Overview', 'CONTRIBUTING.md': 'Contributing', 'CODE_OF_CONDUCT.md': 'Code of Conduct',
-  'docs/verification.md': 'Verification', 'docs/adr/README.md': 'Index',
+  'docs/verification.md': 'Verification', 'docs/native-artifacts.md': 'Native artifacts', 'docs/adr/README.md': 'Index',
   ...Object.assign({}, ...sections.map(([, pages]) => pages)),
 };
 
@@ -138,7 +149,7 @@ function makeSidebar(pages) {
   const group = (label, entries, collapsed = false) => entries.length ? [{ label, collapsed, items: entries }] : [];
   const unlisted = (filter) => [...remaining.values()].filter((page) => filter(page.original)).sort((a, b) => a.original.localeCompare(b.original));
   const directory = (original) => original.split('/').length > 2 ? original.split('/')[1] : undefined;
-  const listedAll = new Set(['docs/verification.md', ...sections.flatMap(([, listed]) => Object.keys(listed))]);
+  const listedAll = new Set(['docs/verification.md', 'docs/native-artifacts.md', ...sections.flatMap(([, listed]) => Object.keys(listed))]);
   const sidebar = [...take('README.md')];
   for (const [label, listed] of sections) {
     const extra = label === 'Control plane'
@@ -150,6 +161,7 @@ function makeSidebar(pages) {
     .sort((a, b) => a.original.localeCompare(b.original, 'en', { numeric: true }));
   const reference = [
     ...group('Architecture decisions', [...take('docs/adr/README.md'), ...adrs.map(item)], true),
+    ...take('docs/native-artifacts.md'),
     ...take('docs/verification.md'),
   ];
   for (const name of [...new Set(unlisted((original) => original.startsWith('docs/') && directory(original)).map((page) => directory(page.original)))]) {

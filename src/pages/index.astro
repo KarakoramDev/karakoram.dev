@@ -12,12 +12,45 @@ import { withBase } from '../lib/paths';
 const github = 'https://github.com/KarakoramDev/Karakoram';
 const docs = (path: string) => withBase(`/docs/${path}`);
 
+const backends = [
+	{
+		title: 'Zerops',
+		status: 'Reference backend',
+		href: docs('getting-started/quickstart/'),
+		text: 'Import one YAML into an existing project. Runtimes, Local Storage volumes, HTTPS subdomains and public ports come from the Zerops REST API with a project-scoped token.',
+	},
+	{
+		title: 'Dokploy',
+		status: 'Experimental',
+		href: docs('dokploy/'),
+		text: 'A Dokploy-managed Docker Swarm you operate: one application per member, node-local named volumes spread within a replica set or cluster while enough eligible nodes exist, Swarm ingress for public ports and Traefik domains for HTTPS.',
+	},
+	{
+		title: 'Nomad',
+		status: 'Experimental',
+		href: docs('nomad/'),
+		text: 'A HashiCorp Nomad cluster you operate: one exec job per member on an Ubuntu rootfs, dynamic host volumes, Nomad Variables for state and your own load balancer in front.',
+	},
+];
+
 const engines = [
 	{
 		title: 'MongoDB',
 		href: docs('mongodb/'),
 		text: 'Percona Server for MongoDB with Percona Backup for MongoDB: replica sets of 1, 3, 5 or 7 members, sharded clusters with config servers and mongos routers, PBM logical and physical backups, point-in-time recovery, in-place restore and clone.',
 		also: { label: 'Sharded clusters', href: docs('mongodb/sharding/') },
+	},
+	{
+		title: 'PostgreSQL',
+		href: docs('postgres/'),
+		text: 'Percona PostgreSQL 17 by default, with 16 and 18 majors: a single member or three- and five-member Patroni/etcd HA, a ProxySQL client service, native roles, databases and grants, pgBackRest full, differential and incremental backups with point-in-time recovery, offline restore and clone.',
+		also: { label: 'Backups and PITR', href: docs('postgres/backups/') },
+	},
+	{
+		title: 'Supabase',
+		href: docs('supabase/'),
+		text: 'Modular self-hosted Supabase on the PostgreSQL engine: an Envoy gateway, Auth and PostgREST by default, with Realtime, Storage, Studio, Edge Functions, Supavisor and analytics as separately sized components, versions locked to the Karakoram release.',
+		also: { label: 'Components', href: docs('supabase/components/') },
 	},
 	{
 		title: 'RabbitMQ',
@@ -35,12 +68,12 @@ const features = [
 	{
 		title: 'Scaling, replacement and rolling upgrades',
 		href: docs('clusters/'),
-		text: 'CPU and RAM bounds, persistent disk growth, member-aware scaling and replacement, rolling upgrades and restarts that change one node at a time and wait for quorum, explicit FCV promotion for MongoDB.',
+		text: 'CPU and RAM bounds, persistent disk growth on Zerops, member-aware scaling and replacement, rolling upgrades and restarts that change one node at a time and wait for quorum, explicit FCV promotion for MongoDB, backup-gated major upgrades for PostgreSQL.',
 	},
 	{
 		title: 'Backups, restore and clone',
 		href: docs('backups/'),
-		text: 'S3-compatible storage, UTC schedules with count retention, in-place restore and clone: PBM backups with PITR for MongoDB, native snapshots for Elasticsearch, definitions exports for RabbitMQ.',
+		text: 'S3-compatible storage, UTC schedules with count retention, in-place restore and clone: PBM backups with PITR for MongoDB, pgBackRest backups with PITR for PostgreSQL and Supabase, native snapshots for Elasticsearch, definitions exports for RabbitMQ.',
 	},
 	{
 		title: 'Suspend, resume and delete',
@@ -61,7 +94,7 @@ const features = [
 	{
 		title: 'Namespaces',
 		href: docs('namespaces/'),
-		text: 'Operate clusters across several Zerops projects from one control plane: project-scoped tokens, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
+		text: 'Operate clusters across several backend targets (Zerops projects, experimental Dokploy environments, experimental Nomad namespaces) from one control plane: per-namespace credentials, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
 	},
 ];
 
@@ -73,8 +106,8 @@ const interfaces = [
 ---
 
 <Base
-	title="Karakoram: self-hosted MongoDB, RabbitMQ and Elasticsearch orchestration for Zerops"
-	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), RabbitMQ and Elasticsearch inside your own Zerops project: Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
+	title="Karakoram: self-hosted MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on your own infrastructure"
+	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest), modular Supabase, RabbitMQ and Elasticsearch on infrastructure backends you run: Zerops, Dokploy (experimental) and Nomad (experimental). Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
 	path="/"
 >
 	<SiteHeader />
@@ -85,17 +118,25 @@ const interfaces = [
 			<div class="kk-hero__art"><RidgeField /></div>
 			<div class="kk-container kk-hero__inner">
 				<p class="kk-eyebrow">Apache-2.0 · Self-hosted</p>
-				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB, RabbitMQ and Elasticsearch orchestration for Zerops.</h1>
+				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB, PostgreSQL, RabbitMQ and Elasticsearch orchestration on infrastructure you run.</h1>
 				<p class="kk-hero__lede">
-					Karakoram provisions and operates Percona Server for MongoDB with Percona Backup for MongoDB, RabbitMQ clusters and Elasticsearch
-					with the Elastic Stack inside your own Zerops project: a Go control plane with a REST API, the <code>karactl</code> CLI and a web UI.
-					No Kubernetes, no hosted coordinator.
+					Karakoram provisions and operates Percona Server for MongoDB, Percona PostgreSQL with Patroni and pgBackRest, modular Supabase,
+					RabbitMQ clusters and the Elastic Stack on a backend you control: a Go control plane with a REST API, the <code>karactl</code> CLI
+					and a web UI. No Kubernetes, no hosted coordinator.
 				</p>
 				<div class="kk-hero__cta">
 					<a class="kk-btn kk-btn--primary" href={withBase('/docs/')}>Read the docs</a>
-					<a class="kk-btn kk-btn--secondary" href={docs('getting-started/quickstart/')}>Install on Zerops</a>
+					<a class="kk-btn kk-btn--secondary" href={docs('getting-started/quickstart/')}>Install</a>
 					<a class="kk-btn kk-btn--ghost" href={github} rel="noopener">View on GitHub</a>
 				</div>
+				<p class="kk-hero__backends">
+					<span class="kk-hero__backends-label">Runs on</span>
+					<a href={docs('backends/')}>Zerops</a>
+					<a href={docs('dokploy/')}>Dokploy <small>experimental</small></a>
+					<a href={docs('nomad/')}>Nomad <small>experimental</small></a>
+					<span class="kk-hero__backends-sep" aria-hidden="true"></span>
+					<a href={docs('pricing/')}>What does it cost?</a>
+				</p>
 			</div>
 		</section>
 
@@ -109,18 +150,18 @@ const interfaces = [
 					<div class="kk-isnot__col">
 						<h3>Karakoram is</h3>
 						<ul class="kk-list kk-list--yes">
-							<li>A control plane you run in your own Zerops project, with your own token.</li>
-							<li>A coordinator for three engines: Percona's PSMDB and PBM (replica sets, sharded clusters, point-in-time recovery), RabbitMQ clusters (quorum queues, definitions backups) and Elasticsearch with optional Kibana, Logstash and APM Server (snapshots).</li>
-							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. Zerops is the infrastructure backend, not the operator of your databases and brokers.</li>
+							<li>A control plane you run on your own infrastructure backend, with your own credentials: Zerops, or the experimental Dokploy and Nomad backends.</li>
+							<li>A coordinator for five engines: Percona's PSMDB and PBM (replica sets, sharded clusters, point-in-time recovery), Percona PostgreSQL (Patroni/etcd HA, ProxySQL, pgBackRest with PITR), modular Supabase on that PostgreSQL engine, RabbitMQ clusters (quorum queues, definitions backups) and Elasticsearch with optional Kibana, Logstash and APM Server (snapshots).</li>
+							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. The backend supplies runtimes, volumes and routing; it is not the operator of your databases and brokers.</li>
 						</ul>
 					</div>
 					<div class="kk-isnot__col">
 						<h3>Karakoram is not</h3>
 						<ul class="kk-list kk-list--no">
 							<li>A managed or hosted service. Nobody runs it for you.</li>
-							<li>A Kubernetes operator. It talks to the Zerops REST API directly.</li>
+							<li>A Kubernetes operator. It talks to each backend's own API directly: the Zerops REST API, Dokploy (experimental) or Nomad (experimental).</li>
 							<li>A guarantee of physical-host anti-affinity or independent failure domains. Healthy voters do not prove that.</li>
-							<li>Highly available itself: the control plane has one replica and Local Storage is single-host.</li>
+							<li>Highly available itself: the control plane has one replica and each member's volume lives on a single host.</li>
 						</ul>
 					</div>
 				</div>
@@ -135,7 +176,7 @@ const interfaces = [
 			<div class="kk-container">
 				<div class="kk-section__head">
 					<h2 id="features-title" class="kk-section__title">What it operates</h2>
-					<p class="kk-section__lede">Three engines behind one control plane. Each capability links to the documentation page that describes exactly what is supported.</p>
+					<p class="kk-section__lede">Five engines behind one control plane. Each capability links to the documentation page that describes exactly what is supported.</p>
 				</div>
 				<p class="kk-eyebrow kk-features__group">Engines</p>
 				<ul class="kk-features">
@@ -176,15 +217,42 @@ const interfaces = [
 			</div>
 		</section>
 
+		<!-- Backends -->
+		<section class="kk-section" aria-labelledby="backends-title">
+			<div class="kk-container">
+				<div class="kk-section__head">
+					<p class="kk-eyebrow">Backends</p>
+					<h2 id="backends-title" class="kk-section__title">One control plane, three places to run it</h2>
+					<p class="kk-section__lede">
+						A backend supplies runtimes, persistent volumes and routing through its own API; Karakoram never needs Kubernetes. Zerops is the
+						reference backend. Dokploy and Nomad are experimental: they pass the shared backend contract suite but have no production track record.
+					</p>
+				</div>
+				<ul class="kk-backends">
+					{backends.map((b) => (
+						<li class={`kk-backend${b.status === 'Experimental' ? ' kk-backend--experimental' : ''}`}>
+							<p class="kk-backend__status">{b.status}</p>
+							<h3 class="kk-backend__title"><a href={b.href}>{b.title}</a></h3>
+							<p class="kk-backend__text">{b.text}</p>
+						</li>
+					))}
+				</ul>
+				<p class="kk-backends__more">
+					<a class="kk-more" href={docs('backends/')}>Compare the backends</a> <a class="kk-more" href={docs('pricing/')}>Pricing and cost estimates</a>
+				</p>
+			</div>
+		</section>
+
 		<!-- How it works -->
 		<section class="kk-section" aria-labelledby="how-title">
 			<div class="kk-container">
 				<div class="kk-section__head">
 					<p class="kk-eyebrow">How it runs</p>
-					<h2 id="how-title" class="kk-section__title">Everything lives in your Zerops project</h2>
+					<h2 id="how-title" class="kk-section__title">Everything lives on your own backend</h2>
 					<p class="kk-section__lede">
-						The figure shows a sharded MongoDB cluster. RabbitMQ brokers and Elasticsearch nodes follow the same pattern: one Ubuntu runtime
-						and one Local Storage volume per node, a node agent next to the engine process, and backups written to object storage you register.
+						The figure shows a sharded MongoDB cluster. PostgreSQL members, RabbitMQ brokers and Elasticsearch nodes follow the same pattern:
+						one Ubuntu 24.04 runtime and one persistent volume per node, a node agent next to the engine process, and backups written to object
+						storage you register. The backend supplies the runtimes, volumes and routing; the layout is the same on Zerops, Dokploy (experimental) and Nomad (experimental).
 					</p>
 				</div>
 				<div class="kk-how">
@@ -196,30 +264,31 @@ const interfaces = [
 							<div>
 								<dt>Control plane</dt>
 								<dd>
-									One <code>karakoram</code> runtime service with a <code>karakoramdata</code> Local Storage volume for its SQLite state.
-									Browsers and <code>karactl</code> reach it over HTTPS; it provisions services through the Zerops REST API with a project-scoped token.
+									One <code>karakoram</code> runtime with a <code>karakoramdata</code> volume for its SQLite state. Browsers and
+									<code>karactl</code> reach it over HTTPS; it provisions runtimes and volumes through the backend's own API with the
+									credentials you give its namespace: a project-scoped token on Zerops, an admin API key on Dokploy (experimental), an ACL token on Nomad (experimental).
 								</dd>
 							</div>
 							<div>
 								<dt>Members and nodes</dt>
 								<dd>
-									One Ubuntu runtime per <code>mongod</code> (including config servers), RabbitMQ broker or Elasticsearch node, each with its own
-									Local Storage volume. A node agent supervises the engine process, and the PBM agent for MongoDB, and talks to the control plane
-									over TLS with pinned trust roots.
+									One Ubuntu 24.04 runtime per <code>mongod</code> (including config servers), PostgreSQL member, RabbitMQ broker or Elasticsearch
+									node, each with its own persistent volume. A node agent supervises the engine process, plus the PBM agent for MongoDB and
+									Patroni with etcd for PostgreSQL HA, and talks to the control plane over TLS with pinned trust roots.
 								</dd>
 							</div>
 							<div>
 								<dt>Stateless services</dt>
 								<dd>
-									A <code>mongos</code> router service per sharded cluster, and optional Kibana, Logstash and APM Server services per Elasticsearch
-									cluster, without a persistent data volume.
+									A <code>mongos</code> router per sharded cluster, a ProxySQL client service per PostgreSQL cluster, Supabase's gateway and
+									application services, and optional Kibana, Logstash and APM Server per Elasticsearch cluster, without a persistent data volume.
 								</dd>
 							</div>
 							<div>
 								<dt>Backups</dt>
 								<dd>
-									PBM agents write MongoDB backups and the PITR oplog, Elasticsearch nodes write snapshots, and RabbitMQ definitions exports are
-									uploaded to S3-compatible object storage outside the members.
+									PBM agents write MongoDB backups and the PITR oplog, pgBackRest writes PostgreSQL base backups and WAL, Elasticsearch nodes
+									write snapshots, and RabbitMQ definitions exports are uploaded to S3-compatible object storage outside the members.
 								</dd>
 							</div>
 						</dl>
@@ -229,14 +298,15 @@ const interfaces = [
 			</div>
 		</section>
 
-		<!-- Quick start -->
+		<!-- Install -->
 		<section class="kk-section" aria-labelledby="quickstart-title">
 			<div class="kk-container">
 				<div class="kk-section__head">
-					<p class="kk-eyebrow">Quick start</p>
-					<h2 id="quickstart-title" class="kk-section__title">Import into an existing Zerops project</h2>
+					<p class="kk-eyebrow">Install</p>
+					<h2 id="quickstart-title" class="kk-section__title">Deploy on Zerops with one import, or bring your own Dokploy or Nomad</h2>
 					<p class="kk-section__lede">
-						The import below creates the control plane service and its volume. You need an existing project and a project-scoped Full access integration token.
+						On Zerops, the reference backend, the import below creates the control plane service and its volume in an existing project; you need a
+						project-scoped Full access integration token. The experimental backends have their own guides.
 					</p>
 				</div>
 				<div class="kk-quick">
@@ -270,11 +340,25 @@ const interfaces = [
 					</ol>
 				</div>
 				<p class="kk-quick__more">
-					<a class="kk-more" href={docs('getting-started/quickstart/')}>Quick start</a> · <a class="kk-more" href={docs('getting-started/install/')}>Full installation guide</a>
+					<a class="kk-more" href={docs('getting-started/quickstart/')}>Zerops quick start</a> <a class="kk-more" href={docs('getting-started/install/')}>Full installation guide</a>
 					<span class="kk-quick__note">
 						Covers prerequisites, secret handling, installing from a local checkout with <code>zcli</code>, custom domains and CLI login.
 					</span>
 				</p>
+				<div class="kk-paths" aria-label="Other install paths">
+					<a class="kk-path" href={docs('dokploy/')}>
+						<span class="kk-path__label">Dokploy <small>experimental</small></span>
+						<span class="kk-path__text">Build the control plane image from <code>deploy/dokploy/Dockerfile</code> on your Swarm; members become Dokploy applications.</span>
+					</a>
+					<a class="kk-path" href={docs('nomad/')}>
+						<span class="kk-path__label">Nomad <small>experimental</small></span>
+						<span class="kk-path__text">Register the supplied job, volume and ACL policy from <code>deploy/nomad/</code>; members become exec jobs on your clients.</span>
+					</a>
+					<a class="kk-path" href={docs('pricing/')}>
+						<span class="kk-path__label">What does it cost?</span>
+						<span class="kk-path__text">Karakoram is free software. You pay for the infrastructure you use: runtimes or hosts, persistent storage and separately provisioned S3-compatible object storage. The pricing page walks through estimates.</span>
+					</a>
+				</div>
 			</div>
 		</section>
 
@@ -282,17 +366,21 @@ const interfaces = [
 		<section class="kk-section kk-ack" aria-labelledby="ack-title">
 			<div class="kk-container">
 				<div class="kk-section__head">
-					<h2 id="ack-title" class="kk-section__title">Built on Percona, RabbitMQ and Elastic, inspired by OpenEverest</h2>
+					<h2 id="ack-title" class="kk-section__title">Built on Percona, RabbitMQ, Elastic and Supabase, inspired by OpenEverest</h2>
 				</div>
 				<div class="kk-ack__grid">
 					<article class="kk-ack__item">
 						<h3>Percona</h3>
 						<p>
-							Thank you to Percona for <a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb" rel="noopener">Percona Server for MongoDB</a>
-							and <a href="https://docs.percona.com/percona-backup-mongodb/latest/" rel="noopener">Percona Backup for MongoDB</a>.
-							Karakoram installs both from Percona's official package repositories at <a href="https://repo.percona.com/" rel="noopener">repo.percona.com</a>.
-							The MongoDB engine, replication, backups and
-							point-in-time recovery come from their open-source work; Karakoram coordinates those capabilities rather than reinventing them.
+							Thank you to Percona for <a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb" rel="noopener">Percona Server for MongoDB</a>, <a
+								href="https://docs.percona.com/percona-backup-mongodb/latest/"
+								rel="noopener">Percona Backup for MongoDB</a> and <a href="https://www.percona.com/postgresql/software" rel="noopener">Percona Distribution for PostgreSQL</a>.
+							Karakoram installs them from Percona's official package repositories at <a href="https://repo.percona.com/" rel="noopener">repo.percona.com</a>.
+							The engines, replication, backups and point-in-time recovery come from their open-source work, together with <a
+								href="https://patroni.readthedocs.io"
+								rel="noopener">Patroni</a>, <a href="https://etcd.io" rel="noopener">etcd</a>, <a href="https://pgbackrest.org" rel="noopener">pgBackRest</a> and <a
+								href="https://proxysql.com"
+								rel="noopener">ProxySQL</a>; Karakoram coordinates those capabilities rather than reinventing them.
 						</p>
 					</article>
 					<article class="kk-ack__item">
@@ -306,12 +394,23 @@ const interfaces = [
 						</p>
 					</article>
 					<article class="kk-ack__item">
+						<h3>Supabase</h3>
+						<p>
+							Thank you to <a href="https://supabase.com" rel="noopener">Supabase</a> for Auth, PostgREST, Realtime, Storage, Studio, Edge Runtime,
+							Supavisor and the rest of the open-source stack that the Supabase engine assembles on top of the PostgreSQL engine, and to <a
+								href="https://www.envoyproxy.io"
+								rel="noopener">Envoy</a> for the gateway. Component versions are locked to each Karakoram release and installed on your own
+							runtimes from checksum-pinned artifacts; see <a href={docs('supabase/components/')}>components and availability</a>.
+						</p>
+					</article>
+					<article class="kk-ack__item">
 						<h3>OpenEverest</h3>
 						<p>
 							<a href="https://openeverest.io" rel="noopener">OpenEverest</a> is the inspiration for this project. Originally Percona Everest,
 							it is an Apache-2.0 CNCF Sandbox project whose model of self-hosted, provider-based database orchestration shaped Karakoram:
 							Provider and Instance concepts, version bundles, topology schemas, backup storages, PITR and restore flows, and RBAC.
-							Karakoram brings that idea to Zerops rather than Kubernetes. It is an independent implementation; no OpenEverest code or UI is copied.
+							Karakoram brings that idea to platforms such as Zerops, Dokploy (experimental) and Nomad (experimental) rather than Kubernetes. It is an independent implementation;
+							no OpenEverest code or UI is copied.
 						</p>
 					</article>
 					<article class="kk-ack__item kk-ack__item--name">
@@ -320,8 +419,9 @@ const interfaces = [
 							Everest is the highest peak. Karakoram is the range that holds K2 and other giants.
 						</p>
 						<p>
-							The name is a nod to OpenEverest and to growing beyond a single peak. Three engines run on one backend today: the PSMDB,
-							RabbitMQ and Elasticsearch providers on Zerops. More engines and backends are a direction, not a claim that they exist.
+							The name is a nod to OpenEverest and to growing beyond a single peak. Five engines run on three backends today: MongoDB, PostgreSQL,
+							Supabase, RabbitMQ and Elasticsearch on Zerops, with Dokploy and Nomad experimental. More engines and backends are a direction,
+							not a claim that they exist.
 						</p>
 					</article>
 				</div>
@@ -346,6 +446,16 @@ const interfaces = [
 						<li><a class="kk-more" href={docs('security/#reporting-vulnerabilities')}>Report a vulnerability</a></li>
 					</ul>
 				</div>
+			</div>
+		</section>
+
+		<!-- Supported by -->
+		<section class="kk-section kk-support" aria-labelledby="support-title">
+			<div class="kk-container kk-support__inner">
+				<p id="support-title" class="kk-eyebrow">Supported by</p>
+				<p class="kk-support__text">
+					Thank you to <a href="https://zerops.io" rel="noopener">Zerops</a> for providing free-of-charge infrastructure for developing and testing Karakoram.
+				</p>
 			</div>
 		</section>
 	</main>
@@ -391,8 +501,8 @@ const interfaces = [
 		z-index: 1;
 	}
 	.kk-hero__title {
-		max-width: 22ch;
-		font-size: clamp(2.25rem, 1.3rem + 4vw, 4.75rem);
+		max-width: 24ch;
+		font-size: clamp(2.15rem, 1.2rem + 3.8vw, 4.5rem);
 		font-weight: 620;
 		letter-spacing: -0.035em;
 		line-height: 1.02;
@@ -413,6 +523,50 @@ const interfaces = [
 		flex-wrap: wrap;
 		gap: 0.75rem;
 		margin-top: 2.25rem;
+	}
+	.kk-hero__backends {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.35rem 1rem;
+		margin-top: 1.75rem;
+		font-size: 0.95rem;
+		color: var(--kk-muted);
+	}
+	.kk-hero__backends-label {
+		font-family: var(--kk-font-mono);
+		font-size: 0.78rem;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.kk-hero__backends a {
+		color: var(--kk-ink);
+		font-weight: 500;
+		text-decoration-color: var(--kk-border-strong);
+	}
+	.kk-hero__backends a:hover {
+		text-decoration-color: var(--kk-accent);
+	}
+	.kk-hero__backends small {
+		margin-left: 0.3rem;
+		font-family: var(--kk-font-mono);
+		font-size: 0.68rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--kk-muted);
+	}
+	.kk-hero__backends-sep {
+		align-self: center;
+		width: 1px;
+		height: 1rem;
+		background: var(--kk-border-strong);
+	}
+	@media (max-width: 480px) {
+		.kk-hero__backends-sep {
+			display: none;
+		}
 	}
 
 	/* Is / is not */
@@ -612,6 +766,79 @@ const interfaces = [
 		margin-top: 2rem;
 	}
 
+	/* Backends */
+	.kk-backends {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	@media (min-width: 760px) {
+		.kk-backends {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.25rem;
+		}
+	}
+	.kk-backend {
+		position: relative;
+		display: grid;
+		align-content: start;
+		gap: 0.5rem;
+		padding: 1.5rem 1.5rem 1.6rem;
+		border: 1px solid var(--kk-border);
+		border-radius: 10px;
+		background: var(--kk-surface);
+	}
+	.kk-backend:first-child {
+		border-color: var(--kk-accent);
+		box-shadow: inset 0 0 0 1px var(--kk-accent);
+	}
+	.kk-backend__status {
+		font-family: var(--kk-font-mono);
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--kk-accent);
+	}
+	.kk-backend--experimental .kk-backend__status {
+		color: var(--kk-muted);
+	}
+	.kk-backend__title {
+		font-size: 1.35rem;
+		letter-spacing: -0.015em;
+	}
+	.kk-backend__title a {
+		color: var(--kk-ink);
+		text-decoration: none;
+	}
+	.kk-backend__title a::after {
+		content: ' →';
+		color: var(--kk-accent);
+		font-weight: 500;
+		display: inline-block;
+		transition: transform 120ms ease;
+	}
+	.kk-backend__title a:hover {
+		text-decoration: underline;
+		text-decoration-color: var(--kk-accent);
+	}
+	.kk-backend__title a:hover::after {
+		transform: translateX(3px);
+	}
+	.kk-backend__text {
+		color: var(--kk-muted);
+		font-size: 0.98rem;
+		text-wrap: pretty;
+	}
+	.kk-backends__more {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.75rem;
+		margin-top: 2rem;
+	}
+
 	/* Quick start */
 	.kk-quick {
 		display: grid;
@@ -669,12 +896,60 @@ const interfaces = [
 		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;
-		gap: 0.4rem 1rem;
+		gap: 0.5rem 1.75rem;
 		margin-top: 2.5rem;
 	}
 	.kk-quick__note {
 		color: var(--kk-muted);
 		font-size: 0.95rem;
+	}
+	.kk-paths {
+		display: grid;
+		gap: 1px;
+		margin-top: 2rem;
+		background: var(--kk-border);
+		border: 1px solid var(--kk-border);
+		border-radius: 10px;
+		overflow: hidden;
+	}
+	@media (min-width: 680px) {
+		.kk-paths {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.kk-path {
+		display: grid;
+		align-content: start;
+		gap: 0.35rem;
+		padding: 1.1rem 1.25rem;
+		background: var(--kk-surface);
+		color: var(--kk-ink);
+		text-decoration: none;
+		transition: background-color 120ms ease;
+	}
+	.kk-path:hover {
+		background: var(--kk-subtle);
+	}
+	.kk-path__label {
+		font-weight: 600;
+		color: var(--kk-ink);
+	}
+	.kk-path__label small {
+		margin-left: 0.4rem;
+		font-family: var(--kk-font-mono);
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--kk-accent);
+	}
+	.kk-path__text {
+		font-size: 0.92rem;
+		color: var(--kk-muted);
+		text-wrap: pretty;
+	}
+	.kk-path__text code {
+		font-size: 0.88em;
 	}
 
 	/* Acknowledgements */
@@ -693,8 +968,7 @@ const interfaces = [
 	}
 	@media (min-width: 1040px) {
 		.kk-ack__grid {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 3rem;
+			gap: 3rem 5rem;
 		}
 	}
 	.kk-ack__item h3 {
@@ -745,5 +1019,32 @@ const interfaces = [
 		list-style: none;
 		display: grid;
 		gap: 0.8rem;
+	}
+
+	/* Supported by */
+	.kk-support {
+		padding-block: clamp(2rem, 4vw, 3rem);
+	}
+	.kk-support__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.5rem 2rem;
+	}
+	.kk-support__inner .kk-eyebrow {
+		margin-bottom: 0;
+	}
+	.kk-support__text {
+		max-width: 80ch;
+		color: var(--kk-muted);
+		text-wrap: pretty;
+	}
+	.kk-support__text a {
+		color: var(--kk-ink);
+		font-weight: 500;
+		text-decoration-color: var(--kk-border-strong);
+	}
+	.kk-support__text a:hover {
+		text-decoration-color: var(--kk-accent);
 	}
 </style>

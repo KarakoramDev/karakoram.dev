@@ -1,18 +1,21 @@
 ---
 // SPDX-License-Identifier: Apache-2.0
-// Deployment topology on Zerops, drawn from docs/architecture.md, using a sharded MongoDB cluster as the example.
+// Deployment topology drawn from docs/architecture.md, using a sharded MongoDB cluster as the example. The backend layer
+// (Zerops, Dokploy, Nomad) supplies runtimes, volumes and routing; the layout inside the target is the same everywhere.
 // Inline SVG so it follows the theme tokens; a prose explanation sits next to it in index.astro.
 ---
 
 <div class="kk-topology" role="region" aria-label="Deployment topology diagram, MongoDB example (scrolls horizontally on small screens)" tabindex="0">
 	<svg viewBox="0 0 640 660" role="img" aria-labelledby="kk-topology-title kk-topology-desc" class="kk-topology__svg">
-		<title id="kk-topology-title">Karakoram deployment topology on Zerops, shown for a sharded MongoDB cluster</title>
+		<title id="kk-topology-title">Karakoram deployment topology, shown for a sharded MongoDB cluster on any backend</title>
 		<desc id="kk-topology-desc">
-			Inside your Zerops project: the karakoram control-plane service with its karakoramdata Local Storage volume holding SQLite state,
-			a mongos router service for sharded clusters, and database member services that each run mongod, a node agent and a PBM agent
-			on their own Local Storage volume. Browsers and karactl reach the control plane over HTTPS; the control plane calls the Zerops REST
-			API with a project-scoped token and talks to agents over TLS. PBM agents write backups to S3-compatible object storage outside
-			the members. RabbitMQ brokers and Elasticsearch nodes use the same layout of one runtime, one volume and one node agent per member.
+			An infrastructure backend (Zerops, or the experimental Dokploy or Nomad) supplies runtimes, persistent volumes and routing inside one
+			target: a Zerops project, a Dokploy environment or a Nomad namespace. Inside that target: the karakoram control-plane runtime with its
+			karakoramdata volume holding SQLite state, a mongos router for sharded clusters, and database members that each run mongod, a node
+			agent and a PBM agent on their own persistent volume. Browsers and karactl reach the control plane over HTTPS; the control plane calls
+			the backend's API with the credentials of that namespace and talks to agents over TLS. PBM agents write backups to S3-compatible object
+			storage outside the members. PostgreSQL members, RabbitMQ brokers and Elasticsearch nodes use the same layout of one runtime, one volume
+			and one node agent per member.
 		</desc>
 		<defs>
 			<marker id="kk-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -22,20 +25,22 @@
 
 		<!-- outside: clients -->
 		<g class="kk-t-node kk-t-node--outside">
-			<rect x="40" y="20" width="220" height="64" rx="10" />
-			<text x="150" y="46" class="kk-t-title">Browser · karactl</text>
-			<text x="150" y="68" class="kk-t-sub">web UI, REST API, CLI</text>
+			<rect x="40" y="12" width="220" height="76" rx="10" />
+			<text x="150" y="44" class="kk-t-title">Browser · karactl</text>
+			<text x="150" y="66" class="kk-t-sub">web UI, REST API, CLI</text>
 		</g>
-		<!-- outside: Zerops API -->
-		<g class="kk-t-node kk-t-node--outside">
-			<rect x="380" y="20" width="220" height="64" rx="10" />
-			<text x="490" y="46" class="kk-t-title">Zerops REST API</text>
-			<text x="490" y="68" class="kk-t-sub">services, volumes, routing</text>
+		<!-- outside: infrastructure backend -->
+		<g class="kk-t-node kk-t-node--outside kk-t-node--backend">
+			<rect x="360" y="12" width="250" height="76" rx="10" />
+			<text x="485" y="36" class="kk-t-title">Infrastructure backend</text>
+			<text x="485" y="57" class="kk-t-sub">Zerops · Dokploy · Nomad</text>
+			<text x="485" y="76" class="kk-t-edge">Dokploy and Nomad experimental</text>
 		</g>
 
-		<!-- project boundary -->
+		<!-- target boundary -->
 		<rect x="20" y="124" width="600" height="416" rx="16" class="kk-t-project" />
-		<text x="38" y="152" class="kk-t-label">Your Zerops project</text>
+		<text x="38" y="152" class="kk-t-label">Your backend target</text>
+		<text x="602" y="152" class="kk-t-edge" style="text-anchor: end">Zerops project · Dokploy environment · Nomad namespace</text>
 
 		<!-- control plane -->
 		<g class="kk-t-node kk-t-node--cp">
@@ -73,7 +78,7 @@
 		</g>
 		<g class="kk-t-volume">
 			<rect x="40" y="478" width="160" height="38" rx="8" />
-			<text x="120" y="502" class="kk-t-sub">Local Storage volume</text>
+			<text x="120" y="502" class="kk-t-sub">persistent volume</text>
 		</g>
 		<g class="kk-t-node kk-t-node--member">
 			<rect x="240" y="380" width="160" height="90" rx="10" />
@@ -83,7 +88,7 @@
 		</g>
 		<g class="kk-t-volume">
 			<rect x="240" y="478" width="160" height="38" rx="8" />
-			<text x="320" y="502" class="kk-t-sub">Local Storage volume</text>
+			<text x="320" y="502" class="kk-t-sub">persistent volume</text>
 		</g>
 		<g class="kk-t-node kk-t-node--member">
 			<rect x="440" y="380" width="160" height="90" rx="10" />
@@ -93,16 +98,16 @@
 		</g>
 		<g class="kk-t-volume">
 			<rect x="440" y="478" width="160" height="38" rx="8" />
-			<text x="520" y="502" class="kk-t-sub">Local Storage volume</text>
+			<text x="520" y="502" class="kk-t-sub">persistent volume</text>
 		</g>
 
 		<!-- edges from outside -->
 		<g class="kk-t-line kk-t-line--arrow">
-			<path d="M150 84v84" />
-			<path d="M230 168v-64h260V86" />
+			<path d="M150 88v80" />
+			<path d="M230 168v-58h260V90" />
 		</g>
 		<text x="118" y="112" class="kk-t-edge" text-anchor="end">HTTPS</text>
-		<text x="360" y="99" class="kk-t-edge">project-scoped token</text>
+		<text x="360" y="104" class="kk-t-edge">backend API · namespace credentials</text>
 
 		<!-- backups to S3 -->
 		<g class="kk-t-line kk-t-line--dash">
@@ -153,6 +158,10 @@
 	}
 	.kk-t-node--outside rect {
 		fill: var(--kk-bg);
+	}
+	.kk-t-node--backend rect {
+		stroke: var(--kk-accent);
+		stroke-dasharray: 6 5;
 	}
 	.kk-t-volume rect {
 		fill: var(--kk-subtle);

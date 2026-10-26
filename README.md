@@ -2,7 +2,9 @@
 
 Source for [karakoram.dev](https://karakoram.dev), the website and documentation
 of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted MongoDB,
-RabbitMQ and Elasticsearch orchestration for Zerops.
+PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on infrastructure
+you run: Zerops (the reference backend), Dokploy (experimental) and Nomad
+(experimental).
 
 The site is a static [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) build published with GitHub Pages:
@@ -31,7 +33,7 @@ contains a copy of it. To change the docs, open a pull request there.
    routes; links to other repository files (for example `api/openapi.yaml`)
    become GitHub URLs.
 4. Generates the sidebar (`src/generated/sidebar.json`) and copies
-   `deploy/zerops/import.yaml` for the landing page quick start.
+   `deploy/zerops/import.yaml` for the landing page's Zerops install path.
 
 The build fails if a relative link points to a missing file (ingestion) or if
 an internal link or `#anchor` does not resolve
@@ -41,8 +43,10 @@ an internal link or `#anchor` does not resolve
 | --- | --- |
 | `README.md` | `/docs/` |
 | `docs/quickstart.md`, `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/quickstart/`, `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
-| `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane" or "Interfaces") |
-| `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine) |
+| `docs/backends.md`, `docs/pricing.md` | `/docs/backends/`, `/docs/pricing/` (sidebar group "Getting started") |
+| `docs/dokploy.md`, `docs/nomad.md` | `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Backends") |
+| `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces" or "Reference") |
+| `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine: MongoDB, PostgreSQL, Supabase, RabbitMQ, Elasticsearch) |
 | `docs/adr/README.md`, `docs/adr/<adr>.md` | `/docs/adr/`, `/docs/adr/<adr>/` |
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` | `/docs/contributing/`, `/docs/code-of-conduct/` |
 
@@ -103,8 +107,9 @@ documentation content is pulled from
 [KarakoramDev/Karakoram](https://github.com/KarakoramDev/Karakoram) and remains
 under that repository's license.
 
-Percona Server for MongoDB and Percona Backup for MongoDB are Percona products
-and trademarks. RabbitMQ is a trademark of Broadcom Inc. Elasticsearch, Kibana
-and Logstash are trademarks of Elastic N.V. OpenEverest, MongoDB and Zerops names
-and marks belong to their respective owners. Karakoram is independent and is not
+Percona Server for MongoDB, Percona Backup for MongoDB and Percona Distribution
+for PostgreSQL are Percona products and trademarks. RabbitMQ is a trademark of
+Broadcom Inc. Elasticsearch, Kibana and Logstash are trademarks of Elastic N.V.
+OpenEverest, MongoDB, PostgreSQL, Supabase, Zerops, Dokploy and Nomad names and
+marks belong to their respective owners. Karakoram is independent and is not
 affiliated with or endorsed by any of them.
