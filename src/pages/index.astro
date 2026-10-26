@@ -112,7 +112,7 @@ const engines = [
 		title: 'Temporal',
 		status: 'Experimental',
 		href: docs('temporal/'),
-		text: 'Temporal 1.32 or 1.31 with the release-locked web UI, persisted in a bound PostgreSQL cluster: a combined server or split stateless roles with independent replicas, a private TLS gRPC frontend with client certificates, and recovery from the source PostgreSQL backup plus a cluster-state manifest.',
+		text: 'Temporal 1.32 or 1.31 with the release-locked web UI, persisted in a bound PostgreSQL cluster: a combined server or split stateless roles with independent replicas, a private TLS gRPC frontend with client certificates, and recovery from the source PostgreSQL backup plus a cluster-state manifest. Runs on Dokploy and Nomad; not yet on Zerops, which lacks the private IPv4 route it needs.',
 		also: [{ label: 'Operations and recovery', href: docs('temporal/operations/') }],
 	},
 ];
@@ -179,7 +179,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 
 <Base
 	title="Karakoram: self-hosted MongoDB, PostgreSQL, Supabase, MySQL, RabbitMQ, Elasticsearch and more, orchestrated on your own infrastructure"
-	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest, PostGIS, pgvector and TimescaleDB profiles, Citus), modular Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch, Weaviate, Neo4j Community, Keycloak, OpenBao and Temporal on infrastructure backends you run: Zerops, Dokploy and Nomad. Go control plane, REST API, karactl CLI, web UI and a read-only-by-default MCP server for AI agents. Apache-2.0, no Kubernetes, no hosted coordinator."
+	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest, PostGIS, pgvector and TimescaleDB profiles, Citus), modular Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch, Weaviate, Neo4j Community, Keycloak and OpenBao on infrastructure backends you run: Zerops, Dokploy and Nomad; Temporal on Dokploy and Nomad. Go control plane, REST API, karactl CLI, web UI and a read-only-by-default MCP server for AI agents. Apache-2.0, no Kubernetes, no hosted coordinator."
 	path="/"
 >
 	<SiteHeader />
@@ -595,8 +595,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						</p>
 						<p>
 							The name is a nod to OpenEverest and to growing beyond a single peak. Twelve engines run on three backends today: MongoDB, PostgreSQL,
-							Supabase, RabbitMQ, Elasticsearch, MySQL, Percona XtraDB Cluster, Neo4j, Weaviate, Keycloak, OpenBao and Temporal on Zerops, Dokploy
-							and Nomad. More engines and backends are a direction, not a claim that they exist.
+							Supabase, RabbitMQ, Elasticsearch, MySQL, Percona XtraDB Cluster, Neo4j, Weaviate, Keycloak and OpenBao on Zerops, Dokploy and Nomad,
+							and Temporal on Dokploy and Nomad. More engines and backends are a direction, not a claim that they exist.
 						</p>
 					</article>
 				</div>
