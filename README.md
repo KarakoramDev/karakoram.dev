@@ -3,8 +3,7 @@
 Source for [karakoram.dev](https://karakoram.dev), the website and documentation
 of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted MongoDB,
 PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on infrastructure
-you run: Zerops (the reference backend), Dokploy (experimental) and Nomad
-(experimental).
+you run: Zerops (the reference backend), Dokploy and Nomad.
 
 The site is a static [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) build published with GitHub Pages:

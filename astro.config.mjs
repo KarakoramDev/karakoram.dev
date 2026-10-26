@@ -52,7 +52,7 @@ export default defineConfig({
 		starlight({
 			title: 'Karakoram',
 			description:
-				'Self-hosted MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on infrastructure you run: Percona Server for MongoDB with Percona Backup for MongoDB, Percona PostgreSQL with Patroni and pgBackRest, modular Supabase, RabbitMQ clusters and the Elastic Stack, driven by one control plane on Zerops, Dokploy (experimental) or Nomad (experimental).',
+				'Self-hosted MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on infrastructure you run: Percona Server for MongoDB with Percona Backup for MongoDB, Percona PostgreSQL with Patroni and pgBackRest, modular Supabase, RabbitMQ clusters and the Elastic Stack, driven by one control plane on Zerops, Dokploy or Nomad.',
 			logo: { src: './src/assets/logo.svg' },
 			favicon: '/favicon.svg',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/KarakoramDev/Karakoram' }],

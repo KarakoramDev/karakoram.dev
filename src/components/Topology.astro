@@ -9,7 +9,7 @@
 	<svg viewBox="0 0 640 660" role="img" aria-labelledby="kk-topology-title kk-topology-desc" class="kk-topology__svg">
 		<title id="kk-topology-title">Karakoram deployment topology, shown for a sharded MongoDB cluster on any backend</title>
 		<desc id="kk-topology-desc">
-			An infrastructure backend (Zerops, or the experimental Dokploy or Nomad) supplies runtimes, persistent volumes and routing inside one
+			An infrastructure backend (Zerops, Dokploy or Nomad) supplies runtimes, persistent volumes and routing inside one
 			target: a Zerops project, a Dokploy environment or a Nomad namespace. Inside that target: the karakoram control-plane runtime with its
 			karakoramdata volume holding SQLite state, a mongos router for sharded clusters, and database members that each run mongod, a node
 			agent and a PBM agent on their own persistent volume. Browsers and karactl reach the control plane over HTTPS; the control plane calls
@@ -34,7 +34,6 @@
 			<rect x="360" y="12" width="250" height="76" rx="10" />
 			<text x="485" y="36" class="kk-t-title">Infrastructure backend</text>
 			<text x="485" y="57" class="kk-t-sub">Zerops · Dokploy · Nomad</text>
-			<text x="485" y="76" class="kk-t-edge">Dokploy and Nomad experimental</text>
 		</g>
 
 		<!-- target boundary -->

@@ -21,13 +21,11 @@ const backends = [
 	},
 	{
 		title: 'Dokploy',
-		status: 'Experimental',
 		href: docs('dokploy/'),
 		text: 'A Dokploy-managed Docker Swarm you operate: one application per member, node-local named volumes spread within a replica set or cluster while enough eligible nodes exist, Swarm ingress for public ports and Traefik domains for HTTPS.',
 	},
 	{
 		title: 'Nomad',
-		status: 'Experimental',
 		href: docs('nomad/'),
 		text: 'A HashiCorp Nomad cluster you operate: one exec job per member on an Ubuntu rootfs, dynamic host volumes, Nomad Variables for state and your own load balancer in front.',
 	},
@@ -94,7 +92,7 @@ const features = [
 	{
 		title: 'Namespaces',
 		href: docs('namespaces/'),
-		text: 'Operate clusters across several backend targets (Zerops projects, experimental Dokploy environments, experimental Nomad namespaces) from one control plane: per-namespace credentials, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
+		text: 'Operate clusters across several backend targets (Zerops projects, Dokploy environments, Nomad namespaces) from one control plane: per-namespace credentials, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
 	},
 ];
 
@@ -107,7 +105,7 @@ const interfaces = [
 
 <Base
 	title="Karakoram: self-hosted MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on your own infrastructure"
-	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest), modular Supabase, RabbitMQ and Elasticsearch on infrastructure backends you run: Zerops, Dokploy (experimental) and Nomad (experimental). Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
+	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest), modular Supabase, RabbitMQ and Elasticsearch on infrastructure backends you run: Zerops, Dokploy and Nomad. Go control plane, REST API, karactl CLI and web UI. Apache-2.0, no Kubernetes, no hosted coordinator."
 	path="/"
 >
 	<SiteHeader />
@@ -132,8 +130,8 @@ const interfaces = [
 				<p class="kk-hero__backends">
 					<span class="kk-hero__backends-label">Runs on</span>
 					<a href={docs('backends/')}>Zerops</a>
-					<a href={docs('dokploy/')}>Dokploy <small>experimental</small></a>
-					<a href={docs('nomad/')}>Nomad <small>experimental</small></a>
+					<a href={docs('dokploy/')}>Dokploy</a>
+					<a href={docs('nomad/')}>Nomad</a>
 					<span class="kk-hero__backends-sep" aria-hidden="true"></span>
 					<a href={docs('pricing/')}>What does it cost?</a>
 				</p>
@@ -150,7 +148,7 @@ const interfaces = [
 					<div class="kk-isnot__col">
 						<h3>Karakoram is</h3>
 						<ul class="kk-list kk-list--yes">
-							<li>A control plane you run on your own infrastructure backend, with your own credentials: Zerops, or the experimental Dokploy and Nomad backends.</li>
+							<li>A control plane you run on your own infrastructure backend, with your own credentials: Zerops, Dokploy or Nomad.</li>
 							<li>A coordinator for five engines: Percona's PSMDB and PBM (replica sets, sharded clusters, point-in-time recovery), Percona PostgreSQL (Patroni/etcd HA, ProxySQL, pgBackRest with PITR), modular Supabase on that PostgreSQL engine, RabbitMQ clusters (quorum queues, definitions backups) and Elasticsearch with optional Kibana, Logstash and APM Server (snapshots).</li>
 							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. The backend supplies runtimes, volumes and routing; it is not the operator of your databases and brokers.</li>
 						</ul>
@@ -159,7 +157,7 @@ const interfaces = [
 						<h3>Karakoram is not</h3>
 						<ul class="kk-list kk-list--no">
 							<li>A managed or hosted service. Nobody runs it for you.</li>
-							<li>A Kubernetes operator. It talks to each backend's own API directly: the Zerops REST API, Dokploy (experimental) or Nomad (experimental).</li>
+							<li>A Kubernetes operator. It talks to each backend's own API directly: the Zerops REST API, Dokploy or Nomad.</li>
 							<li>A guarantee of physical-host anti-affinity or independent failure domains. Healthy voters do not prove that.</li>
 							<li>Highly available itself: the control plane has one replica and each member's volume lives on a single host.</li>
 						</ul>
@@ -225,13 +223,13 @@ const interfaces = [
 					<h2 id="backends-title" class="kk-section__title">One control plane, three places to run it</h2>
 					<p class="kk-section__lede">
 						A backend supplies runtimes, persistent volumes and routing through its own API; Karakoram never needs Kubernetes. Zerops is the
-						reference backend. Dokploy and Nomad are experimental: they pass the shared backend contract suite but have no production track record.
+						reference backend. See the <a href={docs('backends/')}>backend comparison</a> for status and acceptance limits.
 					</p>
 				</div>
 				<ul class="kk-backends">
 					{backends.map((b) => (
-						<li class={`kk-backend${b.status === 'Experimental' ? ' kk-backend--experimental' : ''}`}>
-							<p class="kk-backend__status">{b.status}</p>
+						<li class="kk-backend">
+							{b.status && <p class="kk-backend__status">{b.status}</p>}
 							<h3 class="kk-backend__title"><a href={b.href}>{b.title}</a></h3>
 							<p class="kk-backend__text">{b.text}</p>
 						</li>
@@ -252,7 +250,7 @@ const interfaces = [
 					<p class="kk-section__lede">
 						The figure shows a sharded MongoDB cluster. PostgreSQL members, RabbitMQ brokers and Elasticsearch nodes follow the same pattern:
 						one Ubuntu 24.04 runtime and one persistent volume per node, a node agent next to the engine process, and backups written to object
-						storage you register. The backend supplies the runtimes, volumes and routing; the layout is the same on Zerops, Dokploy (experimental) and Nomad (experimental).
+						storage you register. The backend supplies the runtimes, volumes and routing; the layout is the same on Zerops, Dokploy and Nomad.
 					</p>
 				</div>
 				<div class="kk-how">
@@ -266,7 +264,7 @@ const interfaces = [
 								<dd>
 									One <code>karakoram</code> runtime with a <code>karakoramdata</code> volume for its SQLite state. Browsers and
 									<code>karactl</code> reach it over HTTPS; it provisions runtimes and volumes through the backend's own API with the
-									credentials you give its namespace: a project-scoped token on Zerops, an admin API key on Dokploy (experimental), an ACL token on Nomad (experimental).
+									credentials you give its namespace: a project-scoped token on Zerops, an admin API key on Dokploy, an ACL token on Nomad.
 								</dd>
 							</div>
 							<div>
@@ -306,7 +304,7 @@ const interfaces = [
 					<h2 id="quickstart-title" class="kk-section__title">Deploy on Zerops with one import, or bring your own Dokploy or Nomad</h2>
 					<p class="kk-section__lede">
 						On Zerops, the reference backend, the import below creates the control plane service and its volume in an existing project; you need a
-						project-scoped Full access integration token. The experimental backends have their own guides.
+						project-scoped Full access integration token. Dokploy and Nomad have their own guides.
 					</p>
 				</div>
 				<div class="kk-quick">
@@ -347,11 +345,11 @@ const interfaces = [
 				</p>
 				<div class="kk-paths" aria-label="Other install paths">
 					<a class="kk-path" href={docs('dokploy/')}>
-						<span class="kk-path__label">Dokploy <small>experimental</small></span>
+						<span class="kk-path__label">Dokploy</span>
 						<span class="kk-path__text">Build the control plane image from <code>deploy/dokploy/Dockerfile</code> on your Swarm; members become Dokploy applications.</span>
 					</a>
 					<a class="kk-path" href={docs('nomad/')}>
-						<span class="kk-path__label">Nomad <small>experimental</small></span>
+						<span class="kk-path__label">Nomad</span>
 						<span class="kk-path__text">Register the supplied job, volume and ACL policy from <code>deploy/nomad/</code>; members become exec jobs on your clients.</span>
 					</a>
 					<a class="kk-path" href={docs('pricing/')}>
@@ -409,7 +407,7 @@ const interfaces = [
 							<a href="https://openeverest.io" rel="noopener">OpenEverest</a> is the inspiration for this project. Originally Percona Everest,
 							it is an Apache-2.0 CNCF Sandbox project whose model of self-hosted, provider-based database orchestration shaped Karakoram:
 							Provider and Instance concepts, version bundles, topology schemas, backup storages, PITR and restore flows, and RBAC.
-							Karakoram brings that idea to platforms such as Zerops, Dokploy (experimental) and Nomad (experimental) rather than Kubernetes. It is an independent implementation;
+							Karakoram brings that idea to platforms such as Zerops, Dokploy and Nomad rather than Kubernetes. It is an independent implementation;
 							no OpenEverest code or UI is copied.
 						</p>
 					</article>
@@ -420,7 +418,7 @@ const interfaces = [
 						</p>
 						<p>
 							The name is a nod to OpenEverest and to growing beyond a single peak. Five engines run on three backends today: MongoDB, PostgreSQL,
-							Supabase, RabbitMQ and Elasticsearch on Zerops, with Dokploy and Nomad experimental. More engines and backends are a direction,
+							Supabase, RabbitMQ and Elasticsearch on Zerops, Dokploy and Nomad. More engines and backends are a direction,
 							not a claim that they exist.
 						</p>
 					</article>
@@ -547,15 +545,6 @@ const interfaces = [
 	}
 	.kk-hero__backends a:hover {
 		text-decoration-color: var(--kk-accent);
-	}
-	.kk-hero__backends small {
-		margin-left: 0.3rem;
-		font-family: var(--kk-font-mono);
-		font-size: 0.68rem;
-		font-weight: 500;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--kk-muted);
 	}
 	.kk-hero__backends-sep {
 		align-self: center;
@@ -801,9 +790,6 @@ const interfaces = [
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: var(--kk-accent);
-	}
-	.kk-backend--experimental .kk-backend__status {
-		color: var(--kk-muted);
 	}
 	.kk-backend__title {
 		font-size: 1.35rem;

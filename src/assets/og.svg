@@ -28,7 +28,7 @@
   <text font-family="Instrument Sans, sans-serif" font-weight="450" font-size="27" fill="#9fabb6">
     <tspan x="80" y="430">Percona Server for MongoDB, Percona PostgreSQL, modular Supabase,</tspan>
     <tspan x="80" y="466">RabbitMQ and the Elastic Stack, driven by one control plane on</tspan>
-    <tspan x="80" y="502">Zerops, Dokploy (experimental) or Nomad (experimental).</tspan>
+    <tspan x="80" y="502">Zerops, Dokploy or Nomad.</tspan>
   </text>
   <text x="80" y="560" font-family="JetBrains Mono, monospace" font-weight="500" font-size="22" letter-spacing="1" fill="#5fd0d8">karakoram.dev  ·  Apache-2.0  ·  Self-hosted</text>
 </svg>
