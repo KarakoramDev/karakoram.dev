@@ -30,8 +30,9 @@ const sidebarMarkdown = (items, depth = 0) => items.map((item) => {
 	return `${indent}- [${item.label}](${absolute(`${item.slug}/`)})`;
 }).join('\n');
 
-// Documentation pages moved by the control-plane/engine restructure; old URLs were linked publicly.
+// Documentation pages moved by the control-plane/engine restructure, plus the pricing page renamed to operating costs; old URLs were linked publicly.
 const movedDocs = {
+	pricing: 'operating-costs',
 	'user-guide/replica-sets': 'mongodb/replica-sets',
 	'user-guide/sharding': 'mongodb/sharding',
 	'user-guide/users-tls-access': 'mongodb/access-and-tls',
@@ -60,7 +61,7 @@ export default defineConfig({
 		starlight({
 			title: 'Karakoram',
 			description:
-				'Self-hosted MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on infrastructure you run: Percona Server for MongoDB with Percona Backup for MongoDB, Percona PostgreSQL with Patroni and pgBackRest, modular Supabase, RabbitMQ clusters and the Elastic Stack, driven by one control plane on Zerops, Dokploy or Nomad.',
+				'Self-hosted MongoDB, PostgreSQL, Supabase, MySQL, RabbitMQ, Elasticsearch, Weaviate, Neo4j, Keycloak, OpenBao and Temporal orchestration on infrastructure you run: Percona Server for MongoDB with Percona Backup for MongoDB, Percona PostgreSQL with Patroni, pgBackRest and extension profiles, modular Supabase, Percona Server for MySQL and XtraDB Cluster, RabbitMQ clusters and the Elastic Stack, driven by one control plane on Zerops, Dokploy or Nomad.',
 			logo: { src: './src/assets/logo.svg' },
 			favicon: '/favicon.svg',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/KarakoramDev/Karakoram' }],
@@ -82,7 +83,7 @@ export default defineConfig({
 			plugins: [
 				starlightLlmsTxt({
 					projectName: 'Karakoram',
-					description: 'Karakoram is an Apache-2.0, self-hosted control plane for MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch on infrastructure you run: Zerops (the reference backend), Dokploy or Nomad. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, cluster operations, backups, access control, security and MCP client setup.',
+					description: 'Karakoram is an Apache-2.0, self-hosted control plane for MongoDB, PostgreSQL (with PostGIS, pgvector and TimescaleDB profiles, consumer bindings and a Citus distributed topology), Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch, Weaviate, Neo4j Community, Keycloak, OpenBao and Temporal on infrastructure you run: Zerops (the reference backend), Dokploy or Nomad. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, operating costs, cluster and fleet operations, backups and backup drills, control-plane backup and rebuild, notifications, access control, security and MCP client setup.',
 					details: `Documentation sections and pages:\n\n${sidebarMarkdown(sidebar)}`,
 				}),
 				starlightLinksValidator({ errorOnRelativeLinks: true, errorOnInvalidHashes: true }),

@@ -31,24 +31,30 @@ const backends = [
 	},
 ];
 
+// Status is shown once per card: engines added in v0.4.0 are experimental until exercised against live backends;
+// fleet operations are verified offline (tests without a live backend).
 const engines = [
 	{
 		title: 'MongoDB',
 		href: docs('mongodb/'),
 		text: 'Percona Server for MongoDB with Percona Backup for MongoDB: replica sets of 1, 3, 5 or 7 members, sharded clusters with config servers and mongos routers, PBM logical and physical backups, point-in-time recovery, in-place restore and clone.',
-		also: { label: 'Sharded clusters', href: docs('mongodb/sharding/') },
+		also: [{ label: 'Sharded clusters', href: docs('mongodb/sharding/') }],
 	},
 	{
 		title: 'PostgreSQL',
 		href: docs('postgres/'),
-		text: 'Percona PostgreSQL 17 by default, with 16 and 18 majors: a single member or three- and five-member Patroni/etcd HA, a ProxySQL client service, native roles, databases and grants, pgBackRest full, differential and incremental backups with point-in-time recovery, offline restore and clone.',
-		also: { label: 'Backups and PITR', href: docs('postgres/backups/') },
+		text: 'Percona PostgreSQL 17 by default, with 16 and 18 majors: a single member or three- and five-member Patroni/etcd HA with a ProxySQL client service, PostGIS, pgvector and TimescaleDB extension profiles, native roles, databases and grants, bindings that give a consumer its own role and databases, pgBackRest full, differential and incremental backups with point-in-time recovery, offline restore and clone, and an experimental Citus distributed topology of one coordinator plus up to eight worker groups.',
+		also: [
+			{ label: 'Extension profiles', href: docs('postgres/profiles/') },
+			{ label: 'Consumer bindings', href: docs('postgres/bindings/') },
+			{ label: 'Distributed (Citus)', href: docs('postgres/distributed/') },
+		],
 	},
 	{
 		title: 'Supabase',
 		href: docs('supabase/'),
 		text: 'Modular self-hosted Supabase on the PostgreSQL engine: an Envoy gateway, Auth and PostgREST by default, with Realtime, Storage, Studio, Edge Functions, Supavisor and analytics as separately sized components, versions locked to the Karakoram release.',
-		also: { label: 'Components', href: docs('supabase/components/') },
+		also: [{ label: 'Components', href: docs('supabase/components/') }],
 	},
 	{
 		title: 'RabbitMQ',
@@ -59,6 +65,55 @@ const engines = [
 		title: 'Elasticsearch',
 		href: docs('elasticsearch/'),
 		text: 'Combined-node or dedicated-master clusters with optional same-version Kibana, Logstash and APM Server, native users, roles and API keys, CA-verified HTTPS, S3 snapshots with restore and clone, and shard-drain-aware scale-down.',
+	},
+	{
+		title: 'MySQL',
+		status: 'Experimental',
+		href: docs('mysql/'),
+		text: 'Percona Server for MySQL 8.4 by default, with 8.0: a single member or three- and five-member single-primary Group Replication behind ProxySQL, native users, databases and grants, XtraBackup full and incremental backups with GTID-based point-in-time recovery.',
+		also: [{ label: 'Backups and PITR', href: docs('mysql/backups/') }],
+	},
+	{
+		title: 'Percona XtraDB Cluster',
+		status: 'Experimental',
+		href: docs('mysql/'),
+		text: 'A separate provider for Galera clusters of three or five PXC 8.4 or 8.0 members with encrypted IST and SST, one ProxySQL-routed writer despite Galera\u2019s multi-writer capability, the same MySQL access interface, and XtraBackup backups with PITR kept under their own provenance.',
+		also: [{ label: 'Configuration and topology', href: docs('mysql/configuration/') }],
+	},
+	{
+		title: 'Neo4j Community',
+		status: 'Experimental',
+		href: docs('neo4j/'),
+		text: 'Neo4j Community 2026.10 on a Temurin 21 JRE: exactly one member with a persistent volume, required TLS, allowlisted settings with heap and page-cache overrides, and offline dumps of the system and graph databases as backups. Every backup is an outage, so schedules need explicit consent; there is no PITR.',
+		also: [{ label: 'Offline backups', href: docs('neo4j/backups/') }],
+	},
+	{
+		title: 'Weaviate',
+		status: 'Experimental',
+		href: docs('weaviate/'),
+		text: 'Official Weaviate 1.40 binaries with community features only: a single member or clusters of 3 to 9 data members with three fixed Raft voters, API keys, RBAC and dynamic database users, client TLS by default, native S3 full backups (no incremental or PITR) and scale-down that drains replicas before removing non-voters.',
+		also: [{ label: 'Access and TLS', href: docs('weaviate/access-and-tls/') }],
+	},
+	{
+		title: 'Keycloak',
+		status: 'Experimental',
+		href: docs('keycloak/'),
+		text: 'Official Keycloak 26.8 on OpenJDK 21: one native runtime whose realms, identities and sessions live in a bound PostgreSQL database with a dedicated non-superuser role, JDBC over verify-full TLS, sealed bootstrap credentials and a private HTTP port for your TLS-terminating ingress.',
+		also: [{ label: 'PostgreSQL bindings', href: docs('postgres/bindings/') }],
+	},
+	{
+		title: 'OpenBao',
+		status: 'Experimental',
+		href: docs('openbao/'),
+		text: 'OpenBao 2.7 with integrated Raft: 1, 3 or 5 members, mandatory TLS with a cluster CA, a Shamir seal by default or transit and AWS KMS auto-unseal, S3 Raft-snapshot backups (no PITR), and native tokens and policies for application access.',
+		also: [{ label: 'Operations and unseal', href: docs('openbao/operations/') }],
+	},
+	{
+		title: 'Temporal',
+		status: 'Experimental',
+		href: docs('temporal/'),
+		text: 'Temporal 1.32 or 1.31 with the release-locked web UI, persisted in a bound PostgreSQL cluster: a combined server or split stateless roles with independent replicas, a private TLS gRPC frontend with client certificates, and recovery from the source PostgreSQL backup plus a cluster-state manifest.',
+		also: [{ label: 'Operations and recovery', href: docs('temporal/operations/') }],
 	},
 ];
 
@@ -71,7 +126,18 @@ const features = [
 	{
 		title: 'Backups, restore and clone',
 		href: docs('backups/'),
-		text: 'S3-compatible storage, UTC schedules with count retention, in-place restore and clone: PBM backups with PITR for MongoDB, pgBackRest backups with PITR for PostgreSQL and Supabase, native snapshots for Elasticsearch, definitions exports for RabbitMQ.',
+		text: 'S3-compatible storage, UTC schedules with count retention, in-place restore and clone: PBM backups with PITR for MongoDB, pgBackRest backups with PITR for PostgreSQL and Supabase, XtraBackup with PITR for MySQL and PXC, native snapshots for Elasticsearch and Weaviate, Raft snapshots for OpenBao, offline dumps for Neo4j, definitions exports for RabbitMQ.',
+	},
+	{
+		title: 'Fleet operations and recovery',
+		status: 'Verified offline',
+		href: docs('control-plane-backup/'),
+		text: 'Rolling agent upgrades kept separate from database upgrades, maintenance windows that defer disruptive work, member relocation through native replacement, S3 snapshots of the control plane\u2019s own state with rebuild runbooks, webhook, Slack and email notification channels, and backup drills that restore a backup into a scratch cluster and record what was checked.',
+		also: [
+			{ label: 'Backup drills', href: docs('backup-drills/') },
+			{ label: 'Notifications', href: docs('notifications/') },
+			{ label: 'Maintenance windows', href: docs('operations/#maintenance-windows') },
+		],
 	},
 	{
 		title: 'Suspend, resume and delete',
@@ -87,7 +153,7 @@ const features = [
 		title: 'Monitoring, auth and RBAC',
 		href: docs('monitoring/'),
 		text: 'Per-member monitoring, authenticated Prometheus output, events and logs, local accounts, OIDC, RBAC and owner-scoped API tokens.',
-		also: { label: 'Access control', href: docs('access-control/') },
+		also: [{ label: 'Access control', href: docs('access-control/') }],
 	},
 	{
 		title: 'Namespaces',
@@ -112,8 +178,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 ---
 
 <Base
-	title="Karakoram: self-hosted MongoDB, PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on your own infrastructure"
-	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest), modular Supabase, RabbitMQ and Elasticsearch on infrastructure backends you run: Zerops, Dokploy and Nomad. Go control plane, REST API, karactl CLI, web UI and a read-only-by-default MCP server for AI agents. Apache-2.0, no Kubernetes, no hosted coordinator."
+	title="Karakoram: self-hosted MongoDB, PostgreSQL, Supabase, MySQL, RabbitMQ, Elasticsearch and more, orchestrated on your own infrastructure"
+	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest, PostGIS, pgvector and TimescaleDB profiles, Citus), modular Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch, Weaviate, Neo4j Community, Keycloak, OpenBao and Temporal on infrastructure backends you run: Zerops, Dokploy and Nomad. Go control plane, REST API, karactl CLI, web UI and a read-only-by-default MCP server for AI agents. Apache-2.0, no Kubernetes, no hosted coordinator."
 	path="/"
 >
 	<SiteHeader />
@@ -127,8 +193,9 @@ karactl mcp config --cluster production/appdb --client cursor`;
 				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB, PostgreSQL, RabbitMQ and Elasticsearch orchestration on infrastructure you run.</h1>
 				<p class="kk-hero__lede">
 					Karakoram provisions and operates Percona Server for MongoDB, Percona PostgreSQL with Patroni and pgBackRest, modular Supabase,
-					RabbitMQ clusters and the Elastic Stack on a backend you control: a Go control plane with a REST API, the <code>karactl</code> CLI,
-					a web UI and an MCP server for AI agents. No Kubernetes, no hosted coordinator.
+					RabbitMQ clusters and the Elastic Stack on a backend you control, and since v0.4.0 also MySQL and Percona XtraDB Cluster, Neo4j,
+					Weaviate, Keycloak, OpenBao and Temporal: a Go control plane with a REST API, the <code>karactl</code> CLI, a web UI and an MCP
+					server for AI agents. No Kubernetes, no hosted coordinator.
 				</p>
 				<div class="kk-hero__cta">
 					<a class="kk-btn kk-btn--primary" href={withBase('/docs/')}>Read the docs</a>
@@ -141,7 +208,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<a href={docs('dokploy/')}>Dokploy</a>
 					<a href={docs('nomad/')}>Nomad</a>
 					<span class="kk-hero__backends-sep" aria-hidden="true"></span>
-					<a href={docs('pricing/')}>What does it cost?</a>
+					<a href={docs('operating-costs/')}>What does it cost?</a>
 				</p>
 			</div>
 		</section>
@@ -157,7 +224,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						<h3>Karakoram is</h3>
 						<ul class="kk-list kk-list--yes">
 							<li>A control plane you run on your own infrastructure backend, with your own credentials: Zerops, Dokploy or Nomad.</li>
-							<li>A coordinator for five engines: Percona's PSMDB and PBM (replica sets, sharded clusters, point-in-time recovery), Percona PostgreSQL (Patroni/etcd HA, ProxySQL, pgBackRest with PITR), modular Supabase on that PostgreSQL engine, RabbitMQ clusters (quorum queues, definitions backups) and Elasticsearch with optional Kibana, Logstash and APM Server (snapshots).</li>
+							<li>A coordinator for twelve engines: Percona's PSMDB and PBM (replica sets, sharded clusters, point-in-time recovery), Percona PostgreSQL (Patroni/etcd HA, ProxySQL, extension profiles, consumer bindings, Citus, pgBackRest with PITR), modular Supabase on that PostgreSQL engine, RabbitMQ clusters (quorum queues, definitions backups), Elasticsearch with optional Kibana, Logstash and APM Server (snapshots), and the v0.4.0 additions: Percona Server for MySQL and XtraDB Cluster (XtraBackup with PITR), Neo4j Community, Weaviate, Keycloak, OpenBao and Temporal.</li>
 							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. The backend supplies runtimes, volumes and routing; it is not the operator of your databases and brokers.</li>
 						</ul>
 					</div>
@@ -182,36 +249,37 @@ karactl mcp config --cluster production/appdb --client cursor`;
 			<div class="kk-container">
 				<div class="kk-section__head">
 					<h2 id="features-title" class="kk-section__title">What it operates</h2>
-					<p class="kk-section__lede">Five engines behind one control plane. Each capability links to the documentation page that describes exactly what is supported.</p>
+					<p class="kk-section__lede">
+						Twelve engines behind one control plane: the five from earlier releases and seven added in v0.4.0, marked experimental until
+						they have been exercised against live backends. Each capability links to the documentation page that describes exactly what
+						is supported.
+					</p>
 				</div>
-				<p class="kk-eyebrow kk-features__group">Engines</p>
-				<ul class="kk-features">
-					{engines.map((f) => (
-						<li class="kk-feature">
-							<h3 class="kk-feature__title"><a href={f.href}>{f.title}</a></h3>
-							<p class="kk-feature__text">{f.text}</p>
-							{f.also && (
-								<p class="kk-feature__also">
-									See also <a href={f.also.href}>{f.also.label}</a>
-								</p>
-							)}
-						</li>
-					))}
-				</ul>
-				<p class="kk-eyebrow kk-features__group">Across engines</p>
-				<ul class="kk-features">
-					{features.map((f) => (
-						<li class="kk-feature">
-							<h3 class="kk-feature__title"><a href={f.href}>{f.title}</a></h3>
-							<p class="kk-feature__text">{f.text}</p>
-							{f.also && (
-								<p class="kk-feature__also">
-									See also <a href={f.also.href}>{f.also.label}</a>
-								</p>
-							)}
-						</li>
-					))}
-				</ul>
+				{[['Engines', engines], ['Across engines', features]].map(([group, items]) => (
+					<>
+						<p class="kk-eyebrow kk-features__group">{group}</p>
+						<ul class="kk-features">
+							{items.map((f) => (
+								<li class="kk-feature">
+									<h3 class="kk-feature__title">
+										<a href={f.href}>{f.title}{f.status && <small>{f.status}</small>}</a>
+									</h3>
+									<p class="kk-feature__text">{f.text}</p>
+									{f.also && (
+										<p class="kk-feature__also">
+											See also {f.also.map((link, index) => (
+												<>
+													{index > 0 && ' · '}
+													<a href={link.href}>{link.label}</a>
+												</>
+											))}
+										</p>
+									)}
+								</li>
+							))}
+						</ul>
+					</>
+				))}
 				<div class="kk-interfaces" aria-label="Interfaces">
 					{interfaces.map((i) => (
 						<a class="kk-interface" href={i.href}>
@@ -244,7 +312,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					))}
 				</ul>
 				<p class="kk-backends__more">
-					<a class="kk-more" href={docs('backends/')}>Compare the backends</a> <a class="kk-more" href={docs('pricing/')}>Pricing and cost estimates</a>
+					<a class="kk-more" href={docs('backends/')}>Compare the backends</a> <a class="kk-more" href={docs('operating-costs/')}>Operating costs</a>
 				</p>
 			</div>
 		</section>
@@ -256,9 +324,10 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<p class="kk-eyebrow">How it runs</p>
 					<h2 id="how-title" class="kk-section__title">Everything lives on your own backend</h2>
 					<p class="kk-section__lede">
-						The figure shows a sharded MongoDB cluster. PostgreSQL members, RabbitMQ brokers and Elasticsearch nodes follow the same pattern:
-						one Ubuntu 24.04 runtime and one persistent volume per node, a node agent next to the engine process, and backups written to object
-						storage you register. The backend supplies the runtimes, volumes and routing; the layout is the same on Zerops, Dokploy and Nomad.
+						The figure shows a sharded MongoDB cluster. PostgreSQL and MySQL members, RabbitMQ brokers, Elasticsearch, Weaviate and OpenBao nodes
+						follow the same pattern: one Ubuntu 24.04 runtime and one persistent volume per node, a node agent next to the engine process, and
+						backups written to object storage you register. The backend supplies the runtimes, volumes and routing; the layout is the same on
+						Zerops, Dokploy and Nomad.
 					</p>
 				</div>
 				<div class="kk-how">
@@ -278,23 +347,26 @@ karactl mcp config --cluster production/appdb --client cursor`;
 							<div>
 								<dt>Members and nodes</dt>
 								<dd>
-									One Ubuntu 24.04 runtime per <code>mongod</code> (including config servers), PostgreSQL member, RabbitMQ broker or Elasticsearch
-									node, each with its own persistent volume. A node agent supervises the engine process, plus the PBM agent for MongoDB and
-									Patroni with etcd for PostgreSQL HA, and talks to the control plane over TLS with pinned trust roots.
+									One Ubuntu 24.04 runtime per <code>mongod</code> (including config servers), PostgreSQL or MySQL member, RabbitMQ broker,
+									Elasticsearch, Weaviate or OpenBao node and Neo4j server, each with its own persistent volume. A node agent supervises the
+									engine process, plus the PBM agent for MongoDB and Patroni with etcd for PostgreSQL HA, and talks to the control plane over
+									TLS with pinned trust roots.
 								</dd>
 							</div>
 							<div>
 								<dt>Stateless services</dt>
 								<dd>
-									A <code>mongos</code> router per sharded cluster, a ProxySQL client service per PostgreSQL cluster, Supabase's gateway and
-									application services, and optional Kibana, Logstash and APM Server per Elasticsearch cluster, without a persistent data volume.
+									A <code>mongos</code> router per sharded cluster, a ProxySQL client service per PostgreSQL or MySQL cluster, Supabase's gateway
+									and application services, optional Kibana, Logstash and APM Server per Elasticsearch cluster, and Keycloak and Temporal roles
+									that keep their state in a bound PostgreSQL cluster, without a persistent data volume.
 								</dd>
 							</div>
 							<div>
 								<dt>Backups</dt>
 								<dd>
-									PBM agents write MongoDB backups and the PITR oplog, pgBackRest writes PostgreSQL base backups and WAL, Elasticsearch nodes
-									write snapshots, and RabbitMQ definitions exports are uploaded to S3-compatible object storage outside the members.
+									PBM agents write MongoDB backups and the PITR oplog, pgBackRest writes PostgreSQL base backups and WAL, XtraBackup writes MySQL
+									and PXC backups and binary logs, Elasticsearch and Weaviate nodes write snapshots, OpenBao writes Raft snapshots, and RabbitMQ
+									definitions exports and Neo4j dumps are uploaded to S3-compatible object storage outside the members.
 								</dd>
 							</div>
 						</dl>
@@ -430,9 +502,9 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						<span class="kk-path__label">Nomad</span>
 						<span class="kk-path__text">Register the supplied job, volume and ACL policy from <code>deploy/nomad/</code>; members become exec jobs on your clients.</span>
 					</a>
-					<a class="kk-path" href={docs('pricing/')}>
+					<a class="kk-path" href={docs('operating-costs/')}>
 						<span class="kk-path__label">What does it cost?</span>
-						<span class="kk-path__text">Karakoram is free software. You pay for the infrastructure you use: runtimes or hosts, persistent storage and separately provisioned S3-compatible object storage. The pricing page walks through estimates.</span>
+						<span class="kk-path__text">Karakoram is free software. You pay for the infrastructure you use: runtimes or hosts, persistent storage and separately provisioned S3-compatible object storage. The operating costs page walks through estimates per backend.</span>
 					</a>
 				</div>
 			</div>
@@ -442,7 +514,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 		<section class="kk-section kk-ack" aria-labelledby="ack-title">
 			<div class="kk-container">
 				<div class="kk-section__head">
-					<h2 id="ack-title" class="kk-section__title">Built on Percona, RabbitMQ, Elastic and Supabase, inspired by OpenEverest</h2>
+					<h2 id="ack-title" class="kk-section__title">Built on Percona, RabbitMQ, Elastic, Supabase and other open-source engines, inspired by OpenEverest</h2>
 				</div>
 				<div class="kk-ack__grid">
 					<article class="kk-ack__item">
@@ -450,13 +522,21 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						<p>
 							Thank you to Percona for <a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb" rel="noopener">Percona Server for MongoDB</a>, <a
 								href="https://docs.percona.com/percona-backup-mongodb/latest/"
-								rel="noopener">Percona Backup for MongoDB</a> and <a href="https://www.percona.com/postgresql/software" rel="noopener">Percona Distribution for PostgreSQL</a>.
-							Karakoram installs them from Percona's official package repositories at <a href="https://repo.percona.com/" rel="noopener">repo.percona.com</a>.
+								rel="noopener">Percona Backup for MongoDB</a>, <a href="https://www.percona.com/postgresql/software" rel="noopener">Percona Distribution for PostgreSQL</a>, <a
+								href="https://www.percona.com/mysql/software/percona-server-for-mysql"
+								rel="noopener">Percona Server for MySQL</a>, <a href="https://www.percona.com/mysql/software/percona-xtradb-cluster" rel="noopener">Percona XtraDB Cluster</a> and <a
+								href="https://www.percona.com/mysql/software/percona-xtrabackup"
+								rel="noopener">Percona XtraBackup</a>.
+							Karakoram installs the MongoDB and PostgreSQL packages from Percona's official repositories at <a href="https://repo.percona.com/" rel="noopener">repo.percona.com</a> and the MySQL family from Percona's official checksum-locked tarballs.
 							The engines, replication, backups and point-in-time recovery come from their open-source work, together with <a
 								href="https://patroni.readthedocs.io"
-								rel="noopener">Patroni</a>, <a href="https://etcd.io" rel="noopener">etcd</a>, <a href="https://pgbackrest.org" rel="noopener">pgBackRest</a> and <a
+								rel="noopener">Patroni</a>, <a href="https://etcd.io" rel="noopener">etcd</a>, <a href="https://pgbackrest.org" rel="noopener">pgBackRest</a>, <a
 								href="https://proxysql.com"
-								rel="noopener">ProxySQL</a>; Karakoram coordinates those capabilities rather than reinventing them.
+								rel="noopener">ProxySQL</a> and, for PostgreSQL profiles and the distributed topology, <a href="https://postgis.net" rel="noopener">PostGIS</a>, <a
+								href="https://github.com/pgvector/pgvector"
+								rel="noopener">pgvector</a>, <a href="https://www.timescale.com" rel="noopener">TimescaleDB</a> (Apache-only build) and <a
+								href="https://github.com/citusdata/citus"
+								rel="noopener">Citus</a> (AGPL-3.0, downloaded separately, never bundled); Karakoram coordinates those capabilities rather than reinventing them.
 						</p>
 					</article>
 					<article class="kk-ack__item">
@@ -480,6 +560,25 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						</p>
 					</article>
 					<article class="kk-ack__item">
+						<h3>Weaviate and Neo4j</h3>
+						<p>
+							Thank you to <a href="https://weaviate.io" rel="noopener">Weaviate</a> for the vector database, used with community features only
+							under its mixed-license binary boundary, and to <a href="https://neo4j.com" rel="noopener">Neo4j</a> for Neo4j Community (GPLv3) and
+							the graph tooling around it. Both are downloaded as official, checksum-locked artifacts onto your own runtimes; Karakoram redistributes
+							no binaries. See <a href={docs('native-artifacts/')}>native artifacts</a> for provenance and license notices.
+						</p>
+					</article>
+					<article class="kk-ack__item">
+						<h3>Keycloak, OpenBao and Temporal</h3>
+						<p>
+							Thank you to <a href="https://www.keycloak.org" rel="noopener">Keycloak</a> for the identity server, to <a
+								href="https://openbao.org"
+								rel="noopener">OpenBao</a> (MPL-2.0) for the secrets manager with integrated Raft, and to <a href="https://temporal.io" rel="noopener">Temporal</a> for the workflow
+							server and its web UI. Keycloak and Temporal keep their state in a PostgreSQL cluster that Karakoram binds to them; OpenBao owns its own
+							Raft volumes. Each runs from release-locked artifacts on runtimes you provide.
+						</p>
+					</article>
+					<article class="kk-ack__item">
 						<h3>OpenEverest</h3>
 						<p>
 							<a href="https://openeverest.io" rel="noopener">OpenEverest</a> is the inspiration for this project. Originally Percona Everest,
@@ -495,9 +594,9 @@ karactl mcp config --cluster production/appdb --client cursor`;
 							Everest is the highest peak. Karakoram is the range that holds K2 and other giants.
 						</p>
 						<p>
-							The name is a nod to OpenEverest and to growing beyond a single peak. Five engines run on three backends today: MongoDB, PostgreSQL,
-							Supabase, RabbitMQ and Elasticsearch on Zerops, Dokploy and Nomad. More engines and backends are a direction,
-							not a claim that they exist.
+							The name is a nod to OpenEverest and to growing beyond a single peak. Twelve engines run on three backends today: MongoDB, PostgreSQL,
+							Supabase, RabbitMQ, Elasticsearch, MySQL, Percona XtraDB Cluster, Neo4j, Weaviate, Keycloak, OpenBao and Temporal on Zerops, Dokploy
+							and Nomad. More engines and backends are a direction, not a claim that they exist.
 						</p>
 					</article>
 				</div>
@@ -746,6 +845,18 @@ karactl mcp config --cluster production/appdb --client cursor`;
 	}
 	.kk-feature__title a:hover::after {
 		transform: translateX(3px);
+	}
+	/* Status marker, same treatment as the data MCP entry in the AI agents section; the title stays aligned across a row. */
+	.kk-feature__title small {
+		margin-left: 0.45rem;
+		font-family: var(--kk-font-mono);
+		font-size: 0.68rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		white-space: nowrap;
+		color: var(--kk-accent);
+		vertical-align: middle;
 	}
 	.kk-feature__text {
 		color: var(--kk-muted);

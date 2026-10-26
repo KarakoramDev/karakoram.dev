@@ -95,17 +95,20 @@ function pageSlug(original) {
   return original.replace(/\.md$/i, '').replace(/\/(?:readme|index)$/i, '').split('/').map(githubSlug).join('/');
 }
 
-// Sidebar layout: getting started, backend-neutral control-plane pages, backends, interfaces, AI agents, then one group per engine.
+// Sidebar layout: getting started, backend-neutral control-plane pages, fleet operations, backends, interfaces, AI agents, then one group per engine.
 // Pages missing from this list are appended to their directory's group (or "Control plane"); pages absent from the checkout are skipped.
 const sections = [
   ['Getting started', {
-    'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/backends.md': 'Backends', 'docs/pricing.md': 'Pricing',
+    'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/backends.md': 'Backends', 'docs/operating-costs.md': 'Operating costs',
     'docs/upgrade.md': 'Upgrade',
   }],
   ['Control plane', {
     'docs/architecture.md': 'Architecture', 'docs/clusters.md': 'Clusters and operations', 'docs/backups.md': 'Backups and storage',
     'docs/namespaces.md': 'Namespaces and relays', 'docs/monitoring.md': 'Monitoring and events', 'docs/access-control.md': 'Access control',
     'docs/security.md': 'Security', 'docs/operations.md': 'Operations and troubleshooting', 'docs/limitations.md': 'Limitations',
+  }],
+  ['Fleet operations', {
+    'docs/control-plane-backup.md': 'Control-plane backup and rebuild', 'docs/backup-drills.md': 'Backup drills', 'docs/notifications.md': 'Notifications',
   }],
   ['Backends', { 'docs/zerops.md': 'Zerops', 'docs/dokploy.md': 'Dokploy', 'docs/nomad.md': 'Nomad' }],
   ['Interfaces', { 'docs/web-ui.md': 'Web UI', 'docs/cli.md': 'CLI (karactl)', 'docs/api.md': 'REST API and SDK' }],
@@ -115,7 +118,8 @@ const sections = [
     'docs/mongodb/access-and-tls.md': 'Users, roles and TLS', 'docs/mongodb/backups.md': 'Backups and PITR', 'docs/mongodb/operations.md': 'Operations',
   }],
   ['PostgreSQL', {
-    'docs/postgres/README.md': 'Overview', 'docs/postgres/access-and-tls.md': 'Access and TLS',
+    'docs/postgres/README.md': 'Overview', 'docs/postgres/profiles.md': 'Extension profiles', 'docs/postgres/bindings.md': 'Consumer bindings',
+    'docs/postgres/distributed.md': 'Distributed (Citus)', 'docs/postgres/access-and-tls.md': 'Access and TLS',
     'docs/postgres/backups.md': 'Backups and PITR', 'docs/postgres/operations.md': 'Operations',
   }],
   ['Supabase', {
@@ -130,8 +134,31 @@ const sections = [
     'docs/elasticsearch/access-and-security.md': 'Access and security', 'docs/elasticsearch/snapshots.md': 'Snapshots',
     'docs/elasticsearch/operations.md': 'Operations',
   }],
+  ['MySQL and PXC', {
+    'docs/mysql/README.md': 'Overview', 'docs/mysql/configuration.md': 'Configuration and topology', 'docs/mysql/access-and-tls.md': 'Access and TLS',
+    'docs/mysql/backups.md': 'Backups and PITR', 'docs/mysql/operations.md': 'Operations and recovery', 'docs/mysql/verification.md': 'Verification',
+  }],
+  ['Neo4j', {
+    'docs/neo4j/README.md': 'Overview', 'docs/neo4j/access-and-tls.md': 'Access and TLS',
+    'docs/neo4j/backups.md': 'Offline backups', 'docs/neo4j/operations.md': 'Operations',
+  }],
+  ['Weaviate', {
+    'docs/weaviate/README.md': 'Overview', 'docs/weaviate/access-and-tls.md': 'Access and TLS',
+    'docs/weaviate/backups.md': 'Backups', 'docs/weaviate/operations.md': 'Operations',
+  }],
+  ['Keycloak', { 'docs/keycloak/README.md': 'Overview' }],
+  ['OpenBao', {
+    'docs/openbao/README.md': 'Overview', 'docs/openbao/access-and-tls.md': 'Access and TLS',
+    'docs/openbao/backups.md': 'Raft backups and recovery', 'docs/openbao/operations.md': 'Operations and unseal',
+  }],
+  ['Temporal', {
+    'docs/temporal/README.md': 'Overview', 'docs/temporal/access-and-tls.md': 'Access and TLS', 'docs/temporal/operations.md': 'Operations and recovery',
+  }],
 ];
-const engineDirectories = { mongodb: 'MongoDB', postgres: 'PostgreSQL', supabase: 'Supabase', rabbitmq: 'RabbitMQ', elasticsearch: 'Elasticsearch' };
+const engineDirectories = {
+  mongodb: 'MongoDB', postgres: 'PostgreSQL', supabase: 'Supabase', rabbitmq: 'RabbitMQ', elasticsearch: 'Elasticsearch',
+  mysql: 'MySQL and PXC', neo4j: 'Neo4j', weaviate: 'Weaviate', keycloak: 'Keycloak', openbao: 'OpenBao', temporal: 'Temporal',
+};
 const labels = {
   'README.md': 'Overview', 'CONTRIBUTING.md': 'Contributing', 'CODE_OF_CONDUCT.md': 'Code of Conduct',
   'docs/verification.md': 'Verification', 'docs/native-artifacts.md': 'Native artifacts', 'docs/adr/README.md': 'Index',

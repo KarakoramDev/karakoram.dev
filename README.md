@@ -2,8 +2,9 @@
 
 Source for [karakoram.dev](https://karakoram.dev), the website and documentation
 of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted MongoDB,
-PostgreSQL, Supabase, RabbitMQ and Elasticsearch orchestration on infrastructure
-you run: Zerops (the reference backend), Dokploy and Nomad.
+PostgreSQL, Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch,
+Weaviate, Neo4j Community, Keycloak, OpenBao and Temporal orchestration on
+infrastructure you run: Zerops (the reference backend), Dokploy and Nomad.
 
 The site is a static [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) build published with GitHub Pages:
@@ -42,16 +43,17 @@ an internal link or `#anchor` does not resolve
 | --- | --- |
 | `README.md` | `/docs/` |
 | `docs/quickstart.md`, `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/quickstart/`, `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
-| `docs/backends.md`, `docs/pricing.md` | `/docs/backends/`, `/docs/pricing/` (sidebar group "Getting started") |
+| `docs/backends.md`, `docs/operating-costs.md` | `/docs/backends/`, `/docs/operating-costs/` (sidebar group "Getting started") |
 | `docs/zerops.md`, `docs/dokploy.md`, `docs/nomad.md` | `/docs/zerops/`, `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Backends", in that order) |
+| `docs/control-plane-backup.md`, `docs/backup-drills.md`, `docs/notifications.md` | `/docs/control-plane-backup/`, `/docs/backup-drills/`, `/docs/notifications/` (sidebar group "Fleet operations") |
 | `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces", "AI agents" or "Reference") |
-| `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine: MongoDB, PostgreSQL, Supabase, RabbitMQ, Elasticsearch) |
+| `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine: MongoDB, PostgreSQL, Supabase, RabbitMQ, Elasticsearch, MySQL and PXC, Neo4j, Weaviate, Keycloak, OpenBao, Temporal) |
 | `docs/adr/README.md`, `docs/adr/<adr>.md` | `/docs/adr/`, `/docs/adr/<adr>/` |
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` | `/docs/contributing/`, `/docs/code-of-conduct/` |
 
 Sidebar groups, order and labels are listed in `sections` in `scripts/ingest-docs.mjs`.
-Old `/docs/user-guide/<name>/` URLs redirect to their new pages (`movedDocs` in
-`astro.config.mjs`).
+Old `/docs/user-guide/<name>/` URLs and `/docs/pricing/` redirect to their new
+pages (`movedDocs` in `astro.config.mjs`).
 
 ## Machine-readable documentation
 
@@ -125,9 +127,11 @@ documentation content is pulled from
 [KarakoramDev/Karakoram](https://github.com/KarakoramDev/Karakoram) and remains
 under that repository's license.
 
-Percona Server for MongoDB, Percona Backup for MongoDB and Percona Distribution
-for PostgreSQL are Percona products and trademarks. RabbitMQ is a trademark of
+Percona Server for MongoDB, Percona Backup for MongoDB, Percona Distribution for
+PostgreSQL, Percona Server for MySQL, Percona XtraDB Cluster and Percona
+XtraBackup are Percona products and trademarks. RabbitMQ is a trademark of
 Broadcom Inc. Elasticsearch, Kibana and Logstash are trademarks of Elastic N.V.
-OpenEverest, MongoDB, PostgreSQL, Supabase, Zerops, Dokploy and Nomad names and
-marks belong to their respective owners. Karakoram is independent and is not
-affiliated with or endorsed by any of them.
+OpenEverest, MongoDB, PostgreSQL, MySQL, Supabase, Citus, Weaviate, Neo4j,
+Keycloak, OpenBao, Temporal, Zerops, Dokploy and Nomad names and marks belong to
+their respective owners. Karakoram is independent and is not affiliated with or
+endorsed by any of them.

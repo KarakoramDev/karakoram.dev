@@ -10,12 +10,12 @@ import { withBase } from '../lib/paths';
 		<Wordmark />
 		<nav class="kk-nav" aria-label="Primary">
 			<a href={withBase('/docs/')}>Docs</a>
-			<a href={withBase('/docs/getting-started/quickstart/')}>Install</a>
+			<a class="kk-nav__install" href={withBase('/docs/getting-started/quickstart/')}>Install</a>
 			<a href={withBase('/docs/backends/')}>Backends</a>
-			<a href={withBase('/docs/pricing/')}>Pricing</a>
+			<a href={withBase('/docs/operating-costs/')}>Operating costs</a>
 			<a href="https://github.com/KarakoramDev/Karakoram" rel="noopener">GitHub</a>
-			<ThemeToggle />
 		</nav>
+		<ThemeToggle />
 	</div>
 </header>
 
@@ -28,14 +28,15 @@ import { withBase } from '../lib/paths';
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		justify-content: space-between;
 		gap: 0.5rem 1rem;
 		min-height: 4.5rem;
 	}
 	.kk-nav {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.25rem;
+		margin-left: auto;
 	}
 	.kk-nav a {
 		padding: 0.5rem 0.75rem;
@@ -43,6 +44,7 @@ import { withBase } from '../lib/paths';
 		color: var(--kk-muted);
 		font-weight: 500;
 		font-size: 0.95rem;
+		white-space: nowrap;
 		text-decoration: none;
 		transition: color 120ms ease, background-color 120ms ease;
 	}
@@ -50,16 +52,26 @@ import { withBase } from '../lib/paths';
 		color: var(--kk-ink);
 		background: var(--kk-subtle);
 	}
-	.kk-nav :global(.kk-theme) {
+	.kk-header__row :global(.kk-theme) {
 		margin-left: 0.5rem;
 	}
+	/* Narrow screens: wordmark and theme switch share the first row, the links take the second. */
 	@media (max-width: 480px) {
+		.kk-nav {
+			order: 1;
+			flex-basis: 100%;
+			margin-left: -0.4rem;
+		}
 		.kk-nav a {
 			padding: 0.5rem 0.4rem;
 			font-size: 0.875rem;
 		}
-		.kk-nav :global(.kk-theme) {
-			margin-left: 0.15rem;
+		/* The hero's primary buttons repeat Install directly below the header. */
+		.kk-nav__install {
+			display: none;
+		}
+		.kk-header__row :global(.kk-theme) {
+			margin-left: auto;
 		}
 		.kk-header__row :global(.kk-wordmark) {
 			font-size: 1.1rem;
