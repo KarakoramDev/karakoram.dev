@@ -355,7 +355,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 								<dt>Control plane</dt>
 								<dd>
 									One <code>karakoram</code> runtime with a <code>karakoramdata</code> volume for its SQLite state. Browsers and
-									<code>karactl</code> reach it over HTTPS; it provisions runtimes and volumes through the backend's own API with the
+									<code>karactl</code> reach it over HTTPS; it provisions runtimes and volumes through the provider's own API with the
 									credentials you give its namespace: a project-scoped token on Zerops, an admin API key on Dokploy, an ACL token on Nomad.
 								</dd>
 							</div>
@@ -468,7 +468,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<p class="kk-eyebrow">Install</p>
 					<h2 id="quickstart-title" class="kk-section__title">Deploy on Zerops with one import, or bring your own Dokploy or Nomad</h2>
 					<p class="kk-section__lede">
-						On Zerops, the reference backend, the import below creates the control plane service and its volume in an existing project; you need a
+						On Zerops, the reference provider, the import below creates the control plane service and its volume in an existing project; you need a
 						project-scoped Full access integration token. Dokploy and Nomad have their own guides.
 					</p>
 				</div>
@@ -503,7 +503,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					</ol>
 				</div>
 				<p class="kk-quick__more">
-					<a class="kk-more" href={docs('zerops/')}>Zerops backend guide</a> <a class="kk-more" href={docs('getting-started/quickstart/')}>Zerops quick start</a> <a class="kk-more" href={docs('getting-started/install/')}>Full installation guide</a>
+					<a class="kk-more" href={docs('zerops/')}>Zerops provider guide</a> <a class="kk-more" href={docs('getting-started/quickstart/')}>Zerops quick start</a> <a class="kk-more" href={docs('getting-started/install/')}>Full installation guide</a>
 					<span class="kk-quick__note">
 						Covers prerequisites, secret handling, installing from a local checkout with <code>zcli</code>, custom domains and CLI login.
 					</span>
@@ -519,7 +519,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					</a>
 					<a class="kk-path" href={docs('operating-costs/')}>
 						<span class="kk-path__label">What does it cost?</span>
-						<span class="kk-path__text">Karakoram is free software. You pay for the infrastructure you use: runtimes or hosts, persistent storage and separately provisioned S3-compatible object storage. The operating costs page walks through estimates per backend.</span>
+						<span class="kk-path__text">Karakoram is free software. You pay for the infrastructure you use: runtimes or hosts, persistent storage and separately provisioned S3-compatible object storage. The operating costs page walks through estimates per provider.</span>
 					</a>
 				</div>
 			</div>
@@ -610,8 +610,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						</p>
 						<p>
 							The name is a nod to OpenEverest and to growing beyond a single peak. Karakoram orchestrates databases and stateful services
-							on Zerops, Dokploy and Nomad; see the engine guides for backend availability.
-							More engines and backends are a direction, not a claim that they exist.
+							on Zerops, Dokploy and Nomad; see the engine guides for provider availability.
+							More engines and providers are a direction, not a claim that they exist.
 						</p>
 					</article>
 				</div>
@@ -1039,7 +1039,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 		margin-top: 2.5rem;
 	}
 
-	/* Backends */
+	/* Providers */
 	.kk-backends {
 		display: grid;
 		gap: 1rem;
