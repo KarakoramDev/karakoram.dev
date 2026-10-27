@@ -162,7 +162,7 @@ const engineDirectories = {
 };
 const labels = {
   'README.md': 'Overview', 'CONTRIBUTING.md': 'Contributing', 'CODE_OF_CONDUCT.md': 'Code of Conduct',
-  'docs/verification.md': 'Verification', 'docs/native-artifacts.md': 'Native artifacts', 'docs/adr/README.md': 'Index',
+  'docs/verification.md': 'Verification', 'docs/native-artifacts.md': 'Native artifacts',
   ...Object.assign({}, ...sections.map(([, pages]) => pages)),
 };
 // Brand mark shown next to the page title (StarlightPageTitle): every page of an engine's
@@ -184,7 +184,8 @@ function makeSidebar(pages) {
     return { slug: page.slug, label: page.label };
   };
   const take = (original) => remaining.has(original) ? [item(remaining.get(original))] : [];
-  const group = (label, entries, collapsed = false) => entries.length ? [{ label, collapsed, items: entries }] : [];
+  // Groups start collapsed; Starlight opens the one holding the current page (StarlightSidebarList).
+  const group = (label, entries) => entries.length ? [{ label, collapsed: true, items: entries }] : [];
   const unlisted = (filter) => [...remaining.values()].filter((page) => filter(page.original)).sort((a, b) => a.original.localeCompare(b.original));
   const directory = (original) => original.split('/').length > 2 ? original.split('/')[1] : undefined;
   const listedAll = new Set(['docs/verification.md', 'docs/native-artifacts.md', ...sections.flatMap(([, listed]) => Object.keys(listed))]);
@@ -195,10 +196,7 @@ function makeSidebar(pages) {
       : unlisted((original) => engineDirectories[directory(original)] === label && !listedAll.has(original));
     sidebar.push(...group(label, [...Object.keys(listed).flatMap(take), ...extra.map(item)]));
   }
-  const adrs = unlisted((original) => original.startsWith('docs/adr/') && original !== 'docs/adr/README.md')
-    .sort((a, b) => a.original.localeCompare(b.original, 'en', { numeric: true }));
   const reference = [
-    ...group('Architecture decisions', [...take('docs/adr/README.md'), ...adrs.map(item)], true),
     ...take('docs/native-artifacts.md'),
     ...take('docs/verification.md'),
   ];
@@ -260,7 +258,14 @@ function destinationRange(node, markdown) {
 async function main() {
   const source = await sourceDirectory();
   const commit = git(source, 'rev-parse', 'HEAD');
-  const docFiles = await walk(path.join(source, 'docs'));
+  // Architecture decision records stay in the code repository: not ingested, links to them point at GitHub
+  // and their former site URLs redirect there (adr-redirects.json, consumed by astro.config.mjs).
+  const docFiles = (await walk(path.join(source, 'docs'))).filter((file) => !file.startsWith('adr/'));
+  const adrFiles = await exists(path.join(source, 'docs/adr')) ? (await walk(path.join(source, 'docs/adr'))).filter((file) => /\.md$/i.test(file)) : [];
+  const adrRedirects = Object.fromEntries([
+    ['/docs/adr/', `${github}/tree/${encodeURIComponent(ref)}/docs/adr`],
+    ...adrFiles.filter((file) => !/^readme\.md$/i.test(file)).map((file) => [`/${pageSlug(`docs/adr/${file}`)}/`, `${github}/blob/${encodeURIComponent(ref)}/${encodePath(`docs/adr/${file}`)}`]),
+  ]);
   const originals = ['README.md', ...docFiles.filter((file) => /\.md$/i.test(file)).map((file) => `docs/${file}`), 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md'];
   const pages = [];
   const routes = new Map();
@@ -277,8 +282,7 @@ async function main() {
     const slug = pageSlug(original);
     if ([...routes.values()].includes(slug)) throw new Error(`Duplicate documentation route ${slug}: ${original}`);
     routes.set(original, slug);
-    const adr = title.match(/^(\d{4})\s*[—–-]\s*(.*)$/);
-    const label = labels[original] || labels[path.posix.basename(original, '.md')] || (adr ? `${adr[1]} · ${adr[2]}` : title);
+    const label = labels[original] || labels[path.posix.basename(original, '.md')] || title;
     pages.push({ original, markdown, tree, heading, title, slug, label, description: concise(paragraph ? text(paragraph) : title) });
   }
   const sidebar = makeSidebar(pages);
@@ -362,6 +366,7 @@ async function main() {
     await cp(path.join(source, 'docs', file), destination);
   }
   await writeFile(path.join(generated, 'sidebar.json'), JSON.stringify(sidebar, null, 2) + '\n');
+  await writeFile(path.join(generated, 'adr-redirects.json'), JSON.stringify(adrRedirects, null, 2) + '\n');
   await writeFile(path.join(generated, 'source.json'), JSON.stringify({ repo, ref, commit, commitUrl: `${github}/commit/${commit}`, generatedAt: new Date().toISOString() }, null, 2) + '\n');
   await cp(path.join(source, 'deploy/zerops/import.yaml'), path.join(generated, 'import.yaml'));
   console.log(`Docs: ${repo}@${ref} (${process.env.KARAKORAM_DOCS_DIR ? 'local checkout' : 'cached clone'}) · ${commit} · ${pages.length} pages · ${rewritten} links rewritten · ${external} external repo links`);

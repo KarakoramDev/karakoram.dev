@@ -52,7 +52,7 @@ an internal link or `#anchor` does not resolve
 | `docs/control-plane-backup.md`, `docs/backup-drills.md`, `docs/notifications.md` | `/docs/control-plane-backup/`, `/docs/backup-drills/`, `/docs/notifications/` (sidebar group "Fleet operations") |
 | `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces", "AI agents" or "Reference") |
 | `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine: MongoDB, PostgreSQL, Supabase, RabbitMQ, Elasticsearch, MySQL and PXC, Neo4j, Weaviate, Keycloak, OpenBao, Temporal) |
-| `docs/adr/README.md`, `docs/adr/<adr>.md` | `/docs/adr/`, `/docs/adr/<adr>/` |
+| `docs/adr/**` | not published: links to ADRs point at the file on GitHub, and the former `/docs/adr/` and `/docs/adr/<adr>/` URLs redirect to the repository's `docs/adr` (generated `adr-redirects.json`) |
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` | `/docs/contributing/`, `/docs/code-of-conduct/` |
 
 Sidebar groups, order and labels are listed in `sections` in `scripts/ingest-docs.mjs`.
