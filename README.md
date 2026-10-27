@@ -139,3 +139,10 @@ OpenEverest, MongoDB, PostgreSQL, MySQL, Supabase, Citus, Weaviate, Neo4j,
 Keycloak, OpenBao, Temporal, Zerops, Dokploy and Nomad names and marks belong to
 their respective owners. Karakoram is independent and is not affiliated with or
 endorsed by any of them.
+
+The brand marks shown next to backend and engine names (landing page, docs
+sidebar, page titles and tables) are inlined from `src/lib/brands.mjs`;
+`src/assets/brands/SOURCES.md` records the source, licence and colour rule of
+each mark. Docs pages receive theirs through the `brand` frontmatter written by
+`scripts/ingest-docs.mjs`; docs tables get them at render time
+(`src/plugins/brand-icons.mjs`), so the product documentation itself is unchanged.

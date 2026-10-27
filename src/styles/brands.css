@@ -1,0 +1,58 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Brand marks (src/lib/brands.mjs): a 1em square that follows the text size, coloured per theme
+   from the inline --kk-brand-light/--kk-brand-dark custom properties, or the text ink when a brand
+   is used in its one-colour black/white form. Tiles give cards and page titles a constant footprint. */
+
+.kk-brand {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	flex: none;
+	vertical-align: -0.14em;
+	color: var(--kk-brand-dark, currentColor);
+}
+:root[data-theme='light'] .kk-brand {
+	color: var(--kk-brand-light, currentColor);
+}
+
+/* Fallback when a product has no permissible mark: its initial on a quiet tile. */
+.kk-brand--monogram {
+	position: relative;
+	border-radius: 0.22em;
+	background: var(--kk-subtle);
+	box-shadow: inset 0 0 0 1px var(--kk-border);
+	color: var(--kk-muted);
+}
+.kk-brand--monogram::after {
+	content: attr(data-letter);
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	font-family: var(--kk-font-mono);
+	font-size: 0.6em;
+	font-weight: 650;
+	line-height: 1;
+}
+
+/* Tile: a fixed box around the mark so titles align whatever the mark's proportions. */
+.kk-brand-tile {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: none;
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 8px;
+	border: 1px solid var(--kk-border);
+	background: var(--kk-surface);
+	font-size: 1.25rem;
+	vertical-align: middle;
+}
+.kk-brand-tile .kk-brand {
+	vertical-align: 0;
+}
+.kk-brand-tile .kk-brand--monogram {
+	background: none;
+	box-shadow: none;
+}

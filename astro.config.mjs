@@ -6,6 +6,7 @@ import starlight from '@astrojs/starlight';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import { mermaidAssets } from './src/plugins/mermaid.mjs';
+import { brandIcons } from './src/plugins/brand-icons.mjs';
 
 // SITE_URL / BASE_PATH let the same build serve the custom domain (root) or a
 // project page such as https://<org>.github.io/<repo>/. CI derives both from
@@ -58,6 +59,7 @@ export default defineConfig({
 	redirects,
 	integrations: [
 		mermaidAssets(base),
+		brandIcons(),
 		starlight({
 			title: 'Karakoram',
 			description:
@@ -66,10 +68,13 @@ export default defineConfig({
 			favicon: '/favicon.svg',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/KarakoramDev/Karakoram' }],
 			customCss: ['./src/styles/starlight.css'],
-			// Inline the mark with currentColor so it follows the theme (design-owned).
+			// Inline the mark with currentColor so it follows the theme (design-owned); brand marks
+			// (src/lib/brands.mjs) in the sidebar and in engine/backend page titles.
 			components: {
 				SiteTitle: './src/components/StarlightSiteTitle.astro',
 				Head: './src/components/StarlightHead.astro',
+				Sidebar: './src/components/StarlightSidebar.astro',
+				PageTitle: './src/components/StarlightPageTitle.astro',
 			},
 			disable404Route: true,
 			sidebar,

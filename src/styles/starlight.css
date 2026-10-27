@@ -2,6 +2,7 @@
 /* Starlight theme overrides: maps the docs onto the site palette and fonts (see tokens.css). */
 
 @import './tokens.css';
+@import './brands.css';
 
 :root {
 	--sl-font: var(--kk-font-sans);
@@ -80,4 +81,14 @@ h1[data-page-title] {
 :focus-visible {
 	outline: 2px solid var(--sl-color-text-accent);
 	outline-offset: 2px;
+}
+
+/* Brand marks in docs tables (src/plugins/brand-icons.mjs) sit on the text line of their cell. */
+.sl-markdown-content .kk-brand-word {
+	white-space: nowrap;
+}
+.sl-markdown-content :is(th, td) .kk-brand {
+	font-size: 1.1em;
+	margin-inline-end: 0.15em;
+	vertical-align: -0.2em;
 }

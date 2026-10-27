@@ -6,6 +6,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import RidgeField from '../components/RidgeField.astro';
 import Topology from '../components/Topology.astro';
+import BrandIcon from '../components/BrandIcon.astro';
 import importYaml from '../generated/import.yaml?raw';
 import { withBase } from '../lib/paths';
 
@@ -15,17 +16,20 @@ const docs = (path: string) => withBase(`/docs/${path}`);
 const backends = [
 	{
 		title: 'Zerops',
+		brand: 'zerops',
 		status: 'Reference backend',
 		href: docs('zerops/'),
 		text: 'Import one YAML into an existing project. Runtimes, Local Storage volumes, HTTPS subdomains and public ports come from the <a href="https://zerops.io">Zerops</a> REST API with a project-scoped token.',
 	},
 	{
 		title: 'Dokploy',
+		brand: 'dokploy',
 		href: docs('dokploy/'),
 		text: 'A <a href="https://dokploy.com">Dokploy</a>-managed <a href="https://docs.docker.com/engine/swarm/">Docker Swarm</a> you operate: one application per member, node-local named volumes spread within a replica set or cluster while enough eligible nodes exist, Swarm ingress for public ports and <a href="https://traefik.io/traefik/">Traefik</a> domains for HTTPS.',
 	},
 	{
 		title: 'Nomad',
+		brand: 'nomad',
 		href: docs('nomad/'),
 		text: 'A <a href="https://developer.hashicorp.com/nomad">HashiCorp Nomad</a> cluster you operate: one exec job per member on an <a href="https://ubuntu.com">Ubuntu</a> rootfs, dynamic host volumes, Nomad Variables for state and your own load balancer in front.',
 	},
@@ -36,12 +40,14 @@ const backends = [
 const engines = [
 	{
 		title: 'MongoDB',
+		brand: 'mongodb',
 		href: docs('mongodb/'),
 		text: '<a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb">Percona Server for MongoDB</a> with <a href="https://docs.percona.com/percona-backup-mongodb/latest/">Percona Backup for MongoDB</a>: replica sets of 1, 3, 5 or 7 members, sharded clusters with config servers and mongos routers, PBM logical and physical backups, point-in-time recovery, in-place restore and clone.',
 		also: [{ label: 'Sharded clusters', href: docs('mongodb/sharding/') }],
 	},
 	{
 		title: 'PostgreSQL',
+		brand: 'postgresql',
 		href: docs('postgres/'),
 		text: '<a href="https://www.percona.com/postgresql/software">Percona PostgreSQL</a> 17 by default, with 16 and 18 majors: a single member or three- and five-member <a href="https://patroni.readthedocs.io">Patroni</a>/<a href="https://etcd.io">etcd</a> HA with a <a href="https://proxysql.com">ProxySQL</a> client service, <a href="https://postgis.net">PostGIS</a>, <a href="https://github.com/pgvector/pgvector">pgvector</a> and <a href="https://www.timescale.com">TimescaleDB</a> extension profiles, native roles, databases and grants, bindings that give a consumer its own role and databases, <a href="https://pgbackrest.org">pgBackRest</a> full, differential and incremental backups with point-in-time recovery, offline restore and clone, and an experimental <a href="https://www.citusdata.com">Citus</a> distributed topology of one coordinator plus up to eight worker groups.',
 		also: [
@@ -52,22 +58,26 @@ const engines = [
 	},
 	{
 		title: 'Supabase',
+		brand: 'supabase',
 		href: docs('supabase/'),
 		text: 'Modular self-hosted <a href="https://supabase.com">Supabase</a> on the <a href="https://www.postgresql.org">PostgreSQL</a> engine: an <a href="https://www.envoyproxy.io">Envoy</a> gateway, Auth and <a href="https://postgrest.org">PostgREST</a> by default, with Realtime, Storage, Studio, Edge Functions, Supavisor and analytics as separately sized components, versions locked to the Karakoram release.',
 		also: [{ label: 'Components', href: docs('supabase/components/') }],
 	},
 	{
 		title: 'RabbitMQ',
+		brand: 'rabbitmq',
 		href: docs('rabbitmq/'),
 		text: '<a href="https://www.rabbitmq.com">RabbitMQ</a> 4.3 clusters of 1, 3, 5 or 7 brokers with persistent per-node storage, quorum queues by default, quorum-gated rolling changes, virtual host, user, permission and policy administration, AMQPS, optional public management UI and definitions backups (no messages or PITR).',
 	},
 	{
 		title: 'Elasticsearch',
+		brand: 'elasticsearch',
 		href: docs('elasticsearch/'),
 		text: 'Combined-node or dedicated-master <a href="https://www.elastic.co/elasticsearch">Elasticsearch</a> clusters with optional same-version <a href="https://www.elastic.co/kibana">Kibana</a>, <a href="https://www.elastic.co/logstash">Logstash</a> and <a href="https://www.elastic.co/observability/application-performance-monitoring">APM Server</a>, native users, roles and API keys, CA-verified HTTPS, S3 snapshots with restore and clone, and shard-drain-aware scale-down.',
 	},
 	{
 		title: 'MySQL',
+		brand: 'mysql',
 		status: 'Experimental',
 		href: docs('mysql/'),
 		text: '<a href="https://www.percona.com/mysql/software/percona-server-for-mysql">Percona Server for MySQL</a> 8.4 by default, with 8.0: a single member or three- and five-member single-primary Group Replication behind ProxySQL, native users, databases and grants, <a href="https://www.percona.com/mysql/software/percona-xtrabackup">XtraBackup</a> full and incremental backups with GTID-based point-in-time recovery.',
@@ -75,6 +85,7 @@ const engines = [
 	},
 	{
 		title: 'Percona XtraDB Cluster',
+		brand: 'percona',
 		status: 'Experimental',
 		href: docs('mysql/'),
 		text: 'A separate provider for <a href="https://galeracluster.com">Galera</a> clusters of three or five <a href="https://www.percona.com/mysql/software/percona-xtradb-cluster">Percona XtraDB Cluster</a> 8.4 or 8.0 members with encrypted IST and SST, one ProxySQL-routed writer despite Galera\u2019s multi-writer capability, the same <a href="https://www.mysql.com">MySQL</a> access interface, and XtraBackup backups with PITR kept under their own provenance.',
@@ -82,6 +93,7 @@ const engines = [
 	},
 	{
 		title: 'Neo4j Community',
+		brand: 'neo4j',
 		status: 'Experimental',
 		href: docs('neo4j/'),
 		text: '<a href="https://neo4j.com">Neo4j Community</a> 2026.10 on a <a href="https://adoptium.net">Temurin</a> 21 JRE: exactly one member with a persistent volume, required TLS, allowlisted settings with heap and page-cache overrides, and offline dumps of the system and graph databases as backups. Every backup is an outage, so schedules need explicit consent; there is no PITR.',
@@ -89,6 +101,7 @@ const engines = [
 	},
 	{
 		title: 'Weaviate',
+		brand: 'weaviate',
 		status: 'Experimental',
 		href: docs('weaviate/'),
 		text: 'Official <a href="https://weaviate.io">Weaviate</a> 1.40 binaries with community features only: a single member or clusters of 3 to 9 data members with three fixed Raft voters, API keys, RBAC and dynamic database users, client TLS by default, native S3 full backups (no incremental or PITR) and scale-down that drains replicas before removing non-voters.',
@@ -96,6 +109,7 @@ const engines = [
 	},
 	{
 		title: 'Keycloak',
+		brand: 'keycloak',
 		status: 'Experimental',
 		href: docs('keycloak/'),
 		text: 'Official <a href="https://www.keycloak.org">Keycloak</a> 26.8 on <a href="https://openjdk.org">OpenJDK</a> 21: one native runtime whose realms, identities and sessions live in a bound PostgreSQL database with a dedicated non-superuser role, JDBC over verify-full TLS, sealed bootstrap credentials and a private HTTP port for your TLS-terminating ingress.',
@@ -103,6 +117,7 @@ const engines = [
 	},
 	{
 		title: 'OpenBao',
+		brand: 'openbao',
 		status: 'Experimental',
 		href: docs('openbao/'),
 		text: '<a href="https://openbao.org">OpenBao</a> 2.7 with integrated Raft: 1, 3 or 5 members, mandatory TLS with a cluster CA, a Shamir seal by default or transit and <a href="https://aws.amazon.com/kms/">AWS KMS</a> auto-unseal, S3 Raft-snapshot backups (no PITR), and native tokens and policies for application access.',
@@ -110,6 +125,7 @@ const engines = [
 	},
 	{
 		title: 'Temporal',
+		brand: 'temporal',
 		status: 'Experimental',
 		href: docs('temporal/'),
 		text: '<a href="https://temporal.io">Temporal</a> 1.32 or 1.31 with the release-locked web UI, persisted in a bound PostgreSQL cluster: a combined server or split stateless roles with independent replicas, a private TLS gRPC frontend with client certificates, and recovery from the source PostgreSQL backup plus a cluster-state manifest. Runs on Dokploy and Nomad; not yet on Zerops, which lacks the private IPv4 route it needs.',
@@ -203,9 +219,9 @@ karactl mcp config --cluster production/appdb --client cursor`;
 				</div>
 				<p class="kk-hero__backends">
 					<span class="kk-hero__backends-label">Runs on</span>
-					<a href={docs('zerops/')}>Zerops</a>
-					<a href={docs('dokploy/')}>Dokploy</a>
-					<a href={docs('nomad/')}>Nomad</a>
+					{backends.map((b) => (
+						<a href={b.href}><BrandIcon brand={b.brand} /> {b.title}</a>
+					))}
 					<span class="kk-hero__backends-sep" aria-hidden="true"></span>
 					<a href={docs('operating-costs/')}>What does it cost?</a>
 				</p>
@@ -259,7 +275,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						<ul class="kk-features">
 							{items.map((f) => (
 								<li class="kk-feature">
-									<h3 class="kk-feature__title">
+									<h3 class:list={['kk-feature__title', { 'kk-feature__title--brand': f.brand }]}>
+										{f.brand && <BrandIcon brand={f.brand} tile />}
 										<a href={f.href}>{f.title}{f.status && <small>{f.status}</small>}</a>
 									</h3>
 									<p class="kk-feature__text" set:html={f.text} />
@@ -304,7 +321,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					{backends.map((b) => (
 						<li class="kk-backend">
 							{b.status && <p class="kk-backend__status">{b.status}</p>}
-							<h3 class="kk-backend__title"><a href={b.href}>{b.title}</a></h3>
+							<h3 class="kk-backend__title"><BrandIcon brand={b.brand} tile /><a href={b.href}>{b.title}</a></h3>
 							<p class="kk-backend__text" set:html={b.text} />
 						</li>
 					))}
@@ -714,9 +731,15 @@ karactl mcp config --cluster production/appdb --client cursor`;
 		text-transform: uppercase;
 	}
 	.kk-hero__backends a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
 		color: var(--kk-ink);
 		font-weight: 500;
 		text-decoration-color: var(--kk-border-strong);
+	}
+	.kk-hero__backends a :global(.kk-brand) {
+		font-size: 1.1em;
 	}
 	.kk-hero__backends a:hover {
 		text-decoration-color: var(--kk-accent);
@@ -825,6 +848,13 @@ karactl mcp config --cluster production/appdb --client cursor`;
 	.kk-feature__title {
 		font-size: 1.15rem;
 		margin-bottom: 0.6rem;
+	}
+	/* Engine cards lead with the brand mark on a tile; feature cards keep the bare title. */
+	.kk-feature__title--brand {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		min-height: 2.25rem;
 	}
 	.kk-feature__title a {
 		color: var(--kk-ink);
@@ -1046,8 +1076,16 @@ karactl mcp config --cluster production/appdb --client cursor`;
 		color: var(--kk-accent);
 	}
 	.kk-backend__title {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 		font-size: 1.35rem;
 		letter-spacing: -0.015em;
+	}
+	.kk-backend__title :global(.kk-brand-tile) {
+		width: 2.5rem;
+		height: 2.5rem;
+		font-size: 1.4rem;
 	}
 	.kk-backend__title a {
 		color: var(--kk-ink);

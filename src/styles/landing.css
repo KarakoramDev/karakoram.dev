@@ -2,6 +2,7 @@
 /* Global styles for the non-Starlight pages (landing, 404). Tokens live in tokens.css. */
 
 @import './tokens.css';
+@import './brands.css';
 
 *,
 *::before,

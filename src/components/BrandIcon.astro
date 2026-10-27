@@ -1,0 +1,17 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+// Inline brand mark for a backend or engine (src/lib/brands.mjs). Decorative by default: the
+// product name is always written next to it. `tile` wraps it in the fixed box used by cards and titles.
+import { brandIconHtml } from '../lib/brands.mjs';
+
+interface Props {
+	brand: string;
+	/** Expose the product name as the accessible name instead of hiding the mark. */
+	labelled?: boolean;
+	tile?: boolean;
+}
+const { brand, labelled = false, tile = false } = Astro.props;
+const html = brandIconHtml(brand, { labelled });
+---
+
+{tile ? <span class="kk-brand-tile" set:html={html} /> : <Fragment set:html={html} />}

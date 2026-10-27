@@ -9,6 +9,7 @@ import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import { visit } from 'unist-util-visit';
 import { slug as githubSlug } from 'github-slugger';
+import { brandForLabel } from '../src/lib/brands.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const repo = process.env.KARAKORAM_REPO || 'KarakoramDev/Karakoram';
@@ -163,6 +164,15 @@ const labels = {
   'README.md': 'Overview', 'CONTRIBUTING.md': 'Contributing', 'CODE_OF_CONDUCT.md': 'Code of Conduct',
   'docs/verification.md': 'Verification', 'docs/native-artifacts.md': 'Native artifacts', 'docs/adr/README.md': 'Index',
   ...Object.assign({}, ...sections.map(([, pages]) => pages)),
+};
+// Brand mark shown next to the page title (StarlightPageTitle): every page of an engine's
+// directory carries that engine's mark; the backend guides carry their backend's.
+const backendPages = Object.keys(Object.fromEntries(sections).Backends);
+const brandFor = (original) => {
+  const directory = original.split('/').length > 2 ? original.split('/')[1] : undefined;
+  if (directory && engineDirectories[directory]) return brandForLabel(engineDirectories[directory]);
+  if (backendPages.includes(original)) return brandForLabel(labels[original]);
+  return undefined;
 };
 
 function makeSidebar(pages) {
@@ -332,7 +342,8 @@ async function main() {
     for (const replacement of replacements) body = body.slice(0, replacement.start) + replacement.value + body.slice(replacement.end);
     const head = hasMermaid
       ? `head:\n  - tag: script\n    attrs:\n      type: module\n      src: ${JSON.stringify(`${base}_astro/karakoram-mermaid.js`)}\n` : '';
-    page.content = `---\ntitle: ${JSON.stringify(page.title)}\ndescription: ${JSON.stringify(page.description)}\neditUrl: ${JSON.stringify(`${github}/edit/${encodeURIComponent(ref)}/${encodePath(page.original)}`)}\nsidebar:\n  order: ${page.order}\n  label: ${JSON.stringify(page.label)}\n${head}---\n${body}`;
+    const brand = brandFor(page.original);
+    page.content = `---\ntitle: ${JSON.stringify(page.title)}\ndescription: ${JSON.stringify(page.description)}\neditUrl: ${JSON.stringify(`${github}/edit/${encodeURIComponent(ref)}/${encodePath(page.original)}`)}\n${brand ? `brand: ${JSON.stringify(brand)}\n` : ''}sidebar:\n  order: ${page.order}\n  label: ${JSON.stringify(page.label)}\n${head}---\n${body}`;
   }
   if (failures.length) throw new Error(`Documentation ingestion failed (${failures.length} invalid link${failures.length === 1 ? '' : 's'}):\n${failures.join('\n')}`);
   // Validate first, then replace the generated content in one run.
