@@ -34,9 +34,10 @@ const sidebarMarkdown = (items, depth = 0) => items.map((item) => {
 	return `${indent}- [${item.label}](${absolute(`${item.slug}/`)})`;
 }).join('\n');
 
-// Documentation pages moved by the control-plane/engine restructure, plus the pricing page renamed to operating costs; old URLs were linked publicly.
+// Documentation pages moved by the control-plane/engine restructure and the provider and operating-costs renames; old URLs were linked publicly.
 const movedDocs = {
 	pricing: 'operating-costs',
+	backends: 'providers',
 	'user-guide/replica-sets': 'mongodb/replica-sets',
 	'user-guide/sharding': 'mongodb/sharding',
 	'user-guide/users-tls-access': 'mongodb/access-and-tls',
@@ -73,7 +74,7 @@ export default defineConfig({
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/KarakoramDev/Karakoram' }],
 			customCss: ['./src/styles/starlight.css'],
 			// Inline the mark with currentColor so it follows the theme (design-owned); brand marks
-			// (src/lib/brands.mjs) in the sidebar and in engine/backend page titles.
+			// (src/lib/brands.mjs) in the sidebar and in engine/provider page titles.
 			components: {
 				SiteTitle: './src/components/StarlightSiteTitle.astro',
 				Head: './src/components/StarlightHead.astro',
@@ -92,7 +93,7 @@ export default defineConfig({
 			plugins: [
 				starlightLlmsTxt({
 					projectName: 'Karakoram',
-					description: 'Karakoram is an Apache-2.0, self-hosted control plane for databases and stateful services on infrastructure you run: Zerops (the reference backend), Dokploy or Nomad. It orchestrates databases, message brokers, search, identity, secrets and workflow engines; see the engine guides for capabilities and backend availability. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, operating costs, cluster and fleet operations, backups and backup drills, control-plane backup and rebuild, notifications, access control, security and MCP client setup.',
+					description: 'Karakoram is an Apache-2.0, self-hosted control plane for databases and stateful services on infrastructure you run: Zerops (the reference provider), Dokploy or Nomad. It orchestrates databases, message brokers, search, identity, secrets and workflow engines; see the engine guides for capabilities and provider availability. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, providers, operating costs, cluster and fleet operations, backups and backup drills, control-plane backup and rebuild, notifications, access control, security and MCP client setup.',
 					details: `Documentation sections and pages:\n\n${sidebarMarkdown(sidebar)}`,
 				}),
 				starlightLinksValidator({ errorOnRelativeLinks: true, errorOnInvalidHashes: true }),

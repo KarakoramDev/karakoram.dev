@@ -96,11 +96,11 @@ function pageSlug(original) {
   return original.replace(/\.md$/i, '').replace(/\/(?:readme|index)$/i, '').split('/').map(githubSlug).join('/');
 }
 
-// Sidebar layout: getting started, backend-neutral control-plane pages, fleet operations, backends, interfaces, AI agents, then one group per engine.
+// Sidebar layout: getting started, provider-neutral control-plane pages, fleet operations, providers, interfaces, AI agents, then one group per engine.
 // Pages missing from this list are appended to their directory's group (or "Control plane"); pages absent from the checkout are skipped.
 const sections = [
   ['Getting started', {
-    'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/backends.md': 'Backends', 'docs/operating-costs.md': 'Operating costs',
+    'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/providers.md': 'Providers', 'docs/operating-costs.md': 'Operating costs',
     'docs/upgrade.md': 'Upgrade',
   }],
   ['Control plane', {
@@ -111,7 +111,7 @@ const sections = [
   ['Fleet operations', {
     'docs/control-plane-backup.md': 'Control-plane backup and rebuild', 'docs/backup-drills.md': 'Backup drills', 'docs/notifications.md': 'Notifications',
   }],
-  ['Backends', { 'docs/zerops.md': 'Zerops', 'docs/dokploy.md': 'Dokploy', 'docs/nomad.md': 'Nomad' }],
+  ['Providers', { 'docs/zerops.md': 'Zerops', 'docs/dokploy.md': 'Dokploy', 'docs/nomad.md': 'Nomad' }],
   ['Interfaces', { 'docs/web-ui.md': 'Web UI', 'docs/cli.md': 'CLI (karactl)', 'docs/api.md': 'REST API and SDK' }],
   ['AI agents', { 'docs/mcp-quickstart.md': 'MCP quick start', 'docs/mcp.md': 'MCP server', 'docs/data-mcp.md': 'Cluster data MCP' }],
   ['MongoDB', {
@@ -166,8 +166,8 @@ const labels = {
   ...Object.assign({}, ...sections.map(([, pages]) => pages)),
 };
 // Brand mark shown next to the page title (StarlightPageTitle): every page of an engine's
-// directory carries that engine's mark; the backend guides carry their backend's.
-const backendPages = Object.keys(Object.fromEntries(sections).Backends);
+// directory carries that engine's mark; the provider guides carry their provider's.
+const backendPages = Object.keys(Object.fromEntries(sections).Providers);
 const brandFor = (original) => {
   const directory = original.split('/').length > 2 ? original.split('/')[1] : undefined;
   if (directory && engineDirectories[directory]) return brandForLabel(engineDirectories[directory]);

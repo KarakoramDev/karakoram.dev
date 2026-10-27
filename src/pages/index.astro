@@ -17,7 +17,7 @@ const backends = [
 	{
 		title: 'Zerops',
 		brand: 'zerops',
-		status: 'Reference backend',
+		status: 'Reference provider',
 		href: docs('zerops/'),
 		text: 'Import one YAML into an existing project. Runtimes, Local Storage volumes, HTTPS subdomains and public ports come from the <a href="https://zerops.io">Zerops</a> REST API with a project-scoped token.',
 	},
@@ -35,8 +35,8 @@ const backends = [
 	},
 ];
 
-// Status is shown once per card: engines added in v0.4.0 are experimental until exercised against live backends;
-// fleet operations are verified offline (tests without a live backend).
+// Status is shown once per card: engines added in v0.4.0 are experimental until exercised against live providers;
+// fleet operations are verified offline (tests without a live provider).
 const engines = [
 	{
 		title: 'MongoDB',
@@ -88,7 +88,7 @@ const engines = [
 		brand: 'percona',
 		status: 'Experimental',
 		href: docs('mysql/'),
-		text: 'A separate provider for <a href="https://galeracluster.com">Galera</a> clusters of three or five <a href="https://www.percona.com/mysql/software/percona-xtradb-cluster">Percona XtraDB Cluster</a> 8.4 or 8.0 members with encrypted IST and SST, one ProxySQL-routed writer despite Galera\u2019s multi-writer capability, the same <a href="https://www.mysql.com">MySQL</a> access interface, and XtraBackup backups with PITR kept under their own provenance.',
+		text: 'A separate driver for <a href="https://galeracluster.com">Galera</a> clusters of three or five <a href="https://www.percona.com/mysql/software/percona-xtradb-cluster">Percona XtraDB Cluster</a> 8.4 or 8.0 members with encrypted IST and SST, one ProxySQL-routed writer despite Galera\u2019s multi-writer capability, the same <a href="https://www.mysql.com">MySQL</a> access interface, and XtraBackup backups with PITR kept under their own provenance.',
 		also: [{ label: 'Configuration and topology', href: docs('mysql/configuration/') }],
 	},
 	{
@@ -174,7 +174,7 @@ const features = [
 	{
 		title: 'Namespaces',
 		href: docs('namespaces/'),
-		text: 'Operate clusters across several backend targets (Zerops projects, Dokploy environments, Nomad namespaces) from one control plane: per-namespace credentials, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
+		text: 'Operate clusters across several provider targets (Zerops projects, Dokploy environments, Nomad namespaces) from one control plane: per-namespace credentials, outbound authenticated relays and permission-gated cross-namespace restore and clone.',
 	},
 ];
 
@@ -208,7 +208,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 				<p class="kk-eyebrow">Apache-2.0 · Self-hosted</p>
 				<h1 id="hero-title" class="kk-hero__title">Self-hosted database and stateful-service orchestration on infrastructure you run.</h1>
 				<p class="kk-hero__lede">
-					Karakoram provisions and operates databases, message brokers, search, identity, secrets and workflow engines on a backend you control:
+					Karakoram provisions and operates databases, message brokers, search, identity, secrets and workflow engines on a provider you control:
 					a <a href="https://go.dev">Go</a> control plane with a REST API, the <code>karactl</code> CLI, a web UI and an <a href="https://modelcontextprotocol.io">MCP</a> server for AI agents.
 					No <a href="https://kubernetes.io">Kubernetes</a>, no hosted coordinator.
 				</p>
@@ -218,7 +218,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<a class="kk-btn kk-btn--ghost" href={github} rel="noopener">View on GitHub</a>
 				</div>
 				<p class="kk-hero__backends">
-					<span class="kk-hero__backends-label">Runs on</span>
+					<span class="kk-hero__backends-label"><a href={docs('providers/')}>Runs on</a></span>
 					{backends.map((b) => (
 						<a href={b.href}><BrandIcon brand={b.brand} /> {b.title}</a>
 					))}
@@ -238,16 +238,16 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<div class="kk-isnot__col">
 						<h3>Karakoram is</h3>
 						<ul class="kk-list kk-list--yes">
-							<li>A control plane you run on your own infrastructure backend, with your own credentials: Zerops, Dokploy or Nomad.</li>
+							<li>A control plane you run on your own infrastructure provider, with your own credentials: Zerops, Dokploy or Nomad.</li>
 							<li>A coordinator for databases, message brokers, search, identity, secrets and workflow engines, with engine-specific topologies, access controls and recovery procedures.</li>
-							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. The backend supplies runtimes, volumes and routing; it is not the operator of your databases and services.</li>
+							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. The provider supplies runtimes, volumes and routing; it is not the operator of your databases and services.</li>
 						</ul>
 					</div>
 					<div class="kk-isnot__col">
 						<h3>Karakoram is not</h3>
 						<ul class="kk-list kk-list--no">
 							<li>A managed or hosted service. Nobody runs it for you.</li>
-							<li>A Kubernetes operator. It talks to each backend's own API directly: the Zerops REST API, Dokploy or Nomad.</li>
+							<li>A Kubernetes operator. It talks to each provider's own API directly: the Zerops REST API, Dokploy or Nomad.</li>
 							<li>A guarantee of physical-host anti-affinity or independent failure domains. Healthy voters do not prove that.</li>
 							<li>Highly available itself: the control plane has one replica and each member's volume lives on a single host.</li>
 						</ul>
@@ -266,7 +266,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<h2 id="features-title" class="kk-section__title">What it operates</h2>
 					<p class="kk-section__lede">
 						Twelve engines behind one control plane. Each card shows its release status and links to the documentation
-						that describes supported capabilities and backend availability.
+						that describes supported capabilities and provider availability.
 					</p>
 				</div>
 				{[['Engines', engines], ['Across engines', features]].map(([group, items]) => (
@@ -306,15 +306,15 @@ karactl mcp config --cluster production/appdb --client cursor`;
 			</div>
 		</section>
 
-		<!-- Backends -->
+		<!-- Providers -->
 		<section class="kk-section" aria-labelledby="backends-title">
 			<div class="kk-container">
 				<div class="kk-section__head">
-					<p class="kk-eyebrow">Backends</p>
+					<p class="kk-eyebrow">Providers</p>
 					<h2 id="backends-title" class="kk-section__title">One control plane, three places to run it</h2>
 					<p class="kk-section__lede">
-						A backend supplies runtimes, persistent volumes and routing through its own API; Karakoram never needs Kubernetes. <a href="https://zerops.io">Zerops</a> is the
-						reference backend. See the <a href={docs('backends/')}>backend comparison</a> for status and acceptance limits.
+						A provider supplies runtimes, persistent volumes and routing through its own API; Karakoram never needs Kubernetes. <a href="https://zerops.io">Zerops</a> is the
+						reference provider. See the <a href={docs('providers/')}>provider comparison</a> for status and acceptance limits.
 					</p>
 				</div>
 				<ul class="kk-backends">
@@ -327,7 +327,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					))}
 				</ul>
 				<p class="kk-backends__more">
-					<a class="kk-more" href={docs('backends/')}>Compare the backends</a> <a class="kk-more" href={docs('operating-costs/')}>Operating costs</a>
+					<a class="kk-more" href={docs('providers/')}>Compare the providers</a> <a class="kk-more" href={docs('operating-costs/')}>Operating costs</a>
 				</p>
 			</div>
 		</section>
@@ -337,11 +337,11 @@ karactl mcp config --cluster production/appdb --client cursor`;
 			<div class="kk-container">
 				<div class="kk-section__head">
 					<p class="kk-eyebrow">How it runs</p>
-					<h2 id="how-title" class="kk-section__title">Everything lives on your own backend</h2>
+					<h2 id="how-title" class="kk-section__title">Everything lives on your own provider</h2>
 					<p class="kk-section__lede">
 						The figure shows a sharded <a href="https://www.mongodb.com">MongoDB</a> cluster. PostgreSQL and MySQL members, RabbitMQ brokers, Elasticsearch, Weaviate and OpenBao nodes
 						follow the same pattern: one Ubuntu 24.04 runtime and one persistent volume per node, a node agent next to the engine process, and
-						backups written to object storage you register. The backend supplies the runtimes, volumes and routing; the layout is the same on
+						backups written to object storage you register. The provider supplies the runtimes, volumes and routing; the layout is the same on
 						Zerops, Dokploy and Nomad.
 					</p>
 				</div>

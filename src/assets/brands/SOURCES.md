@@ -1,6 +1,6 @@
 # Brand marks: sources and licences
 
-The marks next to backend and engine names (landing page cards and "Runs on" row, docs sidebar,
+The marks next to provider and engine names (landing page cards and "Runs on" row, docs sidebar,
 docs page titles and docs tables) are inlined from `src/lib/brands.mjs`. The path data there is
 verbatim from the sources below; the only edits are a `viewBox` cropped to the mark and the fill
 set per theme as described. Nothing is hotlinked. The SVG files in this directory are the

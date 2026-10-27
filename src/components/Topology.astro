@@ -1,19 +1,19 @@
 ---
 // SPDX-License-Identifier: Apache-2.0
-// Deployment topology drawn from docs/architecture.md, using a sharded MongoDB cluster as the example. The backend layer
+// Deployment topology drawn from docs/architecture.md, using a sharded MongoDB cluster as the example. The provider layer
 // (Zerops, Dokploy, Nomad) supplies runtimes, volumes and routing; the layout inside the target is the same everywhere.
 // Inline SVG so it follows the theme tokens; a prose explanation sits next to it in index.astro.
 ---
 
 <div class="kk-topology" role="region" aria-label="Deployment topology diagram, MongoDB example (scrolls horizontally on small screens)" tabindex="0">
 	<svg viewBox="0 0 640 660" role="img" aria-labelledby="kk-topology-title kk-topology-desc" class="kk-topology__svg">
-		<title id="kk-topology-title">Karakoram deployment topology, shown for a sharded MongoDB cluster on any backend</title>
+		<title id="kk-topology-title">Karakoram deployment topology, shown for a sharded MongoDB cluster on any provider</title>
 		<desc id="kk-topology-desc">
-			An infrastructure backend (Zerops, Dokploy or Nomad) supplies runtimes, persistent volumes and routing inside one
+			An infrastructure provider (Zerops, Dokploy or Nomad) supplies runtimes, persistent volumes and routing inside one
 			target: a Zerops project, a Dokploy environment or a Nomad namespace. Inside that target: the karakoram control-plane runtime with its
 			karakoramdata volume holding SQLite state, a mongos router for sharded clusters, and database members that each run mongod, a node
 			agent and a PBM agent on their own persistent volume. Browsers and karactl reach the control plane over HTTPS; the control plane calls
-			the backend's API with the credentials of that namespace and talks to agents over TLS. PBM agents write backups to S3-compatible object
+			the provider's API with the credentials of that namespace and talks to agents over TLS. PBM agents write backups to S3-compatible object
 			storage outside the members. PostgreSQL members, RabbitMQ brokers and Elasticsearch nodes use the same layout of one runtime, one volume
 			and one node agent per member.
 		</desc>
@@ -29,16 +29,16 @@
 			<text x="150" y="44" class="kk-t-title">Browser · karactl</text>
 			<text x="150" y="66" class="kk-t-sub">web UI, REST API, CLI</text>
 		</g>
-		<!-- outside: infrastructure backend -->
+		<!-- outside: infrastructure provider -->
 		<g class="kk-t-node kk-t-node--outside kk-t-node--backend">
 			<rect x="360" y="12" width="250" height="76" rx="10" />
-			<text x="485" y="36" class="kk-t-title">Infrastructure backend</text>
+			<text x="485" y="36" class="kk-t-title">Infrastructure provider</text>
 			<text x="485" y="57" class="kk-t-sub">Zerops · Dokploy · Nomad</text>
 		</g>
 
 		<!-- target boundary -->
 		<rect x="20" y="124" width="600" height="416" rx="16" class="kk-t-project" />
-		<text x="38" y="152" class="kk-t-label">Your backend target</text>
+		<text x="38" y="152" class="kk-t-label">Your provider target</text>
 		<text x="602" y="152" class="kk-t-edge" style="text-anchor: end">Zerops project · Dokploy environment · Nomad namespace</text>
 
 		<!-- control plane -->
@@ -106,7 +106,7 @@
 			<path d="M230 168v-58h260V90" />
 		</g>
 		<text x="118" y="112" class="kk-t-edge" text-anchor="end">HTTPS</text>
-		<text x="360" y="104" class="kk-t-edge">backend API · namespace credentials</text>
+		<text x="360" y="104" class="kk-t-edge">provider API · namespace credentials</text>
 
 		<!-- backups to S3 -->
 		<g class="kk-t-line kk-t-line--dash">

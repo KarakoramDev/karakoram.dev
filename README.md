@@ -3,7 +3,7 @@
 Source for [karakoram.dev](https://karakoram.dev), the website and documentation
 of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted database
 and stateful-service orchestration on infrastructure you run: [Zerops](https://zerops.io) (the
-reference backend), [Dokploy](https://dokploy.com) and [HashiCorp Nomad](https://developer.hashicorp.com/nomad).
+reference provider), [Dokploy](https://dokploy.com) and [HashiCorp Nomad](https://developer.hashicorp.com/nomad).
 
 The site is a static [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) build published with GitHub Pages:
@@ -47,8 +47,8 @@ an internal link or `#anchor` does not resolve
 | --- | --- |
 | `README.md` | `/docs/` |
 | `docs/quickstart.md`, `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/quickstart/`, `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
-| `docs/backends.md`, `docs/operating-costs.md` | `/docs/backends/`, `/docs/operating-costs/` (sidebar group "Getting started") |
-| `docs/zerops.md`, `docs/dokploy.md`, `docs/nomad.md` | `/docs/zerops/`, `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Backends", in that order) |
+| `docs/providers.md`, `docs/operating-costs.md` | `/docs/providers/`, `/docs/operating-costs/` (sidebar group "Getting started") |
+| `docs/zerops.md`, `docs/dokploy.md`, `docs/nomad.md` | `/docs/zerops/`, `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Providers", in that order) |
 | `docs/control-plane-backup.md`, `docs/backup-drills.md`, `docs/notifications.md` | `/docs/control-plane-backup/`, `/docs/backup-drills/`, `/docs/notifications/` (sidebar group "Fleet operations") |
 | `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces", "AI agents" or "Reference") |
 | `docs/<engine>/README.md`, `docs/<engine>/<name>.md` | `/docs/<engine>/`, `/docs/<engine>/<name>/` (one sidebar group per engine: MongoDB, PostgreSQL, Supabase, RabbitMQ, Elasticsearch, MySQL and PXC, Neo4j, Weaviate, Keycloak, OpenBao, Temporal) |
@@ -56,8 +56,8 @@ an internal link or `#anchor` does not resolve
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` | `/docs/contributing/`, `/docs/code-of-conduct/` |
 
 Sidebar groups, order and labels are listed in `sections` in `scripts/ingest-docs.mjs`.
-Old `/docs/user-guide/<name>/` URLs and `/docs/pricing/` redirect to their new
-pages (`movedDocs` in `astro.config.mjs`).
+Old `/docs/user-guide/<name>/` URLs, `/docs/pricing/` and `/docs/backends/` redirect
+to their new pages (`movedDocs` in `astro.config.mjs`).
 
 ## Machine-readable documentation
 
@@ -140,7 +140,7 @@ Keycloak, OpenBao, Temporal, Zerops, Dokploy and Nomad names and marks belong to
 their respective owners. Karakoram is independent and is not affiliated with or
 endorsed by any of them.
 
-The brand marks shown next to backend and engine names (landing page, docs
+The brand marks shown next to provider and engine names (landing page, docs
 sidebar, page titles and tables) are inlined from `src/lib/brands.mjs`;
 `src/assets/brands/SOURCES.md` records the source, licence and colour rule of
 each mark. Docs pages receive theirs through the `brand` frontmatter written by

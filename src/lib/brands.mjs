@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// Brand marks shown next to backend and engine names on the landing page and in the docs.
+// Brand marks shown next to provider and engine names on the landing page and in the docs.
 // Path data is verbatim from the sources listed in src/assets/brands/SOURCES.md (also licences
 // and the per-brand colour rules); viewBoxes crop to the mark and centre it in a square.
 // `color` is { light, dark } for the two site themes; omitted = the brand's black/white
@@ -11,7 +11,7 @@
 
 /** @type {Record<string, Brand>} */
 export const brands = {
-	// Backends (Zerops first).
+	// Providers (Zerops first).
 	zerops: {
 		name: 'Zerops',
 		viewBox: '-4.11 0 50.5 50.5',

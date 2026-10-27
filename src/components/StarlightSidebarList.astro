@@ -1,7 +1,7 @@
 ---
 // SPDX-License-Identifier: Apache-2.0
 // Starlight's SidebarSublist (0.42.6) plus a brand mark in front of engine groups and of the links
-// in the "Backends" group. Starlight's sidebar config has no icon slot, so the mark is looked up
+// in the "Providers" group. Starlight's sidebar config has no icon slot, so the mark is looked up
 // from the label (brandForLabel). Keep markup and styles in step with Starlight when upgrading.
 import { Badge, Icon } from '@astrojs/starlight/components';
 import SidebarRestorePoint from '@astrojs/starlight/components/SidebarRestorePoint.astro';
@@ -21,7 +21,7 @@ const { sublist, parent } = Astro.props;
 const hasCurrent = (group: Group): boolean =>
 	group.entries.some((entry) => (entry.type === 'link' ? entry.isCurrent : hasCurrent(entry)));
 const brandFor = (entry: Entries[number]) =>
-	(entry.type === 'group' && !parent) || parent?.label === 'Backends' ? brandForLabel(entry.label) : undefined;
+	(entry.type === 'group' && !parent) || parent?.label === 'Providers' ? brandForLabel(entry.label) : undefined;
 ---
 
 <ul class:list={{ 'top-level': !parent }}>

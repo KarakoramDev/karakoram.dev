@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import { brandForLabel, brandIconHtml } from '../lib/brands.mjs';
 
-// Documentation tables name engines and backends in header cells and in the first column
+// Documentation tables name engines and providers in header cells and in the first column
 // ("MongoDB", "Zerops — reference", "Percona XtraDB Cluster (PXC)"). The docs are ingested from
 // the product repository as plain Markdown, so the marks are added here, at render time,
 // in front of such cells; no product doc changes. Satteri HAST plugin (Astro's default processor).
