@@ -1,10 +1,9 @@
 # karakoram.dev
 
 Source for [karakoram.dev](https://karakoram.dev), the website and documentation
-of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted MongoDB,
-PostgreSQL, Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch,
-Weaviate, Neo4j Community, Keycloak, OpenBao and Temporal orchestration on
-infrastructure you run: Zerops (the reference backend), Dokploy and Nomad.
+of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted database
+and stateful-service orchestration on infrastructure you run: Zerops (the
+reference backend), Dokploy and Nomad.
 
 The site is a static [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) build published with GitHub Pages:

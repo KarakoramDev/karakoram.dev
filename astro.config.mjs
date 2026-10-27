@@ -61,7 +61,7 @@ export default defineConfig({
 		starlight({
 			title: 'Karakoram',
 			description:
-				'Self-hosted MongoDB, PostgreSQL, Supabase, MySQL, RabbitMQ, Elasticsearch, Weaviate, Neo4j, Keycloak, OpenBao and Temporal orchestration on infrastructure you run: Percona Server for MongoDB with Percona Backup for MongoDB, Percona PostgreSQL with Patroni, pgBackRest and extension profiles, modular Supabase, Percona Server for MySQL and XtraDB Cluster, RabbitMQ clusters and the Elastic Stack, driven by one control plane on Zerops, Dokploy or Nomad (Temporal on Dokploy and Nomad).',
+				'Self-hosted database and stateful-service orchestration on infrastructure you run: Zerops, Dokploy or Nomad.',
 			logo: { src: './src/assets/logo.svg' },
 			favicon: '/favicon.svg',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/KarakoramDev/Karakoram' }],
@@ -83,7 +83,7 @@ export default defineConfig({
 			plugins: [
 				starlightLlmsTxt({
 					projectName: 'Karakoram',
-					description: 'Karakoram is an Apache-2.0, self-hosted control plane for MongoDB, PostgreSQL (with PostGIS, pgvector and TimescaleDB profiles, consumer bindings and a Citus distributed topology), Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch, Weaviate, Neo4j Community, Keycloak, OpenBao and Temporal on infrastructure you run: Zerops (the reference backend), Dokploy or Nomad; Temporal runs on Dokploy and Nomad only. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, operating costs, cluster and fleet operations, backups and backup drills, control-plane backup and rebuild, notifications, access control, security and MCP client setup.',
+					description: 'Karakoram is an Apache-2.0, self-hosted control plane for databases and stateful services on infrastructure you run: Zerops (the reference backend), Dokploy or Nomad. It orchestrates databases, message brokers, search, identity, secrets and workflow engines; see the engine guides for capabilities and backend availability. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, operating costs, cluster and fleet operations, backups and backup drills, control-plane backup and rebuild, notifications, access control, security and MCP client setup.',
 					details: `Documentation sections and pages:\n\n${sidebarMarkdown(sidebar)}`,
 				}),
 				starlightLinksValidator({ errorOnRelativeLinks: true, errorOnInvalidHashes: true }),

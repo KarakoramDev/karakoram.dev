@@ -21,13 +21,13 @@
   </g>
   <text x="170" y="128" font-family="Instrument Sans, sans-serif" font-weight="650" font-size="56" letter-spacing="-1.5" fill="#e6ebee">Karakoram</text>
   <text font-family="Instrument Sans, sans-serif" font-weight="620" font-size="56" letter-spacing="-1.9" fill="#ffffff">
-    <tspan x="80" y="250">Self-hosted MongoDB, PostgreSQL,</tspan>
-    <tspan x="80" y="314">RabbitMQ and Elasticsearch</tspan>
+    <tspan x="80" y="250">Self-hosted database and</tspan>
+    <tspan x="80" y="314">stateful-service orchestration</tspan>
     <tspan x="80" y="378">on infrastructure you run.</tspan>
   </text>
   <text font-family="Instrument Sans, sans-serif" font-weight="450" font-size="27" fill="#9fabb6">
-    <tspan x="80" y="430">Percona Server for MongoDB, Percona PostgreSQL, modular Supabase,</tspan>
-    <tspan x="80" y="466">RabbitMQ and the Elastic Stack, driven by one control plane on</tspan>
+    <tspan x="80" y="430">Databases, message brokers, search, identity, secrets and workflow</tspan>
+    <tspan x="80" y="466">engines, driven by one control plane on</tspan>
     <tspan x="80" y="502">Zerops, Dokploy or Nomad.</tspan>
   </text>
   <text x="80" y="560" font-family="JetBrains Mono, monospace" font-weight="500" font-size="22" letter-spacing="1" fill="#5fd0d8">karakoram.dev  ·  Apache-2.0  ·  Self-hosted</text>

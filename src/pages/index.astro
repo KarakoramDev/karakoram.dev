@@ -178,8 +178,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 ---
 
 <Base
-	title="Karakoram: self-hosted MongoDB, PostgreSQL, Supabase, MySQL, RabbitMQ, Elasticsearch and more, orchestrated on your own infrastructure"
-	description="Karakoram provisions and operates MongoDB (Percona Server for MongoDB with Percona Backup for MongoDB), PostgreSQL (Percona PostgreSQL, Patroni/etcd HA, pgBackRest, PostGIS, pgvector and TimescaleDB profiles, Citus), modular Supabase, MySQL and Percona XtraDB Cluster, RabbitMQ, Elasticsearch, Weaviate, Neo4j Community, Keycloak and OpenBao on infrastructure backends you run: Zerops, Dokploy and Nomad; Temporal on Dokploy and Nomad. Go control plane, REST API, karactl CLI, web UI and a read-only-by-default MCP server for AI agents. Apache-2.0, no Kubernetes, no hosted coordinator."
+	title="Karakoram: self-hosted database and stateful-service orchestration"
+	description="Self-hosted database and stateful-service orchestration on infrastructure you run: Zerops, Dokploy or Nomad. One control plane with a REST API, karactl CLI, web UI and MCP server for AI agents. Apache-2.0, no Kubernetes, no hosted coordinator."
 	path="/"
 >
 	<SiteHeader />
@@ -190,12 +190,11 @@ karactl mcp config --cluster production/appdb --client cursor`;
 			<div class="kk-hero__art"><RidgeField /></div>
 			<div class="kk-container kk-hero__inner">
 				<p class="kk-eyebrow">Apache-2.0 · Self-hosted</p>
-				<h1 id="hero-title" class="kk-hero__title">Self-hosted MongoDB, PostgreSQL, RabbitMQ and Elasticsearch orchestration on infrastructure you run.</h1>
+				<h1 id="hero-title" class="kk-hero__title">Self-hosted database and stateful-service orchestration on infrastructure you run.</h1>
 				<p class="kk-hero__lede">
-					Karakoram provisions and operates Percona Server for MongoDB, Percona PostgreSQL with Patroni and pgBackRest, modular Supabase,
-					RabbitMQ clusters and the Elastic Stack on a backend you control, and since v0.4.0 also MySQL and Percona XtraDB Cluster, Neo4j,
-					Weaviate, Keycloak, OpenBao and Temporal: a Go control plane with a REST API, the <code>karactl</code> CLI, a web UI and an MCP
-					server for AI agents. No Kubernetes, no hosted coordinator.
+					Karakoram provisions and operates databases, message brokers, search, identity, secrets and workflow engines on a backend you control:
+					a Go control plane with a REST API, the <code>karactl</code> CLI, a web UI and an MCP server for AI agents.
+					No Kubernetes, no hosted coordinator.
 				</p>
 				<div class="kk-hero__cta">
 					<a class="kk-btn kk-btn--primary" href={withBase('/docs/')}>Read the docs</a>
@@ -224,8 +223,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						<h3>Karakoram is</h3>
 						<ul class="kk-list kk-list--yes">
 							<li>A control plane you run on your own infrastructure backend, with your own credentials: Zerops, Dokploy or Nomad.</li>
-							<li>A coordinator for twelve engines: Percona's PSMDB and PBM (replica sets, sharded clusters, point-in-time recovery), Percona PostgreSQL (Patroni/etcd HA, ProxySQL, extension profiles, consumer bindings, Citus, pgBackRest with PITR), modular Supabase on that PostgreSQL engine, RabbitMQ clusters (quorum queues, definitions backups), Elasticsearch with optional Kibana, Logstash and APM Server (snapshots), and the v0.4.0 additions: Percona Server for MySQL and XtraDB Cluster (XtraBackup with PITR), Neo4j Community, Weaviate, Keycloak, OpenBao and Temporal.</li>
-							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. The backend supplies runtimes, volumes and routing; it is not the operator of your databases and brokers.</li>
+							<li>A coordinator for databases, message brokers, search, identity, secrets and workflow engines, with engine-specific topologies, access controls and recovery procedures.</li>
+							<li>Yours to operate. You own the infrastructure, credentials, data and recovery procedures. The backend supplies runtimes, volumes and routing; it is not the operator of your databases and services.</li>
 						</ul>
 					</div>
 					<div class="kk-isnot__col">
@@ -250,9 +249,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 				<div class="kk-section__head">
 					<h2 id="features-title" class="kk-section__title">What it operates</h2>
 					<p class="kk-section__lede">
-						Twelve engines behind one control plane: the five from earlier releases and seven added in v0.4.0, marked experimental until
-						they have been exercised against live backends. Each capability links to the documentation page that describes exactly what
-						is supported.
+						Twelve engines behind one control plane. Each card shows its release status and links to the documentation
+						that describes supported capabilities and backend availability.
 					</p>
 				</div>
 				{[['Engines', engines], ['Across engines', features]].map(([group, items]) => (
@@ -594,9 +592,9 @@ karactl mcp config --cluster production/appdb --client cursor`;
 							Everest is the highest peak. Karakoram is the range that holds K2 and other giants.
 						</p>
 						<p>
-							The name is a nod to OpenEverest and to growing beyond a single peak. Twelve engines run on three backends today: MongoDB, PostgreSQL,
-							Supabase, RabbitMQ, Elasticsearch, MySQL, Percona XtraDB Cluster, Neo4j, Weaviate, Keycloak and OpenBao on Zerops, Dokploy and Nomad,
-							and Temporal on Dokploy and Nomad. More engines and backends are a direction, not a claim that they exist.
+							The name is a nod to OpenEverest and to growing beyond a single peak. Karakoram orchestrates databases and stateful services
+							on Zerops, Dokploy and Nomad; see the engine guides for backend availability.
+							More engines and backends are a direction, not a claim that they exist.
 						</p>
 					</article>
 				</div>
