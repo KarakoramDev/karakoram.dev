@@ -17,17 +17,17 @@ const backends = [
 		title: 'Zerops',
 		status: 'Reference backend',
 		href: docs('zerops/'),
-		text: 'Import one YAML into an existing project. Runtimes, Local Storage volumes, HTTPS subdomains and public ports come from the Zerops REST API with a project-scoped token.',
+		text: 'Import one YAML into an existing project. Runtimes, Local Storage volumes, HTTPS subdomains and public ports come from the <a href="https://zerops.io">Zerops</a> REST API with a project-scoped token.',
 	},
 	{
 		title: 'Dokploy',
 		href: docs('dokploy/'),
-		text: 'A Dokploy-managed Docker Swarm you operate: one application per member, node-local named volumes spread within a replica set or cluster while enough eligible nodes exist, Swarm ingress for public ports and Traefik domains for HTTPS.',
+		text: 'A <a href="https://dokploy.com">Dokploy</a>-managed <a href="https://docs.docker.com/engine/swarm/">Docker Swarm</a> you operate: one application per member, node-local named volumes spread within a replica set or cluster while enough eligible nodes exist, Swarm ingress for public ports and <a href="https://traefik.io/traefik/">Traefik</a> domains for HTTPS.',
 	},
 	{
 		title: 'Nomad',
 		href: docs('nomad/'),
-		text: 'A HashiCorp Nomad cluster you operate: one exec job per member on an Ubuntu rootfs, dynamic host volumes, Nomad Variables for state and your own load balancer in front.',
+		text: 'A <a href="https://developer.hashicorp.com/nomad">HashiCorp Nomad</a> cluster you operate: one exec job per member on an <a href="https://ubuntu.com">Ubuntu</a> rootfs, dynamic host volumes, Nomad Variables for state and your own load balancer in front.',
 	},
 ];
 
@@ -37,13 +37,13 @@ const engines = [
 	{
 		title: 'MongoDB',
 		href: docs('mongodb/'),
-		text: 'Percona Server for MongoDB with Percona Backup for MongoDB: replica sets of 1, 3, 5 or 7 members, sharded clusters with config servers and mongos routers, PBM logical and physical backups, point-in-time recovery, in-place restore and clone.',
+		text: '<a href="https://www.percona.com/mongodb/software/percona-server-for-mongodb">Percona Server for MongoDB</a> with <a href="https://docs.percona.com/percona-backup-mongodb/latest/">Percona Backup for MongoDB</a>: replica sets of 1, 3, 5 or 7 members, sharded clusters with config servers and mongos routers, PBM logical and physical backups, point-in-time recovery, in-place restore and clone.',
 		also: [{ label: 'Sharded clusters', href: docs('mongodb/sharding/') }],
 	},
 	{
 		title: 'PostgreSQL',
 		href: docs('postgres/'),
-		text: 'Percona PostgreSQL 17 by default, with 16 and 18 majors: a single member or three- and five-member Patroni/etcd HA with a ProxySQL client service, PostGIS, pgvector and TimescaleDB extension profiles, native roles, databases and grants, bindings that give a consumer its own role and databases, pgBackRest full, differential and incremental backups with point-in-time recovery, offline restore and clone, and an experimental Citus distributed topology of one coordinator plus up to eight worker groups.',
+		text: '<a href="https://www.percona.com/postgresql/software">Percona PostgreSQL</a> 17 by default, with 16 and 18 majors: a single member or three- and five-member <a href="https://patroni.readthedocs.io">Patroni</a>/<a href="https://etcd.io">etcd</a> HA with a <a href="https://proxysql.com">ProxySQL</a> client service, <a href="https://postgis.net">PostGIS</a>, <a href="https://github.com/pgvector/pgvector">pgvector</a> and <a href="https://www.timescale.com">TimescaleDB</a> extension profiles, native roles, databases and grants, bindings that give a consumer its own role and databases, <a href="https://pgbackrest.org">pgBackRest</a> full, differential and incremental backups with point-in-time recovery, offline restore and clone, and an experimental <a href="https://www.citusdata.com">Citus</a> distributed topology of one coordinator plus up to eight worker groups.',
 		also: [
 			{ label: 'Extension profiles', href: docs('postgres/profiles/') },
 			{ label: 'Consumer bindings', href: docs('postgres/bindings/') },
@@ -53,66 +53,66 @@ const engines = [
 	{
 		title: 'Supabase',
 		href: docs('supabase/'),
-		text: 'Modular self-hosted Supabase on the PostgreSQL engine: an Envoy gateway, Auth and PostgREST by default, with Realtime, Storage, Studio, Edge Functions, Supavisor and analytics as separately sized components, versions locked to the Karakoram release.',
+		text: 'Modular self-hosted <a href="https://supabase.com">Supabase</a> on the <a href="https://www.postgresql.org">PostgreSQL</a> engine: an <a href="https://www.envoyproxy.io">Envoy</a> gateway, Auth and <a href="https://postgrest.org">PostgREST</a> by default, with Realtime, Storage, Studio, Edge Functions, Supavisor and analytics as separately sized components, versions locked to the Karakoram release.',
 		also: [{ label: 'Components', href: docs('supabase/components/') }],
 	},
 	{
 		title: 'RabbitMQ',
 		href: docs('rabbitmq/'),
-		text: 'RabbitMQ 4.3 clusters of 1, 3, 5 or 7 brokers with persistent per-node storage, quorum queues by default, quorum-gated rolling changes, virtual host, user, permission and policy administration, AMQPS, optional public management UI and definitions backups (no messages or PITR).',
+		text: '<a href="https://www.rabbitmq.com">RabbitMQ</a> 4.3 clusters of 1, 3, 5 or 7 brokers with persistent per-node storage, quorum queues by default, quorum-gated rolling changes, virtual host, user, permission and policy administration, AMQPS, optional public management UI and definitions backups (no messages or PITR).',
 	},
 	{
 		title: 'Elasticsearch',
 		href: docs('elasticsearch/'),
-		text: 'Combined-node or dedicated-master clusters with optional same-version Kibana, Logstash and APM Server, native users, roles and API keys, CA-verified HTTPS, S3 snapshots with restore and clone, and shard-drain-aware scale-down.',
+		text: 'Combined-node or dedicated-master <a href="https://www.elastic.co/elasticsearch">Elasticsearch</a> clusters with optional same-version <a href="https://www.elastic.co/kibana">Kibana</a>, <a href="https://www.elastic.co/logstash">Logstash</a> and <a href="https://www.elastic.co/observability/application-performance-monitoring">APM Server</a>, native users, roles and API keys, CA-verified HTTPS, S3 snapshots with restore and clone, and shard-drain-aware scale-down.',
 	},
 	{
 		title: 'MySQL',
 		status: 'Experimental',
 		href: docs('mysql/'),
-		text: 'Percona Server for MySQL 8.4 by default, with 8.0: a single member or three- and five-member single-primary Group Replication behind ProxySQL, native users, databases and grants, XtraBackup full and incremental backups with GTID-based point-in-time recovery.',
+		text: '<a href="https://www.percona.com/mysql/software/percona-server-for-mysql">Percona Server for MySQL</a> 8.4 by default, with 8.0: a single member or three- and five-member single-primary Group Replication behind ProxySQL, native users, databases and grants, <a href="https://www.percona.com/mysql/software/percona-xtrabackup">XtraBackup</a> full and incremental backups with GTID-based point-in-time recovery.',
 		also: [{ label: 'Backups and PITR', href: docs('mysql/backups/') }],
 	},
 	{
 		title: 'Percona XtraDB Cluster',
 		status: 'Experimental',
 		href: docs('mysql/'),
-		text: 'A separate provider for Galera clusters of three or five PXC 8.4 or 8.0 members with encrypted IST and SST, one ProxySQL-routed writer despite Galera\u2019s multi-writer capability, the same MySQL access interface, and XtraBackup backups with PITR kept under their own provenance.',
+		text: 'A separate provider for <a href="https://galeracluster.com">Galera</a> clusters of three or five <a href="https://www.percona.com/mysql/software/percona-xtradb-cluster">Percona XtraDB Cluster</a> 8.4 or 8.0 members with encrypted IST and SST, one ProxySQL-routed writer despite Galera\u2019s multi-writer capability, the same <a href="https://www.mysql.com">MySQL</a> access interface, and XtraBackup backups with PITR kept under their own provenance.',
 		also: [{ label: 'Configuration and topology', href: docs('mysql/configuration/') }],
 	},
 	{
 		title: 'Neo4j Community',
 		status: 'Experimental',
 		href: docs('neo4j/'),
-		text: 'Neo4j Community 2026.10 on a Temurin 21 JRE: exactly one member with a persistent volume, required TLS, allowlisted settings with heap and page-cache overrides, and offline dumps of the system and graph databases as backups. Every backup is an outage, so schedules need explicit consent; there is no PITR.',
+		text: '<a href="https://neo4j.com">Neo4j Community</a> 2026.10 on a <a href="https://adoptium.net">Temurin</a> 21 JRE: exactly one member with a persistent volume, required TLS, allowlisted settings with heap and page-cache overrides, and offline dumps of the system and graph databases as backups. Every backup is an outage, so schedules need explicit consent; there is no PITR.',
 		also: [{ label: 'Offline backups', href: docs('neo4j/backups/') }],
 	},
 	{
 		title: 'Weaviate',
 		status: 'Experimental',
 		href: docs('weaviate/'),
-		text: 'Official Weaviate 1.40 binaries with community features only: a single member or clusters of 3 to 9 data members with three fixed Raft voters, API keys, RBAC and dynamic database users, client TLS by default, native S3 full backups (no incremental or PITR) and scale-down that drains replicas before removing non-voters.',
+		text: 'Official <a href="https://weaviate.io">Weaviate</a> 1.40 binaries with community features only: a single member or clusters of 3 to 9 data members with three fixed Raft voters, API keys, RBAC and dynamic database users, client TLS by default, native S3 full backups (no incremental or PITR) and scale-down that drains replicas before removing non-voters.',
 		also: [{ label: 'Access and TLS', href: docs('weaviate/access-and-tls/') }],
 	},
 	{
 		title: 'Keycloak',
 		status: 'Experimental',
 		href: docs('keycloak/'),
-		text: 'Official Keycloak 26.8 on OpenJDK 21: one native runtime whose realms, identities and sessions live in a bound PostgreSQL database with a dedicated non-superuser role, JDBC over verify-full TLS, sealed bootstrap credentials and a private HTTP port for your TLS-terminating ingress.',
+		text: 'Official <a href="https://www.keycloak.org">Keycloak</a> 26.8 on <a href="https://openjdk.org">OpenJDK</a> 21: one native runtime whose realms, identities and sessions live in a bound PostgreSQL database with a dedicated non-superuser role, JDBC over verify-full TLS, sealed bootstrap credentials and a private HTTP port for your TLS-terminating ingress.',
 		also: [{ label: 'PostgreSQL bindings', href: docs('postgres/bindings/') }],
 	},
 	{
 		title: 'OpenBao',
 		status: 'Experimental',
 		href: docs('openbao/'),
-		text: 'OpenBao 2.7 with integrated Raft: 1, 3 or 5 members, mandatory TLS with a cluster CA, a Shamir seal by default or transit and AWS KMS auto-unseal, S3 Raft-snapshot backups (no PITR), and native tokens and policies for application access.',
+		text: '<a href="https://openbao.org">OpenBao</a> 2.7 with integrated Raft: 1, 3 or 5 members, mandatory TLS with a cluster CA, a Shamir seal by default or transit and <a href="https://aws.amazon.com/kms/">AWS KMS</a> auto-unseal, S3 Raft-snapshot backups (no PITR), and native tokens and policies for application access.',
 		also: [{ label: 'Operations and unseal', href: docs('openbao/operations/') }],
 	},
 	{
 		title: 'Temporal',
 		status: 'Experimental',
 		href: docs('temporal/'),
-		text: 'Temporal 1.32 or 1.31 with the release-locked web UI, persisted in a bound PostgreSQL cluster: a combined server or split stateless roles with independent replicas, a private TLS gRPC frontend with client certificates, and recovery from the source PostgreSQL backup plus a cluster-state manifest. Runs on Dokploy and Nomad; not yet on Zerops, which lacks the private IPv4 route it needs.',
+		text: '<a href="https://temporal.io">Temporal</a> 1.32 or 1.31 with the release-locked web UI, persisted in a bound PostgreSQL cluster: a combined server or split stateless roles with independent replicas, a private TLS gRPC frontend with client certificates, and recovery from the source PostgreSQL backup plus a cluster-state manifest. Runs on Dokploy and Nomad; not yet on Zerops, which lacks the private IPv4 route it needs.',
 		also: [{ label: 'Operations and recovery', href: docs('temporal/operations/') }],
 	},
 ];
@@ -132,7 +132,7 @@ const features = [
 		title: 'Fleet operations and recovery',
 		status: 'Verified offline',
 		href: docs('control-plane-backup/'),
-		text: 'Rolling agent upgrades kept separate from database upgrades, maintenance windows that defer disruptive work, member relocation through native replacement, S3 snapshots of the control plane\u2019s own state with rebuild runbooks, webhook, Slack and email notification channels, and backup drills that restore a backup into a scratch cluster and record what was checked.',
+		text: 'Rolling agent upgrades kept separate from database upgrades, maintenance windows that defer disruptive work, member relocation through native replacement, S3 snapshots of the control plane\u2019s own state with rebuild runbooks, webhook, <a href="https://slack.com">Slack</a> and email notification channels, and backup drills that restore a backup into a scratch cluster and record what was checked.',
 		also: [
 			{ label: 'Backup drills', href: docs('backup-drills/') },
 			{ label: 'Notifications', href: docs('notifications/') },
@@ -152,7 +152,7 @@ const features = [
 	{
 		title: 'Monitoring, auth and RBAC',
 		href: docs('monitoring/'),
-		text: 'Per-member monitoring, authenticated Prometheus output, events and logs, local accounts, OIDC, RBAC and owner-scoped API tokens.',
+		text: 'Per-member monitoring, authenticated <a href="https://prometheus.io">Prometheus</a> output, events and logs, local accounts, OIDC, RBAC and owner-scoped API tokens.',
 		also: [{ label: 'Access control', href: docs('access-control/') }],
 	},
 	{
@@ -193,8 +193,8 @@ karactl mcp config --cluster production/appdb --client cursor`;
 				<h1 id="hero-title" class="kk-hero__title">Self-hosted database and stateful-service orchestration on infrastructure you run.</h1>
 				<p class="kk-hero__lede">
 					Karakoram provisions and operates databases, message brokers, search, identity, secrets and workflow engines on a backend you control:
-					a Go control plane with a REST API, the <code>karactl</code> CLI, a web UI and an MCP server for AI agents.
-					No Kubernetes, no hosted coordinator.
+					a <a href="https://go.dev">Go</a> control plane with a REST API, the <code>karactl</code> CLI, a web UI and an <a href="https://modelcontextprotocol.io">MCP</a> server for AI agents.
+					No <a href="https://kubernetes.io">Kubernetes</a>, no hosted coordinator.
 				</p>
 				<div class="kk-hero__cta">
 					<a class="kk-btn kk-btn--primary" href={withBase('/docs/')}>Read the docs</a>
@@ -262,7 +262,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 									<h3 class="kk-feature__title">
 										<a href={f.href}>{f.title}{f.status && <small>{f.status}</small>}</a>
 									</h3>
-									<p class="kk-feature__text">{f.text}</p>
+									<p class="kk-feature__text" set:html={f.text} />
 									{f.also && (
 										<p class="kk-feature__also">
 											See also {f.also.map((link, index) => (
@@ -296,7 +296,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<p class="kk-eyebrow">Backends</p>
 					<h2 id="backends-title" class="kk-section__title">One control plane, three places to run it</h2>
 					<p class="kk-section__lede">
-						A backend supplies runtimes, persistent volumes and routing through its own API; Karakoram never needs Kubernetes. Zerops is the
+						A backend supplies runtimes, persistent volumes and routing through its own API; Karakoram never needs Kubernetes. <a href="https://zerops.io">Zerops</a> is the
 						reference backend. See the <a href={docs('backends/')}>backend comparison</a> for status and acceptance limits.
 					</p>
 				</div>
@@ -305,7 +305,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 						<li class="kk-backend">
 							{b.status && <p class="kk-backend__status">{b.status}</p>}
 							<h3 class="kk-backend__title"><a href={b.href}>{b.title}</a></h3>
-							<p class="kk-backend__text">{b.text}</p>
+							<p class="kk-backend__text" set:html={b.text} />
 						</li>
 					))}
 				</ul>
@@ -322,7 +322,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<p class="kk-eyebrow">How it runs</p>
 					<h2 id="how-title" class="kk-section__title">Everything lives on your own backend</h2>
 					<p class="kk-section__lede">
-						The figure shows a sharded MongoDB cluster. PostgreSQL and MySQL members, RabbitMQ brokers, Elasticsearch, Weaviate and OpenBao nodes
+						The figure shows a sharded <a href="https://www.mongodb.com">MongoDB</a> cluster. PostgreSQL and MySQL members, RabbitMQ brokers, Elasticsearch, Weaviate and OpenBao nodes
 						follow the same pattern: one Ubuntu 24.04 runtime and one persistent volume per node, a node agent next to the engine process, and
 						backups written to object storage you register. The backend supplies the runtimes, volumes and routing; the layout is the same on
 						Zerops, Dokploy and Nomad.
@@ -382,7 +382,7 @@ karactl mcp config --cluster production/appdb --client cursor`;
 					<h2 id="agents-title" class="kk-section__title">Let an agent operate it. Read-only until you say otherwise.</h2>
 					<p class="kk-section__lede">
 						The control plane embeds an MCP server at <code>/mcp</code>: every REST operation is a tool, executed through the same
-						authentication, RBAC and audit path as <code>karactl</code>. Claude Code, Claude Desktop, Cursor, VS Code, Codex or any
+						authentication, RBAC and audit path as <code>karactl</code>. <a href="https://code.claude.com">Claude Code</a>, <a href="https://claude.com/download">Claude Desktop</a>, <a href="https://cursor.com">Cursor</a>, <a href="https://code.visualstudio.com">VS Code</a>, <a href="https://developers.openai.com/codex/">Codex</a> or any
 						other spec-compliant client connects with a restricted token or OAuth.
 					</p>
 				</div>

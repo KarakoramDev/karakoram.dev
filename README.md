@@ -2,8 +2,8 @@
 
 Source for [karakoram.dev](https://karakoram.dev), the website and documentation
 of [Karakoram](https://github.com/KarakoramDev/Karakoram) — self-hosted database
-and stateful-service orchestration on infrastructure you run: Zerops (the
-reference backend), Dokploy and Nomad.
+and stateful-service orchestration on infrastructure you run: [Zerops](https://zerops.io) (the
+reference backend), [Dokploy](https://dokploy.com) and [HashiCorp Nomad](https://developer.hashicorp.com/nomad).
 
 The site is a static [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) build published with GitHub Pages:
@@ -18,6 +18,11 @@ Documentation is written **only** in the code repository
 [KarakoramDev/Karakoram](https://github.com/KarakoramDev/Karakoram): `README.md`,
 `docs/**`, `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`. This repository never
 contains a copy of it. To change the docs, open a pull request there.
+
+Link the first prose mention of third-party technologies to their official HTTPS
+project or vendor website (per section on long pages). Keep headings, code and
+existing documentation links unchanged; landing-page cards link vendors in their
+descriptions while their titles continue to open the Karakoram guides.
 
 `scripts/ingest-docs.mjs` runs before every `dev` and `build` (`predev` /
 `prebuild`). It:
