@@ -3,16 +3,34 @@
 // Starlight `SiteTitle` override: inlines the mark (src/assets/logo.svg) so it uses
 // currentColor and follows the theme, instead of Starlight's <img> logo.
 import Mark from '../assets/logo.svg';
+import { withBase } from '../lib/paths';
 
 const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
 ---
 
+<div class="kk-title-links">
 <a href={siteTitleHref} class="site-title sl-flex">
 	<Mark class="kk-mark" aria-hidden="true" />
 	<span translate="no">{siteTitle}</span>
 </a>
+	<a class="kk-blog-link" href={withBase('/blog/')}>Blog</a>
+</div>
 
 <style>
+	.kk-title-links {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+	}
+	.kk-blog-link {
+		color: var(--sl-color-gray-2);
+		font-size: 0.95rem;
+		text-decoration: none;
+	}
+	.kk-blog-link:hover {
+		color: var(--sl-color-text-accent);
+		text-decoration: underline;
+	}
 	.site-title {
 		align-items: center;
 		gap: 0.6rem;

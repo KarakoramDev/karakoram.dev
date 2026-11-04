@@ -1,0 +1,42 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+.kk-blog {
+	/* Complete the Starlight variables used by its shared Expressive Code renderer. */
+	--sl-color-text: var(--kk-ink);
+	--__sl-font: var(--kk-font-sans);
+	--__sl-font-mono: var(--kk-font-mono);
+	--sl-text-code: 0.875rem;
+	--sl-line-height: 1.7;
+	max-width: 54rem;
+	padding-block: clamp(3rem, 6vw, 5rem) clamp(4rem, 8vw, 7rem);
+}
+.kk-blog__intro { margin-bottom: 3rem; }
+.kk-blog h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); letter-spacing: -0.035em; }
+.kk-blog__eyebrow { color: var(--kk-accent); font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; }
+.kk-blog__description { color: var(--kk-muted); font-size: 1.2rem; max-width: 42ch; margin-top: 1.25rem; }
+.kk-blog__feed { display: inline-block; margin-top: 1.25rem; font-size: 0.95rem; }
+.kk-blog__empty { border: 1px solid var(--kk-border); border-radius: 16px; background: var(--kk-surface); padding: clamp(1.5rem, 4vw, 2.5rem); }
+.kk-blog__empty h2 { font-size: 1.5rem; }
+.kk-blog__empty p { margin-block: 1rem 1.5rem; color: var(--kk-muted); max-width: 48ch; }
+.kk-blog__posts { list-style: none; margin: 0; padding: 0; }
+.kk-blog__posts li { border-top: 1px solid var(--kk-border); padding-block: 2rem; }
+.kk-blog__posts time, .kk-blog__meta { color: var(--kk-muted); font-size: 0.95rem; }
+.kk-blog__posts h2 { margin-block: 0.75rem; font-size: 1.65rem; }
+.kk-blog__posts h2 a { color: var(--kk-ink); text-decoration: none; }
+.kk-blog__posts h2 a:hover { color: var(--kk-accent); }
+.kk-blog__posts p { color: var(--kk-muted); }
+.kk-blog__links { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 2.5rem; font-size: 0.95rem; }
+.kk-blog__meta { margin-top: 1rem; }
+.kk-blog__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 1rem 0 0; padding: 0; }
+.kk-blog__tags li { background: var(--kk-accent-soft); color: var(--kk-accent); border-radius: 6px; padding: 0.15rem 0.65rem; font-size: 0.85rem; }
+.kk-blog__draft { color: var(--kk-accent); font-weight: 600; }
+.kk-blog__prose { line-height: 1.8; overflow-wrap: anywhere; }
+.kk-blog__prose > * + * { margin-top: 1.5rem; }
+.kk-blog__prose :is(h2, h3, h4) { margin-top: 2.5rem; line-height: 1.3; }
+.kk-blog__prose h2 { font-size: 1.75rem; }
+.kk-blog__prose h3 { font-size: 1.35rem; }
+.kk-blog__prose :is(img, video) { max-width: 100%; height: auto; border-radius: 8px; }
+.kk-blog__prose blockquote { margin-inline: 0; padding-left: 1.5rem; border-left: 3px solid var(--kk-accent); color: var(--kk-muted); }
+.kk-blog__prose table { display: block; overflow-x: auto; border-collapse: collapse; }
+.kk-blog__prose :is(th, td) { border: 1px solid var(--kk-border); padding: 0.5rem 0.75rem; text-align: left; }
+/* Starlight's Expressive Code integration also renders blog Markdown/MDX. */
+.kk-blog__prose .expressive-code { font-size: 0.9rem; overflow-wrap: normal; }

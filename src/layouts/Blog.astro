@@ -1,0 +1,22 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+import Base from './Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/starlight.css';
+import '../styles/blog.css';
+interface Props {
+	title: string;
+	description: string;
+	path: string;
+	canonical?: string;
+	ogType?: 'website' | 'article';
+}
+---
+<Base {...Astro.props}>
+	<SiteHeader />
+	<main id="main" class="kk-blog kk-container">
+		<slot />
+	</main>
+	<SiteFooter />
+</Base>

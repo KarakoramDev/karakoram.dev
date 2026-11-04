@@ -1,0 +1,35 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+import Blog from '../../layouts/Blog.astro';
+import { getBlogPosts, blogPath, formatDate } from '../../lib/blog';
+import { withBase } from '../../lib/paths';
+const posts = await getBlogPosts();
+---
+<Blog title="Blog · Karakoram" description="Notes on self-hosted databases, operations and building Karakoram." path="/blog/">
+	<header class="kk-blog__intro">
+		<p class="kk-blog__eyebrow">From the maintainer</p>
+		<h1>Blog</h1>
+		<p class="kk-blog__description">Notes on self-hosted databases, operations and building Karakoram.</p>
+		<a class="kk-blog__feed" href={withBase('/blog/rss.xml')}>Subscribe via RSS <span aria-hidden="true">↗</span></a>
+	</header>
+	{posts.length ? (
+		<ul class="kk-blog__posts">
+			{posts.map(({ id, data }) => (
+				<li>
+					<article>
+						<time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+						<h2><a href={blogPath(id)}>{data.title}</a></h2>
+						<p>{data.description}</p>
+						{data.draft && <p class="kk-blog__draft">Draft preview</p>}
+					</article>
+				</li>
+			))}
+		</ul>
+	) : (
+		<section class="kk-blog__empty" aria-labelledby="empty-title">
+			<h2 id="empty-title">A little quiet, for now.</h2>
+			<p>The first article is on its way. Subscribe to the feed to catch it when it arrives.</p>
+			<a href={withBase('/docs/')}>Explore the documentation <span aria-hidden="true">→</span></a>
+		</section>
+	)}
+</Blog>

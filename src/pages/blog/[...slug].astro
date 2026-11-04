@@ -1,0 +1,33 @@
+---
+// SPDX-License-Identifier: Apache-2.0
+import { render, type CollectionEntry } from 'astro:content';
+import Blog from '../../layouts/Blog.astro';
+import { getBlogPosts, formatDate } from '../../lib/blog';
+import { withBase } from '../../lib/paths';
+export async function getStaticPaths() {
+	return (await getBlogPosts()).map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+---
+<Blog title={`${data.title} · Karakoram`} description={data.description} path={`/blog/${post.id}/`} canonical={data.canonical} ogType="article">
+	<nav class="kk-blog__links" aria-label="Blog">
+		<a href={withBase('/blog/')}>← All articles</a>
+		<a href={withBase('/blog/rss.xml')}>RSS feed</a>
+	</nav>
+	<article>
+		<header class="kk-blog__intro">
+			{data.draft && <p class="kk-blog__draft">Draft preview</p>}
+			<h1>{data.title}</h1>
+			<p class="kk-blog__meta">
+				<time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+				<span aria-hidden="true"> · </span>{data.author}
+			</p>
+			{data.updatedDate && <p class="kk-blog__meta">Updated <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time></p>}
+			{data.tags && data.tags.length > 0 && <ul class="kk-blog__tags" aria-label="Tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>}
+		</header>
+		<div class="kk-blog__prose"><Content /></div>
+	</article>
+</Blog>

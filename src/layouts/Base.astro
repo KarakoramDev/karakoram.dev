@@ -11,11 +11,12 @@ interface Props {
 	/** Site-relative path of this page (without base), e.g. "/" or "/404.html". `null` = no canonical. */
 	path: string | null;
 	ogType?: 'website' | 'article';
+	canonical?: string;
 }
 
-const { title, description, path, ogType = 'website' } = Astro.props;
+const { title, description, path, ogType = 'website', canonical: canonicalOverride } = Astro.props;
 const site = Astro.site ?? new URL('https://karakoram.dev');
-const canonical = path === null ? null : new URL(withBase(path), site).href;
+const canonical = canonicalOverride ?? (path === null ? null : new URL(withBase(path), site).href);
 const ogImage = new URL(withBase('/og.png'), site).href;
 ---
 
@@ -30,6 +31,7 @@ const ogImage = new URL(withBase('/og.png'), site).href;
 		<link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
 		<link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
 		<link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+		<link rel="alternate" type="application/rss+xml" title="Karakoram Blog" href={withBase('/blog/rss.xml')} />
 		<link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
 		<meta name="color-scheme" content="light dark" />
 		<meta name="theme-color" content="#f5f7f6" media="(prefers-color-scheme: light)" />

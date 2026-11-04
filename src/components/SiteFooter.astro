@@ -15,6 +15,7 @@ const sources = import.meta.glob<{ default: Source }>('../generated/source.json'
 const source = Object.values(sources)[0]?.default;
 const links = [
 	['Docs', withBase('/docs/')],
+	['Blog', withBase('/blog/')],
 	['Install', withBase('/docs/getting-started/install/')],
 	['Providers', withBase('/docs/providers/')],
 	['Operating costs', withBase('/docs/operating-costs/')],
