@@ -122,7 +122,9 @@ changes do not build or deploy anything by themselves.
 Actions → *Deploy site* → *Run workflow*, or
 `gh workflow run deploy.yml -R KarakoramDev/karakoram.dev`. Each run builds the
 landing page from this repository's `main` and the documentation from the code
-repository's `main` at that moment.
+repository's `main` at that moment. To publish the documentation of a release
+while `main` carries unreleased changes, pass its tag:
+`gh workflow run deploy.yml -R KarakoramDev/karakoram.dev -f ref=vX.Y.Z`.
 
 ## License
 

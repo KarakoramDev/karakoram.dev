@@ -2,9 +2,14 @@
 name: Deploy site
 
 # Manual only: Actions → Deploy site → Run workflow, or
-# `gh workflow run deploy.yml -R KarakoramDev/karakoram.dev`.
+# `gh workflow run deploy.yml -R KarakoramDev/karakoram.dev [-f ref=vX.Y.Z]`.
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: Karakoram branch or tag to build the documentation from
+        type: string
+        default: main
 
 permissions:
   contents: read
@@ -17,7 +22,7 @@ concurrency:
 
 env:
   KARAKORAM_REPO: KarakoramDev/Karakoram
-  KARAKORAM_REF: main
+  KARAKORAM_REF: ${{ inputs.ref || 'main' }}
 
 jobs:
   build:
