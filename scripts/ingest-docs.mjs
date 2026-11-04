@@ -101,6 +101,7 @@ function pageSlug(original) {
 const sections = [
   ['Getting started', {
     'docs/quickstart.md': 'Quick start', 'docs/install.md': 'Install', 'docs/providers.md': 'Providers', 'docs/operating-costs.md': 'Operating costs',
+    'docs/try-on-one-vm.md': 'Try on one VM',
     'docs/upgrade.md': 'Upgrade',
   }],
   ['Control plane', {

@@ -48,6 +48,7 @@ an internal link or `#anchor` does not resolve
 | `README.md` | `/docs/` |
 | `docs/quickstart.md`, `docs/install.md`, `docs/upgrade.md` | `/docs/getting-started/quickstart/`, `/docs/getting-started/install/`, `/docs/getting-started/upgrade/` |
 | `docs/providers.md`, `docs/operating-costs.md` | `/docs/providers/`, `/docs/operating-costs/` (sidebar group "Getting started") |
+| `docs/try-on-one-vm.md` | `/docs/try-on-one-vm/` (sidebar group "Getting started", when present in the source checkout) |
 | `docs/zerops.md`, `docs/dokploy.md`, `docs/nomad.md` | `/docs/zerops/`, `/docs/dokploy/`, `/docs/nomad/` (sidebar group "Providers", in that order) |
 | `docs/control-plane-backup.md`, `docs/backup-drills.md`, `docs/notifications.md` | `/docs/control-plane-backup/`, `/docs/backup-drills/`, `/docs/notifications/` (sidebar group "Fleet operations") |
 | `docs/<name>.md` | `/docs/<name>/` (sidebar group "Control plane", "Interfaces", "AI agents" or "Reference") |
