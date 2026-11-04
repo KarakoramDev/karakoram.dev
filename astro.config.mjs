@@ -85,6 +85,7 @@ export default defineConfig({
 			sidebar,
 			head: [
 				{ tag: 'link', attrs: { rel: 'apple-touch-icon', href: absolute('apple-touch-icon.png') } },
+				{ tag: 'link', attrs: { rel: 'alternate', type: 'application/rss+xml', title: 'Karakoram Blog', href: absolute('blog/rss.xml') } },
 				{ tag: 'meta', attrs: { property: 'og:image', content: absolute('og.png') } },
 				{ tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
 				{ tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
@@ -96,7 +97,13 @@ export default defineConfig({
 					description: 'Karakoram is an Apache-2.0, self-hosted control plane for databases and stateful services on infrastructure you run: Zerops (the reference provider), Dokploy or Nomad. It orchestrates databases, message brokers, search, identity, secrets and workflow engines; see the engine guides for capabilities and provider availability. It provides a REST API, the karactl CLI, a web UI and a read-only-by-default MCP server for AI agents, plus an opt-in per-cluster data MCP gateway. Documentation covers installation, providers, operating costs, cluster and fleet operations, backups and backup drills, control-plane backup and rebuild, notifications, access control, security and MCP client setup.',
 					details: `Documentation sections and pages:\n\n${sidebarMarkdown(sidebar)}`,
 				}),
-				starlightLinksValidator({ errorOnRelativeLinks: true, errorOnInvalidHashes: true }),
+				starlightLinksValidator({
+					errorOnRelativeLinks: true,
+					errorOnInvalidHashes: true,
+					// Custom Astro routes are outside this validator's docs route map.
+					// Check blog destinations with a built-site crawler instead.
+					exclude: [`${base.replace(/\/?$/, '/')}blog/**`],
+				}),
 			],
 		}),
 	],
