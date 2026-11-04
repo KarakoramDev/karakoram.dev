@@ -7,8 +7,9 @@ set per theme as described. Nothing is hotlinked. The SVG files in this director
 unmodified originals of the marks that do not come from Simple Icons, kept for audit.
 
 All marks are trademarks of their owners and are used only to identify the product named next to
-them (nominative use). Karakoram is independent and not affiliated with or endorsed by any of them
-(see also the trademark notice in `README.md` and the site footer).
+them (nominative use). None of them endorses Karakoram, and apart from the maintainer's employment
+at Zerops, Karakoram is not affiliated with any of them (see also the trademark notice in `README.md`
+and the site footer).
 
 | Brand | Mark | Source | Licence / usage terms | Colour (light / dark theme) |
 | --- | --- | --- | --- | --- |
